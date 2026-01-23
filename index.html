@@ -10,31 +10,31 @@
 <style>
 *{box-sizing:border-box;font-family:Inter,sans-serif}
 body{margin:0;background:#f3f4f6;color:#111}
-.app{max-width:820px;margin:40px auto;background:#fff;border-radius:18px;
-box-shadow:0 20px 60px rgba(0,0,0,.12);padding:40px}
+.app{max-width:880px;margin:40px auto;background:#fff;border-radius:18px;
+box-shadow:0 20px 60px rgba(0,0,0,.12);padding:42px}
 .progress-wrap{margin-bottom:35px}
 .progress-bar{height:8px;background:#e5e7eb;border-radius:6px;overflow:hidden}
 .progress{height:100%;width:0%;background:#2563eb;transition:.3s}
 
-h2{font-size:22px;margin:0 0 12px}
-p{font-size:14px;color:#444;line-height:1.75}
+h2{font-size:22px;margin:0 0 14px}
+p{font-size:14px;color:#444;line-height:1.8}
 
 .form-step{display:none}
 .form-step.active{display:block}
 
-label{display:block;margin-top:20px;font-size:14px;font-weight:500}
+label{display:block;margin-top:20px;font-size:14px;font-weight:600}
 input,select,textarea{
-width:100%;padding:13px;margin-top:6px;
+width:100%;padding:14px;margin-top:6px;
 border:1px solid #d1d5db;border-radius:10px;font-size:14px
 }
-textarea{min-height:100px}
+textarea{min-height:110px}
 
 .check{display:flex;gap:10px;margin-top:14px;font-size:14px}
 
 .buttons{display:flex;justify-content:space-between;margin-top:40px}
 button{
-padding:13px 30px;border:none;border-radius:12px;
-font-size:14px;font-weight:600;cursor:pointer
+padding:14px 34px;border:none;border-radius:12px;
+font-size:14px;font-weight:700;cursor:pointer
 }
 .prev{background:#e5e7eb}
 .next{background:#2563eb;color:#fff}
@@ -43,7 +43,6 @@ button:disabled{opacity:.4;pointer-events:none}
 </head>
 
 <body>
-
 <div class="app">
 
 <div class="progress-wrap">
@@ -52,16 +51,24 @@ button:disabled{opacity:.4;pointer-events:none}
 
 <form id="wizard">
 
-<!-- STEP 1 -->
+<!-- PASO 1 -->
 <div class="form-step active">
 <h2>Paso 1 — Bienvenida a la aplicación</h2>
+
 <p>
-Gracias por tu interés en formar parte de operaciones corporativas de gran escala.
-Esta aplicación está diseñada para evaluar disponibilidad, compatibilidad operativa
-y cumplimiento básico antes de avanzar a etapas posteriores del proceso.
+Gracias por tu interés en participar en operaciones corporativas de gran escala.
+Esta aplicación corresponde a una **evaluación inicial**, utilizada para determinar
+compatibilidad básica con roles operativos y de soporte.
 </p>
+
 <p>
-Completa todos los pasos con atención. El tiempo estimado es de 15 a 20 minutos.
+El proceso está diseñado para ser claro, estructurado y transparente.
+No se requiere experiencia específica para completar esta etapa.
+</p>
+
+<p>
+Tiempo estimado de la aplicación: **15 a 25 minutos**.  
+Recomendamos completarla en una sola sesión.
 </p>
 
 <div class="buttons">
@@ -70,42 +77,38 @@ Completa todos los pasos con atención. El tiempo estimado es de 15 a 20 minutos
 </div>
 </div>
 
-<!-- STEP 2 -->
+<!-- PASO 2 -->
 <div class="form-step">
 <h2>Paso 2 — Identificación personal</h2>
+
 <p>
-La información ingresada debe coincidir con documentos oficiales.
-Errores pueden retrasar el proceso de evaluación.
+La información ingresada en esta sección debe coincidir con documentos oficiales.
+Estos datos se utilizan únicamente para fines de evaluación y contacto.
 </p>
 
-<label>Nombre legal</label><input required>
-<label>Apellido legal</label><input required>
-<label>Correo electrónico activo</label><input type="email" required>
-<label>Número telefónico</label><input required>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- STEP 3 -->
-<div class="form-step">
-<h2>Paso 3 — Ubicación y residencia</h2>
 <p>
-Esta información se utiliza para determinar viabilidad logística y asignaciones
-geográficas potenciales.
+Asegúrate de escribir correctamente tu nombre legal completo y un correo electrónico activo.
 </p>
 
-<label>Ciudad actual</label><input required>
-<label>Estado</label><input required>
-<label>Código postal</label><input required>
-<label>¿Planea mudarse en los próximos 6 meses?</label>
+<label>Nombre legal (como aparece en documentos)</label>
+<input required>
+
+<label>Apellido legal</label>
+<input required>
+
+<label>Correo electrónico de contacto</label>
+<input type="email" required>
+
+<label>Número telefónico principal</label>
+<input required>
+
+<label>¿Tienes acceso regular a este correo y teléfono?</label>
 <select required>
 <option value="">Seleccione</option>
-<option>Sí</option>
-<option>No</option>
-<option>No estoy seguro</option>
+<option>Sí, ambos</option>
+<option>Solo correo electrónico</option>
+<option>Solo teléfono</option>
+<option>Acceso limitado</option>
 </select>
 
 <div class="buttons">
@@ -114,16 +117,43 @@ geográficas potenciales.
 </div>
 </div>
 
-<!-- STEP 4 -->
+<!-- PASO 3 -->
 <div class="form-step">
-<h2>Paso 4 — Elegibilidad legal</h2>
+<h2>Paso 3 — Ubicación y movilidad</h2>
+
 <p>
-Estas preguntas son obligatorias para cumplir con regulaciones laborales.
+Esta sección nos permite evaluar disponibilidad geográfica y posibles asignaciones
+logísticas futuras.
 </p>
 
-<div class="check"><input type="checkbox" required><span>Tengo 18 años o más</span></div>
-<div class="check"><input type="checkbox" required><span>Estoy autorizado/a a trabajar legalmente</span></div>
-<div class="check"><input type="checkbox" required><span>Puedo presentar documentación válida si se solicita</span></div>
+<p>
+No implica una asignación inmediata ni garantiza ubicación específica.
+</p>
+
+<label>Ciudad actual de residencia</label>
+<input required>
+
+<label>Estado</label>
+<input required>
+
+<label>Código postal</label>
+<input required>
+
+<label>¿Estarías dispuesto/a a trabajar fuera de tu ciudad actual?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí</option>
+<option>No</option>
+<option>Depende de la asignación</option>
+</select>
+
+<label>¿Planeas mudarte en los próximos 6 meses?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí</option>
+<option>No</option>
+<option>No estoy seguro/a</option>
+</select>
 
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
@@ -131,11 +161,57 @@ Estas preguntas son obligatorias para cumplir con regulaciones laborales.
 </div>
 </div>
 
-<!-- STEP 5 -->
+<!-- PASO 4 -->
+<div class="form-step">
+<h2>Paso 4 — Elegibilidad legal</h2>
+
+<p>
+Estas preguntas son obligatorias para cumplir con regulaciones laborales
+y estándares corporativos.
+</p>
+
+<p>
+Responder afirmativamente no garantiza contratación, pero es requisito
+para continuar en el proceso.
+</p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Tengo 18 años o más</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Estoy autorizado/a a trabajar legalmente</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo presentar documentación válida si se solicita</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Entiendo que esta información puede ser verificada</span>
+</div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- PASO 5 -->
 <div class="form-step">
 <h2>Paso 5 — Disponibilidad general</h2>
+
 <p>
-Las posiciones pueden requerir horarios extendidos según demanda operativa.
+Las posiciones operativas pueden requerir horarios extendidos,
+turnos rotativos o ajustes según demanda.
+</p>
+
+<p>
+Selecciona la opción que mejor describa tu disponibilidad actual.
 </p>
 
 <label>Tipo de disponibilidad</label>
@@ -144,27 +220,19 @@ Las posiciones pueden requerir horarios extendidos según demanda operativa.
 <option>Tiempo completo</option>
 <option>Turnos variables</option>
 <option>Disponibilidad flexible</option>
+<option>Disponibilidad limitada</option>
 </select>
 
 <label>Fecha estimada para comenzar</label>
 <input type="date" required>
 
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- STEP 6 -->
-<div class="form-step">
-<h2>Paso 6 — Condiciones físicas</h2>
-<p>
-Algunas funciones requieren actividad física prolongada y trabajo de pie.
-</p>
-
-<div class="check"><input type="checkbox" required><span>Puedo permanecer de pie por periodos prolongados</span></div>
-<div class="check"><input type="checkbox" required><span>Puedo levantar peso moderado si es necesario</span></div>
-<div class="check"><input type="checkbox" required><span>No tengo restricciones físicas relevantes</span></div>
+<label>¿Tienes restricciones de horario actualmente?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>No tengo restricciones</option>
+<option>Restricciones parciales</option>
+<option>Restricciones significativas</option>
+</select>
 
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
@@ -172,23 +240,75 @@ Algunas funciones requieren actividad física prolongada y trabajo de pie.
 </div>
 </div>
 
-<!-- STEP 7 -->
+<!-- PASO 6 -->
 <div class="form-step">
-<h2>Paso 7 — Entorno de trabajo</h2>
+<h2>Paso 6 — Condiciones físicas y operativas</h2>
+
 <p>
-Las operaciones pueden desarrollarse en ambientes industriales,
-exteriores o controlados, dependiendo del rol asignado.
+Algunas funciones pueden implicar actividad física prolongada,
+trabajo de pie o tareas repetitivas.
 </p>
 
-<label>¿Ha trabajado antes en entornos operativos?</label>
+<p>
+Esta sección no busca excluir, sino entender capacidades operativas.
+</p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo permanecer de pie durante turnos prolongados</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo realizar tareas físicas moderadas</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>No tengo limitaciones que impidan trabajo operativo básico</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo comunicar cualquier limitación si fuera necesario</span>
+</div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- PASO 7 -->
+<div class="form-step">
+<h2>Paso 7 — Experiencia en entornos de trabajo</h2>
+
+<p>
+Las operaciones pueden desarrollarse en entornos industriales,
+logísticos, exteriores o controlados.
+</p>
+
+<p>
+No se requiere experiencia previa específica.
+</p>
+
+<label>¿Has trabajado anteriormente en entornos operativos o estructurados?</label>
 <select required>
 <option value="">Seleccione</option>
 <option>Sí</option>
 <option>No</option>
 </select>
 
-<label>¿Cómo describiría su adaptación a entornos nuevos?</label>
-<textarea required placeholder="Describa brevemente"></textarea>
+<label>¿Cómo describirías tu adaptación a entornos nuevos?</label>
+<textarea required placeholder="Describe brevemente tu experiencia o enfoque"></textarea>
+
+<label>¿Te sientes cómodo/a siguiendo procedimientos establecidos?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí</option>
+<option>No</option>
+<option>Depende de la situación</option>
+</select>
 
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
@@ -196,36 +316,58 @@ exteriores o controlados, dependiendo del rol asignado.
 </div>
 </div>
 
-<!-- STEP 8 -->
+<!-- PASO 8 -->
 <div class="form-step">
-<h2>Paso 8 — Compromiso operativo</h2>
+<h2>Paso 8 — Compromiso y responsabilidad</h2>
+
 <p>
-Las posiciones requieren puntualidad, cumplimiento de instrucciones
-y trabajo coordinado con equipos diversos.
+Las posiciones requieren compromiso con horarios, instrucciones
+y estándares de calidad.
 </p>
 
-<div class="check"><input type="checkbox" required><span>Puedo seguir procedimientos establecidos</span></div>
-<div class="check"><input type="checkbox" required><span>Puedo trabajar bajo supervisión directa</span></div>
-<div class="check"><input type="checkbox" required><span>Entiendo que las tareas pueden variar</span></div>
+<p>
+Esta sección evalúa tu disposición general al cumplimiento operativo.
+</p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo cumplir horarios asignados</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo seguir instrucciones escritas y verbales</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Entiendo que las tareas pueden variar según necesidad</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo comunicar problemas o dudas oportunamente</span>
+</div>
 
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
 <button type="button" class="next">Continuar</button>
 </div>
 </div>
-
-</form>
-</div>
-<!-- STEP 9 -->
+<!-- PASO 9 -->
 <div class="form-step">
 <h2>Paso 9 — Historial laboral general</h2>
+
 <p>
-Esta sección nos ayuda a entender tu experiencia previa en entornos de trabajo
-estructurados. No es necesario tener experiencia específica, pero sí honestidad
-en la información proporcionada.
+Esta sección nos permite entender tu experiencia previa en entornos laborales,
+independientemente del sector o tipo de trabajo.
 </p>
 
-<label>¿Ha trabajado anteriormente en un empleo formal?</label>
+<p>
+No se requiere experiencia específica. Responde con honestidad.
+</p>
+
+<label>¿Has tenido empleo formal anteriormente?</label>
 <select required>
 <option value="">Seleccione</option>
 <option>Sí, empleo a tiempo completo</option>
@@ -233,11 +375,11 @@ en la información proporcionada.
 <option>No, sería mi primer empleo formal</option>
 </select>
 
-<label>Último puesto desempeñado (si aplica)</label>
-<input placeholder="Ej: Operador, asistente, técnico">
+<label>Última posición desempeñada (si aplica)</label>
+<input placeholder="Ejemplo: Operador, asistente, técnico">
 
-<label>Duración aproximada en su último empleo</label>
-<select>
+<label>Duración aproximada en tu último empleo</label>
+<select required>
 <option value="">Seleccione</option>
 <option>Menos de 3 meses</option>
 <option>3 a 6 meses</option>
@@ -245,19 +387,28 @@ en la información proporcionada.
 <option>Más de 1 año</option>
 </select>
 
+<label>Motivo de salida del último empleo</label>
+<textarea required placeholder="Describe brevemente"></textarea>
+
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
 <button type="button" class="next">Continuar</button>
 </div>
 </div>
 
-<!-- STEP 10 -->
+<!-- PASO 10 -->
 <div class="form-step">
-<h2>Paso 10 — Responsabilidad y cumplimiento</h2>
+<h2>Paso 10 — Responsabilidad individual</h2>
+
 <p>
-Las operaciones requieren personas confiables que cumplan horarios,
-instrucciones y estándares operativos sin supervisión constante.
+Las operaciones requieren personas confiables que puedan trabajar
+con autonomía cuando sea necesario.
 </p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Cumplo mis responsabilidades incluso sin supervisión directa</span>
+</div>
 
 <div class="check">
 <input type="checkbox" required>
@@ -266,13 +417,16 @@ instrucciones y estándares operativos sin supervisión constante.
 
 <div class="check">
 <input type="checkbox" required>
-<span>Completo mis tareas incluso cuando no hay supervisión directa</span>
+<span>Informo ausencias o retrasos con anticipación</span>
 </div>
 
 <div class="check">
 <input type="checkbox" required>
-<span>Entiendo la importancia del cumplimiento de normas internas</span>
+<span>Entiendo la importancia del cumplimiento operativo</span>
 </div>
+
+<label>Describe una situación donde asumiste responsabilidad en el trabajo</label>
+<textarea required></textarea>
 
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
@@ -280,24 +434,32 @@ instrucciones y estándares operativos sin supervisión constante.
 </div>
 </div>
 
-<!-- STEP 11 -->
+<!-- PASO 11 -->
 <div class="form-step">
 <h2>Paso 11 — Trabajo en equipo</h2>
+
 <p>
 La mayoría de las funciones se realizan en coordinación con otros miembros
-del equipo. La comunicación y el respeto son esenciales.
+del equipo y supervisores.
 </p>
 
-<label>¿Cómo se desempeña trabajando en grupo?</label>
+<label>¿Cómo te desempeñas trabajando en grupo?</label>
 <select required>
 <option value="">Seleccione</option>
 <option>Me adapto fácilmente y colaboro</option>
 <option>Puedo trabajar en equipo cuando es necesario</option>
-<option>Prefiero tareas individuales pero coopero</option>
+<option>Prefiero tareas individuales, pero coopero</option>
 </select>
 
-<label>¿Cómo maneja desacuerdos laborales?</label>
-<textarea required placeholder="Explique brevemente su enfoque"></textarea>
+<label>¿Cómo manejas desacuerdos laborales?</label>
+<textarea required placeholder="Explica tu enfoque de manera general"></textarea>
+
+<label>¿Has trabajado siguiendo instrucciones de un supervisor?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí</option>
+<option>No</option>
+</select>
 
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
@@ -305,28 +467,32 @@ del equipo. La comunicación y el respeto son esenciales.
 </div>
 </div>
 
-<!-- STEP 12 -->
+<!-- PASO 12 -->
 <div class="form-step">
-<h2>Paso 12 — Adaptabilidad y cambios</h2>
+<h2>Paso 12 — Adaptabilidad operativa</h2>
+
 <p>
-Los entornos operativos pueden cambiar por demanda, clima,
+Los entornos operativos pueden cambiar por demanda,
 prioridades o ajustes logísticos.
 </p>
 
 <div class="check">
 <input type="checkbox" required>
-<span>Puedo adaptarme a cambios de tareas o prioridades</span>
+<span>Puedo adaptarme a cambios de tareas</span>
 </div>
 
 <div class="check">
 <input type="checkbox" required>
-<span>Mantengo una actitud profesional ante cambios inesperados</span>
+<span>Mantengo actitud profesional ante cambios inesperados</span>
 </div>
 
 <div class="check">
 <input type="checkbox" required>
-<span>Puedo recibir retroalimentación y aplicarla</span>
+<span>Puedo aprender nuevos procesos rápidamente</span>
 </div>
+
+<label>Describe cómo reaccionas ante cambios en el trabajo</label>
+<textarea required></textarea>
 
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
@@ -334,22 +500,24 @@ prioridades o ajustes logísticos.
 </div>
 </div>
 
-<!-- STEP 13 -->
+<!-- PASO 13 -->
 <div class="form-step">
 <h2>Paso 13 — Comunicación y reportes</h2>
+
 <p>
-La comunicación clara es clave para evitar errores, retrasos o incidentes.
+La comunicación clara ayuda a prevenir errores,
+retrasos o incidentes operativos.
 </p>
 
-<label>¿Se siente cómodo reportando problemas o dudas?</label>
+<label>¿Te sientes cómodo reportando problemas o dudas?</label>
 <select required>
 <option value="">Seleccione</option>
-<option>Sí, de forma inmediata</option>
+<option>Sí, inmediatamente</option>
 <option>Sí, cuando es necesario</option>
 <option>Solo si se me solicita</option>
 </select>
 
-<label>¿Cómo prefiere recibir instrucciones?</label>
+<label>¿Cómo prefieres recibir instrucciones?</label>
 <select required>
 <option value="">Seleccione</option>
 <option>Instrucciones claras y directas</option>
@@ -357,35 +525,41 @@ La comunicación clara es clave para evitar errores, retrasos o incidentes.
 <option>Combinación de ambas</option>
 </select>
 
+<label>Describe una situación donde la comunicación fue clave</label>
+<textarea required></textarea>
+
 <div class="buttons">
 <button type="button" class="prev">Anterior</button>
 <button type="button" class="next">Continuar</button>
 </div>
 </div>
 
-<!-- STEP 14 -->
+<!-- PASO 14 -->
 <div class="form-step">
 <h2>Paso 14 — Proceso posterior a la aplicación</h2>
+
 <p>
-Esta aplicación corresponde únicamente a una evaluación inicial.
-Si su perfil es seleccionado, los siguientes pasos se completarán
-dentro de un portal interno dedicado.
+Esta aplicación corresponde únicamente a una **evaluación inicial**.
+</p>
+
+<p>
+Si tu perfil es seleccionado, los siguientes pasos se realizarán
+dentro de un **Portal del Empleado**, separado de esta aplicación.
 </p>
 
 <p>
 Dicho portal incluye procesos estándar como orientación general,
-inducción de seguridad y asignación operativa.  
-Ninguno de esos pasos se realiza aquí.
+inducción de seguridad y asignación operativa.
 </p>
 
 <div class="check">
 <input type="checkbox" required>
-<span>Entiendo que los pasos posteriores ocurren fuera de esta aplicación</span>
+<span>Entiendo que los pasos posteriores no ocurren en esta aplicación</span>
 </div>
 
 <div class="check">
 <input type="checkbox" required>
-<span>Comprendo que el acceso al portal depende de una evaluación previa</span>
+<span>Comprendo que el acceso al portal depende de evaluación previa</span>
 </div>
 
 <div class="buttons">
@@ -394,12 +568,13 @@ Ninguno de esos pasos se realiza aquí.
 </div>
 </div>
 
-<!-- STEP 15 -->
+<!-- PASO 15 -->
 <div class="form-step">
 <h2>Paso 15 — Confirmación final</h2>
+
 <p>
-Antes de enviar su aplicación, confirme que la información proporcionada
-es verídica y completa según su conocimiento.
+Antes de enviar tu aplicación, confirma que la información proporcionada
+es verídica y completa según tu conocimiento.
 </p>
 
 <div class="check">
@@ -412,9 +587,9 @@ es verídica y completa según su conocimiento.
 <span>Entiendo que información falsa puede invalidar mi aplicación</span>
 </div>
 
-<p style="margin-top:18px;font-size:14px;color:#444">
-Una vez enviada, la aplicación será revisada.
-Si continúa en el proceso, recibirá instrucciones adicionales.
+<p style="margin-top:18px">
+Una vez enviada, tu aplicación será revisada.  
+Si continúas en el proceso, recibirás instrucciones adicionales.
 </p>
 
 <div class="buttons">
@@ -422,6 +597,10 @@ Si continúa en el proceso, recibirá instrucciones adicionales.
 <button type="submit" class="next">Enviar aplicación</button>
 </div>
 </div>
+
+</form>
+</div>
+
 <script>
 const steps=document.querySelectorAll(".form-step");
 const progress=document.getElementById("progress");
@@ -429,13 +608,15 @@ let current=0;
 
 function update(){
 steps.forEach((s,i)=>s.classList.toggle("active",i===current));
-progress.style.width=((current)/(14))*100+"%";
+progress.style.width=((current)/(steps.length-1))*100+"%";
 }
 
 document.addEventListener("click",e=>{
 if(e.target.classList.contains("next")){current++;update();}
 if(e.target.classList.contains("prev")){current--;update();}
 });
+
+update();
 </script>
 
 </body>
