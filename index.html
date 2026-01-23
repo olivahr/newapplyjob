@@ -1,458 +1,442 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2299.77">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+<meta charset="UTF-8">
+<title>Aplicación de Empleo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:Inter,sans-serif}
+body{margin:0;background:#f3f4f6;color:#111}
+.app{max-width:820px;margin:40px auto;background:#fff;border-radius:18px;
+box-shadow:0 20px 60px rgba(0,0,0,.12);padding:40px}
+.progress-wrap{margin-bottom:35px}
+.progress-bar{height:8px;background:#e5e7eb;border-radius:6px;overflow:hidden}
+.progress{height:100%;width:0%;background:#2563eb;transition:.3s}
+
+h2{font-size:22px;margin:0 0 12px}
+p{font-size:14px;color:#444;line-height:1.75}
+
+.form-step{display:none}
+.form-step.active{display:block}
+
+label{display:block;margin-top:20px;font-size:14px;font-weight:500}
+input,select,textarea{
+width:100%;padding:13px;margin-top:6px;
+border:1px solid #d1d5db;border-radius:10px;font-size:14px
+}
+textarea{min-height:100px}
+
+.check{display:flex;gap:10px;margin-top:14px;font-size:14px}
+
+.buttons{display:flex;justify-content:space-between;margin-top:40px}
+button{
+padding:13px 30px;border:none;border-radius:12px;
+font-size:14px;font-weight:600;cursor:pointer
+}
+.prev{background:#e5e7eb}
+.next{background:#2563eb;color:#fff}
+button:disabled{opacity:.4;pointer-events:none}
+</style>
 </head>
+
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="es"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;title&gt;Aplicación de Empleo&lt;/title&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1">*{box-sizing:border-box;font-family:Inter,sans-serif}</p>
-<p class="p1">body{margin:0;background:#f3f4f6;color:#111}</p>
-<p class="p1">.app{max-width:820px;margin:40px auto;background:#fff;border-radius:18px;</p>
-<p class="p1">box-shadow:0 20px 60px rgba(0,0,0,.12);padding:40px}</p>
-<p class="p1">.progress-wrap{margin-bottom:35px}</p>
-<p class="p1">.progress-bar{height:8px;background:#e5e7eb;border-radius:6px;overflow:hidden}</p>
-<p class="p1">.progress{height:100%;width:0%;background:#2563eb;transition:.3s}</p>
-<p class="p2"><br></p>
-<p class="p1">h2{font-size:22px;margin:0 0 12px}</p>
-<p class="p1">p{font-size:14px;color:#444;line-height:1.75}</p>
-<p class="p2"><br></p>
-<p class="p1">.form-step{display:none}</p>
-<p class="p1">.form-step.active{display:block}</p>
-<p class="p2"><br></p>
-<p class="p1">label{display:block;margin-top:20px;font-size:14px;font-weight:500}</p>
-<p class="p1">input,select,textarea{</p>
-<p class="p1">width:100%;padding:13px;margin-top:6px;</p>
-<p class="p1">border:1px solid #d1d5db;border-radius:10px;font-size:14px</p>
-<p class="p1">}</p>
-<p class="p1">textarea{min-height:100px}</p>
-<p class="p2"><br></p>
-<p class="p1">.check{display:flex;gap:10px;margin-top:14px;font-size:14px}</p>
-<p class="p2"><br></p>
-<p class="p1">.buttons{display:flex;justify-content:space-between;margin-top:40px}</p>
-<p class="p1">button{</p>
-<p class="p1">padding:13px 30px;border:none;border-radius:12px;</p>
-<p class="p1">font-size:14px;font-weight:600;cursor:pointer</p>
-<p class="p1">}</p>
-<p class="p1">.prev{background:#e5e7eb}</p>
-<p class="p1">.next{background:#2563eb;color:#fff}</p>
-<p class="p1">button:disabled{opacity:.4;pointer-events:none}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="app"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="progress-wrap"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="progress-bar"&gt;&lt;div class="progress" id="progress"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;form id="wizard"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 1 --&gt;</p>
-<p class="p1">&lt;div class="form-step active"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 1 — Bienvenida a la aplicación&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Gracias por tu interés en formar parte de operaciones corporativas de gran escala.</p>
-<p class="p1">Esta aplicación está diseñada para evaluar disponibilidad, compatibilidad operativa</p>
-<p class="p1">y cumplimiento básico antes de avanzar a etapas posteriores del proceso.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Completa todos los pasos con atención. El tiempo estimado es de 15 a 20 minutos.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;span&gt;&lt;/span&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 2 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 2 — Identificación personal&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">La información ingresada debe coincidir con documentos oficiales.</p>
-<p class="p1">Errores pueden retrasar el proceso de evaluación.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;Nombre legal&lt;/label&gt;&lt;input required&gt;</p>
-<p class="p1">&lt;label&gt;Apellido legal&lt;/label&gt;&lt;input required&gt;</p>
-<p class="p1">&lt;label&gt;Correo electrónico activo&lt;/label&gt;&lt;input type="email" required&gt;</p>
-<p class="p1">&lt;label&gt;Número telefónico&lt;/label&gt;&lt;input required&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 3 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 3 — Ubicación y residencia&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Esta información se utiliza para determinar viabilidad logística y asignaciones</p>
-<p class="p1">geográficas potenciales.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;Ciudad actual&lt;/label&gt;&lt;input required&gt;</p>
-<p class="p1">&lt;label&gt;Estado&lt;/label&gt;&lt;input required&gt;</p>
-<p class="p1">&lt;label&gt;Código postal&lt;/label&gt;&lt;input required&gt;</p>
-<p class="p1">&lt;label&gt;¿Planea mudarse en los próximos 6 meses?&lt;/label&gt;</p>
-<p class="p1">&lt;select required&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Sí&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;No&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;No estoy seguro&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 4 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 4 — Elegibilidad legal&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Estas preguntas son obligatorias para cumplir con regulaciones laborales.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Tengo 18 años o más&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Estoy autorizado/a a trabajar legalmente&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Puedo presentar documentación válida si se solicita&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 5 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 5 — Disponibilidad general&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Las posiciones pueden requerir horarios extendidos según demanda operativa.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;Tipo de disponibilidad&lt;/label&gt;</p>
-<p class="p1">&lt;select required&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Tiempo completo&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Turnos variables&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Disponibilidad flexible&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;Fecha estimada para comenzar&lt;/label&gt;</p>
-<p class="p1">&lt;input type="date" required&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 6 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 6 — Condiciones físicas&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Algunas funciones requieren actividad física prolongada y trabajo de pie.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Puedo permanecer de pie por periodos prolongados&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Puedo levantar peso moderado si es necesario&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;No tengo restricciones físicas relevantes&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 7 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 7 — Entorno de trabajo&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Las operaciones pueden desarrollarse en ambientes industriales,</p>
-<p class="p1">exteriores o controlados, dependiendo del rol asignado.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;¿Ha trabajado antes en entornos operativos?&lt;/label&gt;</p>
-<p class="p1">&lt;select required&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Sí&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;No&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;¿Cómo describiría su adaptación a entornos nuevos?&lt;/label&gt;</p>
-<p class="p1">&lt;textarea required placeholder="Describa brevemente"&gt;&lt;/textarea&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 8 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 8 — Compromiso operativo&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Las posiciones requieren puntualidad, cumplimiento de instrucciones</p>
-<p class="p1">y trabajo coordinado con equipos diversos.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p1">&lt;!-- STEP 9 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 9 — Historial laboral general&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Esta sección nos ayuda a entender tu experiencia previa en entornos de trabajo</p>
-<p class="p1">estructurados. No es necesario tener experiencia específica, pero sí honestidad</p>
-<p class="p1">en la información proporcionada.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;¿Ha trabajado anteriormente en un empleo formal?&lt;/label&gt;</p>
-<p class="p1">&lt;select required&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Sí, empleo a tiempo completo&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Sí, empleo temporal o por contrato&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;No, sería mi primer empleo formal&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;Último puesto desempeñado (si aplica)&lt;/label&gt;</p>
-<p class="p1">&lt;input placeholder="Ej: Operador, asistente, técnico"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;Duración aproximada en su último empleo&lt;/label&gt;</p>
-<p class="p1">&lt;select&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Menos de 3 meses&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;3 a 6 meses&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;6 a 12 meses&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Más de 1 año&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 10 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 10 — Responsabilidad y cumplimiento&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Las operaciones requieren personas confiables que cumplan horarios,</p>
-<p class="p1">instrucciones y estándares operativos sin supervisión constante.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Llego puntualmente a mis turnos asignados&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Completo mis tareas incluso cuando no hay supervisión directa&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Entiendo la importancia del cumplimiento de normas internas&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 11 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 11 — Trabajo en equipo&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">La mayoría de las funciones se realizan en coordinación con otros miembros</p>
-<p class="p1">del equipo. La comunicación y el respeto son esenciales.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;¿Cómo se desempeña trabajando en grupo?&lt;/label&gt;</p>
-<p class="p1">&lt;select required&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Me adapto fácilmente y colaboro&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Puedo trabajar en equipo cuando es necesario&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Prefiero tareas individuales pero coopero&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;¿Cómo maneja desacuerdos laborales?&lt;/label&gt;</p>
-<p class="p1">&lt;textarea required placeholder="Explique brevemente su enfoque"&gt;&lt;/textarea&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 12 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 12 — Adaptabilidad y cambios&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Los entornos operativos pueden cambiar por demanda, clima,</p>
-<p class="p1">prioridades o ajustes logísticos.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Puedo adaptarme a cambios de tareas o prioridades&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Mantengo una actitud profesional ante cambios inesperados&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Puedo recibir retroalimentación y aplicarla&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 13 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 13 — Comunicación y reportes&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">La comunicación clara es clave para evitar errores, retrasos o incidentes.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;¿Se siente cómodo reportando problemas o dudas?&lt;/label&gt;</p>
-<p class="p1">&lt;select required&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Sí, de forma inmediata&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Sí, cuando es necesario&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Solo si se me solicita&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;label&gt;¿Cómo prefiere recibir instrucciones?&lt;/label&gt;</p>
-<p class="p1">&lt;select required&gt;</p>
-<p class="p1">&lt;option value=""&gt;Seleccione&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Instrucciones claras y directas&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Explicaciones detalladas&lt;/option&gt;</p>
-<p class="p1">&lt;option&gt;Combinación de ambas&lt;/option&gt;</p>
-<p class="p1">&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 14 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 14 — Proceso posterior a la aplicación&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Esta aplicación corresponde únicamente a una evaluación inicial.</p>
-<p class="p1">Si su perfil es seleccionado, los siguientes pasos se completarán</p>
-<p class="p1">dentro de un portal interno dedicado.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Dicho portal incluye procesos estándar como orientación general,</p>
-<p class="p1">inducción de seguridad y asignación operativa. <span class="Apple-converted-space"> </span></p>
-<p class="p1">Ninguno de esos pasos se realiza aquí.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Entiendo que los pasos posteriores ocurren fuera de esta aplicación&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Comprendo que el acceso al portal depende de una evaluación previa&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- STEP 15 --&gt;</p>
-<p class="p1">&lt;div class="form-step"&gt;</p>
-<p class="p1">&lt;h2&gt;Paso 15 — Confirmación final&lt;/h2&gt;</p>
-<p class="p1">&lt;p&gt;</p>
-<p class="p1">Antes de enviar su aplicación, confirme que la información proporcionada</p>
-<p class="p1">es verídica y completa según su conocimiento.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Confirmo que la información proporcionada es correcta&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="check"&gt;</p>
-<p class="p1">&lt;input type="checkbox" required&gt;</p>
-<p class="p1">&lt;span&gt;Entiendo que información falsa puede invalidar mi aplicación&lt;/span&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;p style="margin-top:18px;font-size:14px;color:#444"&gt;</p>
-<p class="p1">Una vez enviada, la aplicación será revisada.</p>
-<p class="p1">Si continúa en el proceso, recibirá instrucciones adicionales.</p>
-<p class="p1">&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="submit" class="next"&gt;Enviar aplicación&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Puedo seguir procedimientos establecidos&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Puedo trabajar bajo supervisión directa&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="check"&gt;&lt;input type="checkbox" required&gt;&lt;span&gt;Entiendo que las tareas pueden variar&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="buttons"&gt;</p>
-<p class="p1">&lt;button type="button" class="prev"&gt;Anterior&lt;/button&gt;</p>
-<p class="p1">&lt;button type="button" class="next"&gt;Continuar&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/form&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">const steps=document.querySelectorAll(".form-step");</p>
-<p class="p1">const progress=document.getElementById("progress");</p>
-<p class="p1">let current=0;</p>
-<p class="p2"><br></p>
-<p class="p1">function update(){</p>
-<p class="p1">steps.forEach((s,i)=&gt;s.classList.toggle("active",i===current));</p>
-<p class="p1">progress.style.width=((current)/(14))*100+"%";</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">document.addEventListener("click",e=&gt;{</p>
-<p class="p1">if(e.target.classList.contains("next")){current++;update();}</p>
-<p class="p1">if(e.target.classList.contains("prev")){current--;update();}</p>
-<p class="p1">});</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<div class="app">
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress" id="progress"></div></div>
+</div>
+
+<form id="wizard">
+
+<!-- STEP 1 -->
+<div class="form-step active">
+<h2>Paso 1 — Bienvenida a la aplicación</h2>
+<p>
+Gracias por tu interés en formar parte de operaciones corporativas de gran escala.
+Esta aplicación está diseñada para evaluar disponibilidad, compatibilidad operativa
+y cumplimiento básico antes de avanzar a etapas posteriores del proceso.
+</p>
+<p>
+Completa todos los pasos con atención. El tiempo estimado es de 15 a 20 minutos.
+</p>
+
+<div class="buttons">
+<span></span>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 2 -->
+<div class="form-step">
+<h2>Paso 2 — Identificación personal</h2>
+<p>
+La información ingresada debe coincidir con documentos oficiales.
+Errores pueden retrasar el proceso de evaluación.
+</p>
+
+<label>Nombre legal</label><input required>
+<label>Apellido legal</label><input required>
+<label>Correo electrónico activo</label><input type="email" required>
+<label>Número telefónico</label><input required>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 3 -->
+<div class="form-step">
+<h2>Paso 3 — Ubicación y residencia</h2>
+<p>
+Esta información se utiliza para determinar viabilidad logística y asignaciones
+geográficas potenciales.
+</p>
+
+<label>Ciudad actual</label><input required>
+<label>Estado</label><input required>
+<label>Código postal</label><input required>
+<label>¿Planea mudarse en los próximos 6 meses?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí</option>
+<option>No</option>
+<option>No estoy seguro</option>
+</select>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 4 -->
+<div class="form-step">
+<h2>Paso 4 — Elegibilidad legal</h2>
+<p>
+Estas preguntas son obligatorias para cumplir con regulaciones laborales.
+</p>
+
+<div class="check"><input type="checkbox" required><span>Tengo 18 años o más</span></div>
+<div class="check"><input type="checkbox" required><span>Estoy autorizado/a a trabajar legalmente</span></div>
+<div class="check"><input type="checkbox" required><span>Puedo presentar documentación válida si se solicita</span></div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 5 -->
+<div class="form-step">
+<h2>Paso 5 — Disponibilidad general</h2>
+<p>
+Las posiciones pueden requerir horarios extendidos según demanda operativa.
+</p>
+
+<label>Tipo de disponibilidad</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Tiempo completo</option>
+<option>Turnos variables</option>
+<option>Disponibilidad flexible</option>
+</select>
+
+<label>Fecha estimada para comenzar</label>
+<input type="date" required>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 6 -->
+<div class="form-step">
+<h2>Paso 6 — Condiciones físicas</h2>
+<p>
+Algunas funciones requieren actividad física prolongada y trabajo de pie.
+</p>
+
+<div class="check"><input type="checkbox" required><span>Puedo permanecer de pie por periodos prolongados</span></div>
+<div class="check"><input type="checkbox" required><span>Puedo levantar peso moderado si es necesario</span></div>
+<div class="check"><input type="checkbox" required><span>No tengo restricciones físicas relevantes</span></div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 7 -->
+<div class="form-step">
+<h2>Paso 7 — Entorno de trabajo</h2>
+<p>
+Las operaciones pueden desarrollarse en ambientes industriales,
+exteriores o controlados, dependiendo del rol asignado.
+</p>
+
+<label>¿Ha trabajado antes en entornos operativos?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí</option>
+<option>No</option>
+</select>
+
+<label>¿Cómo describiría su adaptación a entornos nuevos?</label>
+<textarea required placeholder="Describa brevemente"></textarea>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 8 -->
+<div class="form-step">
+<h2>Paso 8 — Compromiso operativo</h2>
+<p>
+Las posiciones requieren puntualidad, cumplimiento de instrucciones
+y trabajo coordinado con equipos diversos.
+</p>
+
+<div class="check"><input type="checkbox" required><span>Puedo seguir procedimientos establecidos</span></div>
+<div class="check"><input type="checkbox" required><span>Puedo trabajar bajo supervisión directa</span></div>
+<div class="check"><input type="checkbox" required><span>Entiendo que las tareas pueden variar</span></div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+</form>
+</div>
+<!-- STEP 9 -->
+<div class="form-step">
+<h2>Paso 9 — Historial laboral general</h2>
+<p>
+Esta sección nos ayuda a entender tu experiencia previa en entornos de trabajo
+estructurados. No es necesario tener experiencia específica, pero sí honestidad
+en la información proporcionada.
+</p>
+
+<label>¿Ha trabajado anteriormente en un empleo formal?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí, empleo a tiempo completo</option>
+<option>Sí, empleo temporal o por contrato</option>
+<option>No, sería mi primer empleo formal</option>
+</select>
+
+<label>Último puesto desempeñado (si aplica)</label>
+<input placeholder="Ej: Operador, asistente, técnico">
+
+<label>Duración aproximada en su último empleo</label>
+<select>
+<option value="">Seleccione</option>
+<option>Menos de 3 meses</option>
+<option>3 a 6 meses</option>
+<option>6 a 12 meses</option>
+<option>Más de 1 año</option>
+</select>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 10 -->
+<div class="form-step">
+<h2>Paso 10 — Responsabilidad y cumplimiento</h2>
+<p>
+Las operaciones requieren personas confiables que cumplan horarios,
+instrucciones y estándares operativos sin supervisión constante.
+</p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Llego puntualmente a mis turnos asignados</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Completo mis tareas incluso cuando no hay supervisión directa</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Entiendo la importancia del cumplimiento de normas internas</span>
+</div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 11 -->
+<div class="form-step">
+<h2>Paso 11 — Trabajo en equipo</h2>
+<p>
+La mayoría de las funciones se realizan en coordinación con otros miembros
+del equipo. La comunicación y el respeto son esenciales.
+</p>
+
+<label>¿Cómo se desempeña trabajando en grupo?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Me adapto fácilmente y colaboro</option>
+<option>Puedo trabajar en equipo cuando es necesario</option>
+<option>Prefiero tareas individuales pero coopero</option>
+</select>
+
+<label>¿Cómo maneja desacuerdos laborales?</label>
+<textarea required placeholder="Explique brevemente su enfoque"></textarea>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 12 -->
+<div class="form-step">
+<h2>Paso 12 — Adaptabilidad y cambios</h2>
+<p>
+Los entornos operativos pueden cambiar por demanda, clima,
+prioridades o ajustes logísticos.
+</p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo adaptarme a cambios de tareas o prioridades</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Mantengo una actitud profesional ante cambios inesperados</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Puedo recibir retroalimentación y aplicarla</span>
+</div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 13 -->
+<div class="form-step">
+<h2>Paso 13 — Comunicación y reportes</h2>
+<p>
+La comunicación clara es clave para evitar errores, retrasos o incidentes.
+</p>
+
+<label>¿Se siente cómodo reportando problemas o dudas?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Sí, de forma inmediata</option>
+<option>Sí, cuando es necesario</option>
+<option>Solo si se me solicita</option>
+</select>
+
+<label>¿Cómo prefiere recibir instrucciones?</label>
+<select required>
+<option value="">Seleccione</option>
+<option>Instrucciones claras y directas</option>
+<option>Explicaciones detalladas</option>
+<option>Combinación de ambas</option>
+</select>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 14 -->
+<div class="form-step">
+<h2>Paso 14 — Proceso posterior a la aplicación</h2>
+<p>
+Esta aplicación corresponde únicamente a una evaluación inicial.
+Si su perfil es seleccionado, los siguientes pasos se completarán
+dentro de un portal interno dedicado.
+</p>
+
+<p>
+Dicho portal incluye procesos estándar como orientación general,
+inducción de seguridad y asignación operativa.  
+Ninguno de esos pasos se realiza aquí.
+</p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Entiendo que los pasos posteriores ocurren fuera de esta aplicación</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Comprendo que el acceso al portal depende de una evaluación previa</span>
+</div>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="button" class="next">Continuar</button>
+</div>
+</div>
+
+<!-- STEP 15 -->
+<div class="form-step">
+<h2>Paso 15 — Confirmación final</h2>
+<p>
+Antes de enviar su aplicación, confirme que la información proporcionada
+es verídica y completa según su conocimiento.
+</p>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Confirmo que la información proporcionada es correcta</span>
+</div>
+
+<div class="check">
+<input type="checkbox" required>
+<span>Entiendo que información falsa puede invalidar mi aplicación</span>
+</div>
+
+<p style="margin-top:18px;font-size:14px;color:#444">
+Una vez enviada, la aplicación será revisada.
+Si continúa en el proceso, recibirá instrucciones adicionales.
+</p>
+
+<div class="buttons">
+<button type="button" class="prev">Anterior</button>
+<button type="submit" class="next">Enviar aplicación</button>
+</div>
+</div>
+<script>
+const steps=document.querySelectorAll(".form-step");
+const progress=document.getElementById("progress");
+let current=0;
+
+function update(){
+steps.forEach((s,i)=>s.classList.toggle("active",i===current));
+progress.style.width=((current)/(14))*100+"%";
+}
+
+document.addEventListener("click",e=>{
+if(e.target.classList.contains("next")){current++;update();}
+if(e.target.classList.contains("prev")){current--;update();}
+});
+</script>
+
 </body>
 </html>
