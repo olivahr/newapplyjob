@@ -17,7 +17,6 @@ html,body{
   height:100%;
   font-family:'Inter',Arial,sans-serif;
   background:var(--bg);
-  overflow:hidden;
 }
 *{box-sizing:border-box;}
 
@@ -57,6 +56,7 @@ input,select,textarea{
   padding:26px;
   height:calc(100vh - 110px);
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 }
 
 /* ================= PROGRESS ================= */
@@ -77,13 +77,12 @@ input,select,textarea{
 /* ================= STEP ================= */
 .form-step{
   display:none;
-  flex-direction:column;
   opacity:0;
   transform:translateX(30px);
-  transition:.35s;
+  transition:all .35s ease;
 }
 .form-step.active{
-  display:flex;
+  display:block;
   opacity:1;
   transform:none;
 }
@@ -92,7 +91,9 @@ h2{
   text-align:center;
   margin:6px 0 10px;
   font-weight:800;
+  color:var(--text);
 }
+
 .step-desc{
   background:#f9fafb;
   border:1px solid var(--border);
@@ -101,6 +102,7 @@ h2{
   font-size:13px;
   color:var(--muted);
   margin-bottom:14px;
+  line-height:1.4;
 }
 
 /* ================= FIELDS ================= */
@@ -108,19 +110,37 @@ label{
   margin-top:14px;
   font-weight:700;
   font-size:14px;
+  color:var(--text);
 }
+
 input,select,textarea{
   width:100%;
   padding:14px;
   margin-top:8px;
   border:1px solid #d1d5db;
+  background:#fff;
 }
+
 input:focus,select:focus,textarea:focus{
   border-color:var(--primary);
   box-shadow:0 0 0 4px rgba(11,102,255,.15);
 }
+
 input:invalid,select:invalid{
   border-color:#ef4444;
+}
+
+/* ================= CHECKBOX ROW ================= */
+.check{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  margin-top:12px;
+  font-size:14px;
+  color:var(--text);
+}
+.check input{
+  margin-top:2px;
 }
 
 /* ================= BUTTONS ================= */
@@ -129,6 +149,7 @@ input:invalid,select:invalid{
   gap:12px;
   margin-top:18px;
 }
+
 button{
   flex:1;
   padding:12px;
@@ -137,14 +158,25 @@ button{
   border:none;
   cursor:pointer;
 }
+
 button.next{
   background:var(--primary);
   color:#fff;
 }
-button.next:hover{background:var(--primaryHover);}
+button.next:hover{
+  background:var(--primaryHover);
+}
+
 button.prev{
   background:#fff;
   border:1px solid var(--border);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width:720px){
+  .btns{
+    flex-direction:column;
+  }
 }
 
 /* ================= CONFIRM ================= */
