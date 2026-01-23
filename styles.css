@@ -1,4 +1,4 @@
-/* ================= TOKENS (Brand) ================= */
+/* ================= TOKENS ================= */
 :root{
   --bg:#f3f4f6;
   --card:#ffffff;
@@ -11,68 +11,52 @@
   --radius:14px;
 }
 
-/* ================= GLOBAL ================= */
+/* ================= BASE ================= */
 html,body{
   margin:0;
-  padding:0;
   height:100%;
   font-family:'Inter',Arial,sans-serif;
   background:var(--bg);
   overflow:hidden;
 }
-
-*{box-sizing:border-box}
+*{box-sizing:border-box;}
 
 input,select,textarea{
   font-size:16px;
-  outline:none;
-  line-height:1.2;
+  border-radius:10px;
 }
 
-select{
-  appearance:none;
-  padding-top:12px;
-  padding-bottom:12px;
-}
-
-/* ================= LANG SELECT ================= */
+/* ================= LANG ================= */
 .lang-container{
   position:fixed;
   top:12px;
   left:12px;
   z-index:1000;
 }
-
 .lang-select{
-  font-weight:700;
   padding:8px 12px;
   border-radius:999px;
   border:1px solid var(--border);
   background:#fff;
-  box-shadow:0 8px 18px rgba(0,0,0,.10);
-  cursor:pointer;
+  font-weight:700;
 }
 
-/* ================= APP CONTAINER ================= */
+/* ================= APP ================= */
 .app-container{
-  width:100%;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:72px 14px 18px;
+  padding:80px 16px 20px;
 }
-
-/* ================= FORM WRAPPER ================= */
 .form-wrapper{
   width:min(720px,100%);
-  height:calc(100vh - 90px);
   background:var(--card);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
   padding:26px;
+  height:calc(100vh - 110px);
   overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
 }
 
 /* ================= PROGRESS ================= */
@@ -81,82 +65,62 @@ select{
   background:#e5e7eb;
   border-radius:999px;
   overflow:hidden;
-  margin-bottom:14px;
+  margin-bottom:16px;
 }
 .progress{
   height:100%;
   width:0%;
   background:var(--primary);
-  transition:width .4s ease;
+  transition:width .45s ease;
 }
 
-/* ================= SCORE ================= */
-.score-bar{
-  height:10px;
-  background:#eef2f7;
-  border-radius:999px;
-  overflow:hidden;
-  border:1px solid var(--border);
-  margin:12px 0 14px;
-}
-.score-fill{
-  height:100%;
-  width:0%;
-  background:var(--primary);
-  transition:width .3s ease;
-}
-
-/* ================= FORM STEPS ================= */
+/* ================= STEP ================= */
 .form-step{
   display:none;
+  flex-direction:column;
   opacity:0;
   transform:translateX(30px);
-  transition:.35s ease;
+  transition:.35s;
 }
 .form-step.active{
-  display:block;
+  display:flex;
   opacity:1;
-  transform:translateX(0);
+  transform:none;
 }
 
 h2{
   text-align:center;
   margin:6px 0 10px;
   font-weight:800;
-  font-size:22px;
 }
-
 .step-desc{
-  font-size:13px;
-  color:var(--muted);
   background:#f9fafb;
   border:1px solid var(--border);
   border-radius:10px;
-  padding:12px 14px;
+  padding:12px;
+  font-size:13px;
+  color:var(--muted);
   margin-bottom:14px;
 }
 
-/* ================= INPUTS ================= */
+/* ================= FIELDS ================= */
 label{
   margin-top:14px;
-  display:block;
   font-weight:700;
   font-size:14px;
 }
 input,select,textarea{
   width:100%;
-  margin-top:8px;
   padding:14px;
-  border-radius:10px;
+  margin-top:8px;
   border:1px solid #d1d5db;
 }
 input:focus,select:focus,textarea:focus{
   border-color:var(--primary);
-  box-shadow:0 0 0 4px rgba(11,102,255,.14);
+  box-shadow:0 0 0 4px rgba(11,102,255,.15);
 }
-textarea{
-  resize:vertical;
-  min-height:90px;
+input:invalid,select:invalid{
+  border-color:#ef4444;
 }
 
 /* ================= BUTTONS ================= */
@@ -167,18 +131,19 @@ textarea{
 }
 button{
   flex:1;
-  padding:12px 18px;
+  padding:12px;
+  font-weight:800;
   border-radius:10px;
   border:none;
-  background:var(--primary);
-  color:#fff;
-  font-weight:800;
   cursor:pointer;
 }
-button:hover{background:var(--primaryHover)}
+button.next{
+  background:var(--primary);
+  color:#fff;
+}
+button.next:hover{background:var(--primaryHover);}
 button.prev{
   background:#fff;
-  color:var(--text);
   border:1px solid var(--border);
 }
 
@@ -187,14 +152,8 @@ button.prev{
   display:none;
   margin-top:16px;
   padding:14px;
-  background:#f9fafb;
   border:1px solid var(--border);
   border-radius:10px;
-  font-weight:800;
   text-align:center;
-}
-
-/* ================= MOBILE ================= */
-@media(max-width:900px){
-  .btns{flex-direction:column}
+  font-weight:700;
 }
