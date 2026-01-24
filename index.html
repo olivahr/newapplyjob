@@ -1,623 +1,958 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Aplicación de Empleo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;font-family:Inter,sans-serif}
-body{margin:0;background:#f3f4f6;color:#111}
-.app{max-width:880px;margin:40px auto;background:#fff;border-radius:18px;
-box-shadow:0 20px 60px rgba(0,0,0,.12);padding:42px}
-.progress-wrap{margin-bottom:35px}
-.progress-bar{height:8px;background:#e5e7eb;border-radius:6px;overflow:hidden}
-.progress{height:100%;width:0%;background:#2563eb;transition:.3s}
+  :root{
+    --bg:#f3f4f6;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#475569;
+    --line:#e5e7eb;
+    --blue:#2563eb;
+    --blue2:#1d4ed8;
+    --mint:#d7f3ec;
+    --mintB:#b6eadc;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;font-family:Inter,sans-serif}
+  body{margin:0;background:var(--bg);color:var(--text)}
+  a{color:var(--blue);text-decoration:none}
+  strong{font-weight:700}
 
-h2{font-size:22px;margin:0 0 14px}
-p{font-size:14px;color:#444;line-height:1.8}
+  /* Layout */
+  .app{
+    max-width:1120px;
+    margin:26px auto;
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 20px 60px rgba(0,0,0,.12);
+    padding:28px;
+    display:grid;
+    grid-template-columns: 280px 1fr;
+    gap:28px;
+  }
 
-.form-step{display:none}
-.form-step.active{display:block}
+  /* Header */
+  .top{
+    grid-column: 1 / -1;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:6px;
+  }
+  .brand{
+    font-weight:800;
+    letter-spacing:.2px;
+  }
+  .step-pill{
+    font-size:13px;
+    color:var(--muted);
+    background:#f8fafc;
+    border:1px solid var(--line);
+    padding:8px 12px;
+    border-radius:999px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    white-space:nowrap;
+  }
 
-label{display:block;margin-top:20px;font-size:14px;font-weight:600}
-input,select,textarea{
-width:100%;padding:14px;margin-top:6px;
-border:1px solid #d1d5db;border-radius:10px;font-size:14px
-}
-textarea{min-height:110px}
+  /* Progress bar */
+  .progress-wrap{
+    grid-column: 1 / -1;
+    margin-top:6px;
+    margin-bottom:6px;
+  }
+  .progress-bar{
+    height:10px;
+    background:#eef2ff;
+    border:1px solid var(--line);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .progress{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg, var(--blue), #4f46e5);
+    transition:width .25s ease;
+  }
 
-.check{display:flex;gap:10px;margin-top:14px;font-size:14px}
+  /* Map (Professional timeline) */
+  .map{
+    position:sticky;
+    top:18px;
+    align-self:start;
+    padding:8px 6px;
+  }
+  .map-title{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:700;
+    letter-spacing:.2px;
+    margin:0 0 10px;
+    text-transform:uppercase;
+  }
+  .timeline{
+    position:relative;
+    padding-left:18px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:8px;
+    top:6px;
+    bottom:6px;
+    width:2px;
+    background:linear-gradient(180deg, #cbd5e1, #e2e8f0);
+    border-radius:999px;
+  }
+  .mstep{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 8px;
+    border-radius:12px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .mstep:hover{background:#f8fafc}
+  .dot{
+    width:28px;height:28px;
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;
+    border:1px solid #d1d5db;
+    background:#f3f4f6;
+    color:#64748b;
+    flex:0 0 auto;
+  }
+  .mtext{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .mtext .t1{font-weight:700;font-size:13px}
+  .mtext .t2{font-size:12px;color:var(--muted)}
+  .mstep.active{
+    background:#eef2ff;
+    outline:2px solid rgba(37,99,235,.18);
+  }
+  .mstep.active .dot{
+    background:var(--blue);
+    border-color:transparent;
+    color:#fff;
+  }
+  .mstep.done .dot{
+    background:var(--mint);
+    border:2px solid var(--mintB);
+    color:#1b8f6a;
+  }
+  .mstep.locked{
+    opacity:.55;
+    cursor:not-allowed;
+  }
 
-.buttons{display:flex;justify-content:space-between;margin-top:40px}
-button{
-padding:14px 34px;border:none;border-radius:12px;
-font-size:14px;font-weight:700;cursor:pointer
-}
-.prev{background:#e5e7eb}
-.next{background:#2563eb;color:#fff}
-button:disabled{opacity:.4;pointer-events:none}
+  /* Form panel */
+  .panel{padding:6px 6px 10px}
+  h2{font-size:22px;margin:0 0 14px}
+  p{font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px}
+
+  .form-step{display:none}
+  .form-step.active{display:block}
+
+  label{display:block;margin-top:18px;font-size:14px;font-weight:700;color:#0f172a}
+
+  input,select,textarea{
+    width:100%;
+    padding:14px;
+    margin-top:6px;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    font-size:14px;
+    outline:none;
+    background:#fff;
+  }
+  input:focus,select:focus,textarea:focus{
+    border-color:#60a5fa;
+    box-shadow:0 0 0 4px rgba(59,130,246,.15);
+  }
+  textarea{min-height:110px;resize:vertical}
+
+  .check{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+    font-size:14px;
+    color:#0f172a;
+    align-items:flex-start;
+  }
+  .check input{width:18px;height:18px;margin-top:2px}
+
+  .buttons{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:26px;
+    padding-top:12px;
+    border-top:1px solid var(--line);
+  }
+  button{
+    padding:14px 22px;
+    border:none;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+  }
+  .prev{background:#e5e7eb;color:#111827}
+  .next{background:var(--blue);color:#fff}
+  .next:hover{background:var(--blue2)}
+  button:disabled{opacity:.45;pointer-events:none}
+
+  /* Mobile */
+  @media (max-width: 920px){
+    .app{grid-template-columns:1fr}
+    .map{position:relative;top:auto}
+  }
 </style>
 </head>
 
 <body>
 <div class="app">
 
-<div class="progress-wrap">
-  <div class="progress-bar"><div class="progress" id="progress"></div></div>
-</div>
-
-<form id="wizard">
-
-<!-- PASO 1 -->
-<div class="form-step active">
-<h2>Paso 1 — Bienvenida a la aplicación</h2>
-
-<p>
-Gracias por tu interés en participar en operaciones corporativas de gran escala.
-Esta aplicación corresponde a una **evaluación inicial**, utilizada para determinar
-compatibilidad básica con roles operativos y de soporte.
-</p>
-
-<p>
-El proceso está diseñado para ser claro, estructurado y transparente.
-No se requiere experiencia específica para completar esta etapa.
-</p>
-
-<p>
-Tiempo estimado de la aplicación: **15 a 25 minutos**.  
-Recomendamos completarla en una sola sesión.
-</p>
-
-<div class="buttons">
-<span></span>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 2 -->
-<div class="form-step">
-<h2>Paso 2 — Identificación personal</h2>
-
-<p>
-La información ingresada en esta sección debe coincidir con documentos oficiales.
-Estos datos se utilizan únicamente para fines de evaluación y contacto.
-</p>
-
-<p>
-Asegúrate de escribir correctamente tu nombre legal completo y un correo electrónico activo.
-</p>
-
-<label>Nombre legal (como aparece en documentos)</label>
-<input required>
-
-<label>Apellido legal</label>
-<input required>
-
-<label>Correo electrónico de contacto</label>
-<input type="email" required>
-
-<label>Número telefónico principal</label>
-<input required>
-
-<label>¿Tienes acceso regular a este correo y teléfono?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí, ambos</option>
-<option>Solo correo electrónico</option>
-<option>Solo teléfono</option>
-<option>Acceso limitado</option>
-</select>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 3 -->
-<div class="form-step">
-<h2>Paso 3 — Ubicación y movilidad</h2>
-
-<p>
-Esta sección nos permite evaluar disponibilidad geográfica y posibles asignaciones
-logísticas futuras.
-</p>
-
-<p>
-No implica una asignación inmediata ni garantiza ubicación específica.
-</p>
-
-<label>Ciudad actual de residencia</label>
-<input required>
-
-<label>Estado</label>
-<input required>
-
-<label>Código postal</label>
-<input required>
-
-<label>¿Estarías dispuesto/a a trabajar fuera de tu ciudad actual?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí</option>
-<option>No</option>
-<option>Depende de la asignación</option>
-</select>
-
-<label>¿Planeas mudarte en los próximos 6 meses?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí</option>
-<option>No</option>
-<option>No estoy seguro/a</option>
-</select>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 4 -->
-<div class="form-step">
-<h2>Paso 4 — Elegibilidad legal</h2>
-
-<p>
-Estas preguntas son obligatorias para cumplir con regulaciones laborales
-y estándares corporativos.
-</p>
-
-<p>
-Responder afirmativamente no garantiza contratación, pero es requisito
-para continuar en el proceso.
-</p>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Tengo 18 años o más</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Estoy autorizado/a a trabajar legalmente</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo presentar documentación válida si se solicita</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Entiendo que esta información puede ser verificada</span>
-</div>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 5 -->
-<div class="form-step">
-<h2>Paso 5 — Disponibilidad general</h2>
-
-<p>
-Las posiciones operativas pueden requerir horarios extendidos,
-turnos rotativos o ajustes según demanda.
-</p>
-
-<p>
-Selecciona la opción que mejor describa tu disponibilidad actual.
-</p>
-
-<label>Tipo de disponibilidad</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Tiempo completo</option>
-<option>Turnos variables</option>
-<option>Disponibilidad flexible</option>
-<option>Disponibilidad limitada</option>
-</select>
-
-<label>Fecha estimada para comenzar</label>
-<input type="date" required>
-
-<label>¿Tienes restricciones de horario actualmente?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>No tengo restricciones</option>
-<option>Restricciones parciales</option>
-<option>Restricciones significativas</option>
-</select>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 6 -->
-<div class="form-step">
-<h2>Paso 6 — Condiciones físicas y operativas</h2>
-
-<p>
-Algunas funciones pueden implicar actividad física prolongada,
-trabajo de pie o tareas repetitivas.
-</p>
-
-<p>
-Esta sección no busca excluir, sino entender capacidades operativas.
-</p>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo permanecer de pie durante turnos prolongados</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo realizar tareas físicas moderadas</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>No tengo limitaciones que impidan trabajo operativo básico</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo comunicar cualquier limitación si fuera necesario</span>
-</div>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 7 -->
-<div class="form-step">
-<h2>Paso 7 — Experiencia en entornos de trabajo</h2>
-
-<p>
-Las operaciones pueden desarrollarse en entornos industriales,
-logísticos, exteriores o controlados.
-</p>
-
-<p>
-No se requiere experiencia previa específica.
-</p>
-
-<label>¿Has trabajado anteriormente en entornos operativos o estructurados?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí</option>
-<option>No</option>
-</select>
-
-<label>¿Cómo describirías tu adaptación a entornos nuevos?</label>
-<textarea required placeholder="Describe brevemente tu experiencia o enfoque"></textarea>
-
-<label>¿Te sientes cómodo/a siguiendo procedimientos establecidos?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí</option>
-<option>No</option>
-<option>Depende de la situación</option>
-</select>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 8 -->
-<div class="form-step">
-<h2>Paso 8 — Compromiso y responsabilidad</h2>
-
-<p>
-Las posiciones requieren compromiso con horarios, instrucciones
-y estándares de calidad.
-</p>
-
-<p>
-Esta sección evalúa tu disposición general al cumplimiento operativo.
-</p>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo cumplir horarios asignados</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo seguir instrucciones escritas y verbales</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Entiendo que las tareas pueden variar según necesidad</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo comunicar problemas o dudas oportunamente</span>
-</div>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-<!-- PASO 9 -->
-<div class="form-step">
-<h2>Paso 9 — Historial laboral general</h2>
-
-<p>
-Esta sección nos permite entender tu experiencia previa en entornos laborales,
-independientemente del sector o tipo de trabajo.
-</p>
-
-<p>
-No se requiere experiencia específica. Responde con honestidad.
-</p>
-
-<label>¿Has tenido empleo formal anteriormente?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí, empleo a tiempo completo</option>
-<option>Sí, empleo temporal o por contrato</option>
-<option>No, sería mi primer empleo formal</option>
-</select>
-
-<label>Última posición desempeñada (si aplica)</label>
-<input placeholder="Ejemplo: Operador, asistente, técnico">
-
-<label>Duración aproximada en tu último empleo</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Menos de 3 meses</option>
-<option>3 a 6 meses</option>
-<option>6 a 12 meses</option>
-<option>Más de 1 año</option>
-</select>
-
-<label>Motivo de salida del último empleo</label>
-<textarea required placeholder="Describe brevemente"></textarea>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 10 -->
-<div class="form-step">
-<h2>Paso 10 — Responsabilidad individual</h2>
-
-<p>
-Las operaciones requieren personas confiables que puedan trabajar
-con autonomía cuando sea necesario.
-</p>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Cumplo mis responsabilidades incluso sin supervisión directa</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Llego puntualmente a mis turnos asignados</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Informo ausencias o retrasos con anticipación</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Entiendo la importancia del cumplimiento operativo</span>
-</div>
-
-<label>Describe una situación donde asumiste responsabilidad en el trabajo</label>
-<textarea required></textarea>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 11 -->
-<div class="form-step">
-<h2>Paso 11 — Trabajo en equipo</h2>
-
-<p>
-La mayoría de las funciones se realizan en coordinación con otros miembros
-del equipo y supervisores.
-</p>
-
-<label>¿Cómo te desempeñas trabajando en grupo?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Me adapto fácilmente y colaboro</option>
-<option>Puedo trabajar en equipo cuando es necesario</option>
-<option>Prefiero tareas individuales, pero coopero</option>
-</select>
-
-<label>¿Cómo manejas desacuerdos laborales?</label>
-<textarea required placeholder="Explica tu enfoque de manera general"></textarea>
-
-<label>¿Has trabajado siguiendo instrucciones de un supervisor?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí</option>
-<option>No</option>
-</select>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 12 -->
-<div class="form-step">
-<h2>Paso 12 — Adaptabilidad operativa</h2>
-
-<p>
-Los entornos operativos pueden cambiar por demanda,
-prioridades o ajustes logísticos.
-</p>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo adaptarme a cambios de tareas</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Mantengo actitud profesional ante cambios inesperados</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Puedo aprender nuevos procesos rápidamente</span>
-</div>
-
-<label>Describe cómo reaccionas ante cambios en el trabajo</label>
-<textarea required></textarea>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 13 -->
-<div class="form-step">
-<h2>Paso 13 — Comunicación y reportes</h2>
-
-<p>
-La comunicación clara ayuda a prevenir errores,
-retrasos o incidentes operativos.
-</p>
-
-<label>¿Te sientes cómodo reportando problemas o dudas?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Sí, inmediatamente</option>
-<option>Sí, cuando es necesario</option>
-<option>Solo si se me solicita</option>
-</select>
-
-<label>¿Cómo prefieres recibir instrucciones?</label>
-<select required>
-<option value="">Seleccione</option>
-<option>Instrucciones claras y directas</option>
-<option>Explicaciones detalladas</option>
-<option>Combinación de ambas</option>
-</select>
-
-<label>Describe una situación donde la comunicación fue clave</label>
-<textarea required></textarea>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 14 -->
-<div class="form-step">
-<h2>Paso 14 — Proceso posterior a la aplicación</h2>
-
-<p>
-Esta aplicación corresponde únicamente a una **evaluación inicial**.
-</p>
-
-<p>
-Si tu perfil es seleccionado, los siguientes pasos se realizarán
-dentro de un **Portal del Empleado**, separado de esta aplicación.
-</p>
-
-<p>
-Dicho portal incluye procesos estándar como orientación general,
-inducción de seguridad y asignación operativa.
-</p>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Entiendo que los pasos posteriores no ocurren en esta aplicación</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Comprendo que el acceso al portal depende de evaluación previa</span>
-</div>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="button" class="next">Continuar</button>
-</div>
-</div>
-
-<!-- PASO 15 -->
-<div class="form-step">
-<h2>Paso 15 — Confirmación final</h2>
-
-<p>
-Antes de enviar tu aplicación, confirma que la información proporcionada
-es verídica y completa según tu conocimiento.
-</p>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Confirmo que la información proporcionada es correcta</span>
-</div>
-
-<div class="check">
-<input type="checkbox" required>
-<span>Entiendo que información falsa puede invalidar mi aplicación</span>
-</div>
-
-<p style="margin-top:18px">
-Una vez enviada, tu aplicación será revisada.  
-Si continúas en el proceso, recibirás instrucciones adicionales.
-</p>
-
-<div class="buttons">
-<button type="button" class="prev">Anterior</button>
-<button type="submit" class="next">Enviar aplicación</button>
-</div>
-</div>
-
-</form>
+  <div class="top">
+    <div class="brand">Aplicación de Empleo</div>
+    <div class="step-pill">
+      <span id="stepCounter">Paso 1 de 18</span>
+      <span>•</span>
+      <span id="timeHint">Aprox. 20–35 min</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress" id="progress"></div></div>
+  </div>
+
+  <!-- MAPA (PROPIO, NO COPIA) -->
+  <aside class="map" aria-label="Mapa de progreso">
+    <div class="map-title">Progreso</div>
+    <div class="timeline" id="timeline"></div>
+  </aside>
+
+  <!-- PANEL FORM -->
+  <main class="panel">
+    <form id="wizard" novalidate>
+
+      <!-- PASO 1 -->
+      <section class="form-step active" data-step="1">
+        <h2>Paso 1 — Bienvenida a la aplicación</h2>
+
+        <p>
+          Gracias por tu interés en participar en operaciones corporativas de gran escala.
+          Esta aplicación corresponde a una <strong>evaluación inicial</strong>, utilizada para determinar
+          compatibilidad básica con roles operativos y de soporte.
+        </p>
+
+        <p>
+          El proceso está diseñado para ser claro, estructurado y transparente.
+          No se requiere experiencia específica para completar esta etapa.
+        </p>
+
+        <p>
+          Tiempo estimado de la aplicación: <strong>15 a 25 minutos</strong>.
+          Recomendamos completarla en una sola sesión.
+        </p>
+
+        <div class="buttons">
+          <span></span>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 2 -->
+      <section class="form-step" data-step="2">
+        <h2>Paso 2 — Identificación personal</h2>
+
+        <p>
+          La información ingresada en esta sección debe coincidir con documentos oficiales.
+          Estos datos se utilizan únicamente para fines de evaluación y contacto.
+        </p>
+
+        <p>
+          Asegúrate de escribir correctamente tu nombre legal completo y un correo electrónico activo.
+        </p>
+
+        <label>Nombre legal (como aparece en documentos)</label>
+        <input required name="nombre">
+
+        <label>Apellido legal</label>
+        <input required name="apellido">
+
+        <label>Correo electrónico de contacto</label>
+        <input type="email" required name="email">
+
+        <label>Número telefónico principal</label>
+        <input required name="telefono">
+
+        <label>¿Tienes acceso regular a este correo y teléfono?</label>
+        <select required name="acceso">
+          <option value="">Seleccione</option>
+          <option>Sí, ambos</option>
+          <option>Solo correo electrónico</option>
+          <option>Solo teléfono</option>
+          <option>Acceso limitado</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 3 -->
+      <section class="form-step" data-step="3">
+        <h2>Paso 3 — Ubicación y movilidad</h2>
+
+        <p>
+          Esta sección nos permite evaluar disponibilidad geográfica y posibles asignaciones
+          logísticas futuras.
+        </p>
+
+        <p>
+          No implica una asignación inmediata ni garantiza ubicación específica.
+        </p>
+
+        <label>Ciudad actual de residencia</label>
+        <input required name="ciudad">
+
+        <label>Estado</label>
+        <input required name="estado">
+
+        <label>Código postal</label>
+        <input required name="zip">
+
+        <label>¿Estarías dispuesto/a a trabajar fuera de tu ciudad actual?</label>
+        <select required name="movilidad">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+          <option>Depende de la asignación</option>
+        </select>
+
+        <label>¿Planeas mudarte en los próximos 6 meses?</label>
+        <select required name="mudanza">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+          <option>No estoy seguro/a</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 4 -->
+      <section class="form-step" data-step="4">
+        <h2>Paso 4 — Elegibilidad legal</h2>
+
+        <p>
+          Estas preguntas son obligatorias para cumplir con regulaciones laborales
+          y estándares corporativos.
+        </p>
+
+        <p>
+          Responder afirmativamente no garantiza contratación, pero es requisito
+          para continuar en el proceso.
+        </p>
+
+        <div class="check">
+          <input type="checkbox" required name="mayor18">
+          <span>Tengo 18 años o más</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="autorizado">
+          <span>Estoy autorizado/a a trabajar legalmente</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="documentos">
+          <span>Puedo presentar documentación válida si se solicita</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="verificacion">
+          <span>Entiendo que esta información puede ser verificada</span>
+        </div>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 5 -->
+      <section class="form-step" data-step="5">
+        <h2>Paso 5 — Disponibilidad general</h2>
+
+        <p>
+          Las posiciones operativas pueden requerir horarios extendidos,
+          turnos rotativos o ajustes según demanda.
+        </p>
+
+        <p>
+          Selecciona la opción que mejor describa tu disponibilidad actual.
+        </p>
+
+        <label>Tipo de disponibilidad</label>
+        <select required name="disponibilidad">
+          <option value="">Seleccione</option>
+          <option>Tiempo completo</option>
+          <option>Turnos variables</option>
+          <option>Disponibilidad flexible</option>
+          <option>Disponibilidad limitada</option>
+        </select>
+
+        <label>Fecha estimada para comenzar</label>
+        <input type="date" required name="fecha_inicio">
+
+        <label>¿Tienes restricciones de horario actualmente?</label>
+        <select required name="restricciones">
+          <option value="">Seleccione</option>
+          <option>No tengo restricciones</option>
+          <option>Restricciones parciales</option>
+          <option>Restricciones significativas</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 6 -->
+      <section class="form-step" data-step="6">
+        <h2>Paso 6 — Condiciones físicas y operativas</h2>
+
+        <p>
+          Algunas funciones pueden implicar actividad física prolongada,
+          trabajo de pie o tareas repetitivas.
+        </p>
+
+        <p>
+          Esta sección no busca excluir, sino entender capacidades operativas.
+        </p>
+
+        <div class="check">
+          <input type="checkbox" required name="depie">
+          <span>Puedo permanecer de pie durante turnos prolongados</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="fisico">
+          <span>Puedo realizar tareas físicas moderadas</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="limitaciones">
+          <span>No tengo limitaciones que impidan trabajo operativo básico</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="comunicar">
+          <span>Puedo comunicar cualquier limitación si fuera necesario</span>
+        </div>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 7 -->
+      <section class="form-step" data-step="7">
+        <h2>Paso 7 — Experiencia en entornos de trabajo</h2>
+
+        <p>
+          Las operaciones pueden desarrollarse en entornos industriales,
+          logísticos, exteriores o controlados.
+        </p>
+
+        <p>
+          No se requiere experiencia previa específica.
+        </p>
+
+        <label>¿Has trabajado anteriormente en entornos operativos o estructurados?</label>
+        <select required name="entornos">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+        </select>
+
+        <label>¿Cómo describirías tu adaptación a entornos nuevos?</label>
+        <textarea required name="adaptacion" placeholder="Describe brevemente tu experiencia o enfoque"></textarea>
+
+        <label>¿Te sientes cómodo/a siguiendo procedimientos establecidos?</label>
+        <select required name="procedimientos">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+          <option>Depende de la situación</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 8 -->
+      <section class="form-step" data-step="8">
+        <h2>Paso 8 — Compromiso y responsabilidad</h2>
+
+        <p>
+          Las posiciones requieren compromiso con horarios, instrucciones
+          y estándares de calidad.
+        </p>
+
+        <p>
+          Esta sección evalúa tu disposición general al cumplimiento operativo.
+        </p>
+
+        <div class="check">
+          <input type="checkbox" required name="horarios">
+          <span>Puedo cumplir horarios asignados</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="instrucciones">
+          <span>Puedo seguir instrucciones escritas y verbales</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="variacion">
+          <span>Entiendo que las tareas pueden variar según necesidad</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" required name="comunicar_dudas">
+          <span>Puedo comunicar problemas o dudas oportunamente</span>
+        </div>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- =============== ASSESSMENT STEPS 9 - 18 ================= -->
+      <!-- ========================================================= -->
+
+      <!-- Helper: plantilla de assessment (padre + chiquito) -->
+      <!-- PASO 9 -->
+      <section class="form-step" data-step="9">
+        <p><strong>Working quickly is more important than working safely.</strong></p>
+
+        <label><input type="radio" name="assess_9" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_9" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_9" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_9" value="bottom_most" required> Most like me</label>
+
+        <p><strong>I need to be reminded of deadlines.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 10 -->
+      <section class="form-step" data-step="10">
+        <p><strong>I usually reveal my mistakes to others when I notice them.</strong></p>
+
+        <label><input type="radio" name="assess_10" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_10" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_10" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_10" value="bottom_most" required> Most like me</label>
+
+        <p><strong>Career growth is important to me.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 11 -->
+      <section class="form-step" data-step="11">
+        <p><strong>People should always be working toward the next step in their career.</strong></p>
+
+        <label><input type="radio" name="assess_11" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_11" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_11" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_11" value="bottom_most" required> Most like me</label>
+
+        <p><strong>Sometimes I think about how others have contributed to my success.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 12 -->
+      <section class="form-step" data-step="12">
+        <p><strong>How right or wrong something is depends on the situation.</strong></p>
+
+        <label><input type="radio" name="assess_12" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_12" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_12" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_12" value="bottom_most" required> Most like me</label>
+
+        <p><strong>I am not willing to compromise on principles.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 13 -->
+      <section class="form-step" data-step="13">
+        <p><strong>Some safety rules are useless.</strong></p>
+
+        <label><input type="radio" name="assess_13" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_13" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_13" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_13" value="bottom_most" required> Most like me</label>
+
+        <p><strong>Sometimes I work hard, and sometimes I hardly work.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 14 -->
+      <section class="form-step" data-step="14">
+        <p><strong>I persist until a task is done.</strong></p>
+
+        <label><input type="radio" name="assess_14" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_14" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_14" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_14" value="bottom_most" required> Most like me</label>
+
+        <p><strong>People can depend on me to tell the truth.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 15 -->
+      <section class="form-step" data-step="15">
+        <p><strong>I strive to get ahead but also enjoy where I'm at.</strong></p>
+
+        <label><input type="radio" name="assess_15" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_15" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_15" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_15" value="bottom_most" required> Most like me</label>
+
+        <p><strong>It's not always important to be promoted.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 16 (original nuevo, estilo similar) -->
+      <section class="form-step" data-step="16">
+        <p><strong>I follow instructions exactly the first time.</strong></p>
+
+        <label><input type="radio" name="assess_16" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_16" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_16" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_16" value="bottom_most" required> Most like me</label>
+
+        <p><strong>I prefer to do things my own way, even if rules exist.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 17 (original nuevo) -->
+      <section class="form-step" data-step="17">
+        <p><strong>I stay calm and focused when things get hectic.</strong></p>
+
+        <label><input type="radio" name="assess_17" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_17" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_17" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_17" value="bottom_most" required> Most like me</label>
+
+        <p><strong>I get stressed easily when there is pressure.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 18 (original nuevo + SUBMIT) -->
+      <section class="form-step" data-step="18">
+        <p><strong>I double-check my work to avoid mistakes.</strong></p>
+
+        <label><input type="radio" name="assess_18" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_18" value="top_more" required> More like me</label>
+
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+
+        <label><input type="radio" name="assess_18" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_18" value="bottom_most" required> Most like me</label>
+
+        <p><strong>I rarely review details once I finish a task.</strong></p>
+
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+          Selecciona una opción para continuar.
+        </p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="submit" class="next">Enviar aplicación</button>
+        </div>
+      </section>
+
+    </form>
+  </main>
+
 </div>
 
 <script>
-const steps=document.querySelectorAll(".form-step");
-const progress=document.getElementById("progress");
-let current=0;
+  const steps = Array.from(document.querySelectorAll(".form-step"));
+  const progress = document.getElementById("progress");
+  const stepCounter = document.getElementById("stepCounter");
+  const timeline = document.getElementById("timeline");
 
-function update(){
-steps.forEach((s,i)=>s.classList.toggle("active",i===current));
-progress.style.width=((current)/(steps.length-1))*100+"%";
-}
+  const TOTAL = steps.length; // 18
 
-document.addEventListener("click",e=>{
-if(e.target.classList.contains("next")){current++;update();}
-if(e.target.classList.contains("prev")){current--;update();}
-});
+  const mapTitles = [
+    "Bienvenida","Identificación","Ubicación","Elegibilidad","Disponibilidad",
+    "Condiciones","Experiencia","Compromiso",
+    "Assessment 1","Assessment 2","Assessment 3","Assessment 4","Assessment 5",
+    "Assessment 6","Assessment 7","Assessment 8","Assessment 9","Assessment 10"
+  ];
 
-update();
+  // Crear mapa 1..TOTAL
+  for(let i=1;i<=TOTAL;i++){
+    const item = document.createElement("div");
+    item.className = "mstep locked";
+    item.dataset.go = String(i);
+
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    dot.textContent = String(i);
+
+    const text = document.createElement("div");
+    text.className = "mtext";
+    text.innerHTML = `
+      <div class="t1">Paso ${i}</div>
+      <div class="t2">${mapTitles[i-1] || ""}</div>
+    `;
+
+    item.appendChild(dot);
+    item.appendChild(text);
+    timeline.appendChild(item);
+  }
+
+  const mapItems = Array.from(document.querySelectorAll(".mstep"));
+  let current = 1; // 1-based
+
+  function setActive(stepNumber){
+    current = Math.min(Math.max(stepNumber, 1), TOTAL);
+    update();
+  }
+
+  function update(){
+    steps.forEach((s)=>s.classList.remove("active"));
+    const activeStep = steps[current-1];
+    activeStep.classList.add("active");
+
+    const pct = ((current-1) / (TOTAL-1)) * 100;
+    progress.style.width = pct + "%";
+    stepCounter.textContent = `Paso ${current} de ${TOTAL}`;
+
+    mapItems.forEach((it, idx)=>{
+      const stepNum = idx+1;
+      it.classList.remove("done","active","locked");
+
+      if(stepNum < current) it.classList.add("done");
+      else if(stepNum === current) it.classList.add("active");
+      else it.classList.add("locked");
+
+      const dot = it.querySelector(".dot");
+      if(stepNum < current) dot.textContent = "✓";
+      else dot.textContent = String(stepNum);
+    });
+
+    document.querySelectorAll(".prev").forEach(b => b.disabled = (current === 1));
+    document.querySelectorAll(".next").forEach(b => b.disabled = false);
+  }
+
+  // Validación: required (incluye radios por grupo)
+  function isStepValid(){
+    const active = steps[current-1];
+
+    // ocultar errores del paso
+    active.querySelectorAll(".pair-error").forEach(el => el.style.display = "none");
+
+    const requiredFields = Array.from(active.querySelectorAll("[required]"));
+
+    // Radios: validar por grupo (name)
+    const requiredRadios = requiredFields.filter(el => el.type === "radio");
+    if(requiredRadios.length){
+      const names = Array.from(new Set(requiredRadios.map(r => r.name).filter(Boolean)));
+      for(const name of names){
+        const group = Array.from(active.querySelectorAll(`input[type="radio"][name="${CSS.escape(name)}"]`));
+        const checked = group.some(r => r.checked);
+        if(!checked){
+          const err = active.querySelector(".pair-error");
+          if(err) err.style.display = "block";
+          if(group[0]) group[0].focus();
+          return false;
+        }
+      }
+    }
+
+    // Checkboxes / Inputs / Selects / Textareas
+    for(const el of requiredFields){
+      if(el.type === "radio") continue;
+
+      if(el.type === "checkbox"){
+        if(!el.checked) { el.focus(); return false; }
+      } else {
+        if(!el.value || !String(el.value).trim()){
+          el.focus();
+          return false;
+        }
+        if(el.type === "email"){
+          const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+          if(!ok){ el.focus(); return false; }
+        }
+      }
+    }
+    return true;
+  }
+
+  document.addEventListener("click", (e)=>{
+    const t = e.target;
+
+    if(t.classList.contains("next")){
+      if(!isStepValid()) return;
+      setActive(current + 1);
+    }
+
+    if(t.classList.contains("prev")){
+      setActive(current - 1);
+    }
+
+    const map = t.closest(".mstep");
+    if(map){
+      const go = Number(map.dataset.go);
+      if(go <= current) setActive(go);
+    }
+  });
+
+  document.getElementById("wizard").addEventListener("submit", (e)=>{
+    if(!isStepValid()){
+      e.preventDefault();
+      return;
+    }
+    alert("✅ Aplicación enviada (demo).");
+    e.preventDefault();
+  });
+
+  update();
 </script>
 
 </body>
 </html>
+      
