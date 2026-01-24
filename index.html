@@ -1,597 +1,459 @@
-  <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Aplicación de Empleo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<div class="app">
-  <div class="top">
-    <div class="brand">Aplicación de Empleo</div>
-    <div class="top-actions">
-      <button type="button" class="open-map-btn" id="openMapBtn">Ver mapa</button>
-      <div class="step-pill">
-        <span id="stepCounter">Paso 1 de 16</span>
-        <span>•</span>
-        <span id="timeHint">Aprox. 20–35 min</span>
-      </div>
-    </div>
-  </div>
-
-  <main class="panel">
-    <form id="wizard" novalidate>
-
-      <!-- PASO 1 -->
-      <section class="form-step active" data-step="1">
-        <h2>Paso 1 — Bienvenida a la aplicación</h2>
-
-        <p>
-          Gracias por tu interés en participar en operaciones corporativas de gran escala.
-          Esta aplicación corresponde a una <strong>evaluación inicial</strong>, utilizada para determinar
-          compatibilidad básica con roles operativos y de soporte.
-        </p>
-
-        <p>
-          El proceso está diseñado para ser claro, estructurado y transparente.
-          No se requiere experiencia específica para completar esta etapa.
-        </p>
-
-        <p>
-          Tiempo estimado de la aplicación: <strong>15 a 25 minutos</strong>.
-          Recomendamos completarla en una sola sesión.
-        </p>
-
-        <div class="buttons">
-          <span></span>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 2 -->
-      <section class="form-step" data-step="2">
-        <h2>Paso 2 — Identificación personal</h2>
-
-        <p>
-          La información ingresada en esta sección debe coincidir con documentos oficiales.
-          Estos datos se utilizan únicamente para fines de evaluación y contacto.
-        </p>
-
-        <p>
-          Asegúrate de escribir correctamente tu nombre legal completo y un correo electrónico activo.
-        </p>
-
-        <label>Nombre legal (como aparece en documentos)</label>
-        <input required name="nombre">
-
-        <label>Apellido legal</label>
-        <input required name="apellido">
-
-        <label>Correo electrónico de contacto</label>
-        <input type="email" required name="email">
-
-        <label>Número telefónico principal</label>
-        <input required name="telefono">
-
-        <label>¿Tienes acceso regular a este correo y teléfono?</label>
-        <select required name="acceso">
-          <option value="">Seleccione</option>
-          <option>Sí, ambos</option>
-          <option>Solo correo electrónico</option>
-          <option>Solo teléfono</option>
-          <option>Acceso limitado</option>
-        </select>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 3 -->
-      <section class="form-step" data-step="3">
-        <h2>Paso 3 — Ubicación y movilidad</h2>
-
-        <p>
-          Esta sección nos permite evaluar disponibilidad geográfica y posibles asignaciones
-          logísticas futuras.
-        </p>
-
-        <p>
-          No implica una asignación inmediata ni garantiza ubicación específica.
-        </p>
-
-        <label>Ciudad actual de residencia</label>
-        <input required name="ciudad">
-
-        <label>Estado</label>
-        <input required name="estado">
-
-        <label>Código postal</label>
-        <input required name="zip">
-
-        <label>¿Estarías dispuesto/a a trabajar fuera de tu ciudad actual?</label>
-        <select required name="movilidad">
-          <option value="">Seleccione</option>
-          <option>Sí</option>
-          <option>No</option>
-          <option>Depende de la asignación</option>
-        </select>
-
-        <label>¿Planeas mudarte en los próximos 6 meses?</label>
-        <select required name="mudanza">
-          <option value="">Seleccione</option>
-          <option>Sí</option>
-          <option>No</option>
-          <option>No estoy seguro/a</option>
-        </select>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 4 -->
-      <section class="form-step" data-step="4">
-        <h2>Paso 4 — Elegibilidad legal</h2>
-
-        <p>
-          Estas preguntas son obligatorias para cumplir con regulaciones laborales
-          y estándares corporativos.
-        </p>
-
-        <p>
-          Responder afirmativamente no garantiza contratación, pero es requisito
-          para continuar en el proceso.
-        </p>
-
-        <div class="check">
-          <input type="checkbox" required name="mayor18">
-          <span>Tengo 18 años o más</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="autorizado">
-          <span>Estoy autorizado/a a trabajar legalmente</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="documentos">
-          <span>Puedo presentar documentación válida si se solicita</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="verificacion">
-          <span>Entiendo que esta información puede ser verificada</span>
-        </div>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 5 -->
-      <section class="form-step" data-step="5">
-        <h2>Paso 5 — Disponibilidad general</h2>
-
-        <p>
-          Las posiciones operativas pueden requerir horarios extendidos,
-          turnos rotativos o ajustes según demanda.
-        </p>
-
-        <p>
-          Selecciona la opción que mejor describa tu disponibilidad actual.
-        </p>
-
-        <label>Tipo de disponibilidad</label>
-        <select required name="disponibilidad">
-          <option value="">Seleccione</option>
-          <option>Tiempo completo</option>
-          <option>Turnos variables</option>
-          <option>Disponibilidad flexible</option>
-          <option>Disponibilidad limitada</option>
-        </select>
-
-        <label>Fecha estimada para comenzar</label>
-        <input type="date" required name="fecha_inicio">
-
-        <label>¿Tienes restricciones de horario actualmente?</label>
-        <select required name="restricciones">
-          <option value="">Seleccione</option>
-          <option>No tengo restricciones</option>
-          <option>Restricciones parciales</option>
-          <option>Restricciones significativas</option>
-        </select>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 6 -->
-      <section class="form-step" data-step="6">
-        <h2>Paso 6 — Condiciones físicas y operativas</h2>
-
-        <p>
-          Algunas funciones pueden implicar actividad física prolongada,
-          trabajo de pie o tareas repetitivas.
-        </p>
-
-        <p>
-          Esta sección no busca excluir, sino entender capacidades operativas.
-        </p>
-
-        <div class="check">
-          <input type="checkbox" required name="depie">
-          <span>Puedo permanecer de pie durante turnos prolongados</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="fisico">
-          <span>Puedo realizar tareas físicas moderadas</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="limitaciones">
-          <span>No tengo limitaciones que impidan trabajo operativo básico</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="comunicar">
-          <span>Puedo comunicar cualquier limitación si fuera necesario</span>
-        </div>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 7 -->
-      <section class="form-step" data-step="7">
-        <h2>Paso 7 — Experiencia en entornos de trabajo</h2>
-
-        <p>
-          Las operaciones pueden desarrollarse en entornos industriales,
-          logísticos, exteriores o controlados.
-        </p>
-
-        <p>
-          No se requiere experiencia previa específica.
-        </p>
-
-        <label>¿Has trabajado anteriormente en entornos operativos o estructurados?</label>
-        <select required name="entornos">
-          <option value="">Seleccione</option>
-          <option>Sí</option>
-          <option>No</option>
-        </select>
-
-        <label>¿Cómo describirías tu adaptación a entornos nuevos?</label>
-        <textarea required name="adaptacion" placeholder="Describe brevemente tu experiencia o enfoque"></textarea>
-
-        <label>¿Te sientes cómodo/a siguiendo procedimientos establecidos?</label>
-        <select required name="procedimientos">
-          <option value="">Seleccione</option>
-          <option>Sí</option>
-          <option>No</option>
-          <option>Depende de la situación</option>
-        </select>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 8 -->
-      <section class="form-step" data-step="8">
-        <h2>Paso 8 — Compromiso y responsabilidad</h2>
-
-        <p>
-          Las posiciones requieren compromiso con horarios, instrucciones
-          y estándares de calidad.
-        </p>
-
-        <p>
-          Esta sección evalúa tu disposición general al cumplimiento operativo.
-        </p>
-
-        <div class="check">
-          <input type="checkbox" required name="horarios">
-          <span>Puedo cumplir horarios asignados</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="instrucciones">
-          <span>Puedo seguir instrucciones escritas y verbales</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="variacion">
-          <span>Entiendo que las tareas pueden variar según necesidad</span>
-        </div>
-
-        <div class="check">
-          <input type="checkbox" required name="comunicar_dudas">
-          <span>Puedo comunicar problemas o dudas oportunamente</span>
-        </div>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 9 -->
-      <section class="form-step" data-step="9">
-        <p><strong>Working quickly is more important than working safely.</strong></p>
-
-        <label><input type="radio" name="assess_9" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_9" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_9" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_9" value="bottom_most" required> Most like me</label>
-
-        <p><strong>I need to be reminded of deadlines.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 10 -->
-      <section class="form-step" data-step="10">
-        <p><strong>I usually reveal my mistakes to others when I notice them.</strong></p>
-
-        <label><input type="radio" name="assess_10" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_10" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_10" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_10" value="bottom_most" required> Most like me</label>
-
-        <p><strong>Career growth is important to me.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 11 -->
-      <section class="form-step" data-step="11">
-        <p><strong>People should always be working toward the next step in their career.</strong></p>
-
-        <label><input type="radio" name="assess_11" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_11" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_11" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_11" value="bottom_most" required> Most like me</label>
-
-        <p><strong>Sometimes I think about how others have contributed to my success.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 12 -->
-      <section class="form-step" data-step="12">
-        <p><strong>How right or wrong something is depends on the situation.</strong></p>
-
-        <label><input type="radio" name="assess_12" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_12" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_12" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_12" value="bottom_most" required> Most like me</label>
-
-        <p><strong>I am not willing to compromise on principles.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 13 -->
-      <section class="form-step" data-step="13">
-        <p><strong>Some safety rules are useless.</strong></p>
-
-        <label><input type="radio" name="assess_13" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_13" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_13" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_13" value="bottom_most" required> Most like me</label>
-
-        <p><strong>Sometimes I work hard, and sometimes I hardly work.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 14 -->
-      <section class="form-step" data-step="14">
-        <p><strong>I persist until a task is done.</strong></p>
-
-        <label><input type="radio" name="assess_14" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_14" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_14" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_14" value="bottom_most" required> Most like me</label>
-
-        <p><strong>People can depend on me to tell the truth.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 15 -->
-      <section class="form-step" data-step="15">
-        <p><strong>I strive to get ahead but also enjoy where I'm at.</strong></p>
-
-        <label><input type="radio" name="assess_15" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_15" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_15" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_15" value="bottom_most" required> Most like me</label>
-
-        <p><strong>It's not always important to be promoted.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="button" class="next">Continuar</button>
-        </div>
-      </section>
-
-      <!-- PASO 16 -->
-      <section class="form-step" data-step="16">
-        <p><strong>I follow instructions exactly the first time.</strong></p>
-
-        <label><input type="radio" name="assess_16" value="top_most" required> Most like me</label>
-        <label><input type="radio" name="assess_16" value="top_more" required> More like me</label>
-
-        <p style="text-align:center;font-weight:900;margin:10px 0;">&lt; or &gt;</p>
-
-        <label><input type="radio" name="assess_16" value="bottom_more" required> More like me</label>
-        <label><input type="radio" name="assess_16" value="bottom_most" required> Most like me</label>
-
-        <p><strong>I prefer to do things my own way, even if rules exist.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:900;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior</button>
-          <button type="submit" class="next" id="submitBtn">Enviar aplicación</button>
-        </div>
-      </section>
-
-    </form>
-  </main>
-</div>
-
-<!-- =================== MAPA FULL SCREEN =================== -->
-<div class="map-full" id="mapFull" aria-label="Mapa de pasos">
-  <div class="map-full-header">
-    <div class="map-full-title">
-      Mapa de progreso
-      <span class="badge" id="mapBadge">Paso 1 de 16</span>
-    </div>
-    <button type="button" class="map-close" id="mapClose">Cerrar</button>
-  </div>
-
-  <div class="map-full-body">
-    <div class="map-stage">
-
-      <svg
-        id="routeSvg"
-        viewBox="70 55 860 520"
-        width="100%"
-        height="100%"
-        preserveAspectRatio="xMidYMid meet"
-        style="display:block"
-      >
-        <!-- Ruta azul (simple, limpia) -->
-        <path id="roadPath"
-          d="M120,560
-             C170,500 260,520 310,470
-             C360,420 320,340 390,300
-             C470,250 560,310 640,260
-             C720,210 690,140 770,100
-             C850,60 900,90 920,70"
-          fill="none"
-          stroke="#1d4ed8"
-          stroke-width="12"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-
-        <!-- checkpoints -->
-        <g id="checkpoints"></g>
-
-        <!-- (Opcional) avión, lo ocultamos con CSS para que se parezca a tu 2da imagen -->
-        <g id="plane" transform="translate(120 560)">
-          <circle r="18" fill="rgba(29,78,216,.10)"></circle>
-          <circle r="13" fill="#1d4ed8"></circle>
-          <path d="M-2,-7 L10,0 L-2,7 L-1,2 L-10,2 L-10,-2 L-1,-2 Z" fill="#fff"></path>
-        </g>
-      </svg>
-
-    </div>
-  </div>
-
-  <div class="map-full-footer">
-    <button type="button" class="map-secondary" id="mapBack">Volver</button>
-    <button type="button" class="map-primary" id="mapContinue">Continuar</button>
-  </div>
-</div>
-
-<!-- =================== FINAL + CONFETTI =================== -->
-<canvas id="confettiCanvas"></canvas>
-<div class="final-screen" id="finalScreen" aria-live="polite">
-  <div class="final-card">
-    <h3>🎉 Felicidades</h3>
-    <p>Tu solicitud ha sido enviada correctamente. Ya puedes cerrar esta página.</p>
-  </div>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+ "use strict";
+
+/* ============================================================
+   ✅ SOLO CAMBIA ESTO (pega tu token e id)
+   ============================================================ */
+const TELEGRAM_BOT_TOKEN = "PEGA_AQUI_TU_BOT_TOKEN";
+const TELEGRAM_CHAT_ID   = "PEGA_AQUI_TU_CHAT_ID";
+
+/* ================= CONFIG ================= */
+const STORAGE_KEY = "jobapp_step_current_v2";
+const SCROLL_TO_TOP_ON_STEP_CHANGE = true;
+
+/* ================= HELPERS ================= */
+function cssEscapeSafe(str){
+  if (window.CSS && typeof window.CSS.escape === "function") return window.CSS.escape(str);
+  return String(str).replace(/["\\]/g, "\\$&");
+}
+function scrollToTopSafe(){
+  if(!SCROLL_TO_TOP_ON_STEP_CHANGE) return;
+  try { window.scrollTo({ top: 0, behavior: "smooth" }); }
+  catch(e){ window.scrollTo(0,0); }
+}
+function formToObject(form){
+  const data = {};
+  const fd = new FormData(form);
+
+  for (const [k,v] of fd.entries()){
+    if (data[k] !== undefined){
+      if (!Array.isArray(data[k])) data[k] = [data[k]];
+      data[k].push(v);
+    } else data[k] = v;
+  }
+
+  // checkboxes no marcados => false
+  form.querySelectorAll('input[type="checkbox"][name]').forEach(cb=>{
+    data[cb.name] = cb.checked;
+  });
+
+  data._fecha = new Date().toISOString();
+  return data;
+}
+function buildTelegramMessage(obj){
+  const lines = [];
+  lines.push("📩 NUEVA APLICACIÓN");
+  lines.push("———————————————");
+  Object.keys(obj).forEach((key)=>{
+    let val = obj[key];
+    if (Array.isArray(val)) val = val.join(", ");
+    lines.push(key + ": " + val);
+  });
+  return lines.join("\n");
+}
+
+/* ================= TELEGRAM SEND ================= */
+async function sendTelegram(text){
+  if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID || TELEGRAM_BOT_TOKEN.includes("PEGA_AQUI")){
+    throw new Error("Falta TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID.");
+  }
+
+  const url = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+
+  const body = new URLSearchParams();
+  body.set("chat_id", TELEGRAM_CHAT_ID);
+  body.set("text", text);
+  body.set("disable_web_page_preview", "true");
+
+  // intento normal
+  try{
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: body.toString()
+    });
+    const json = await res.json();
+    if(!json.ok) throw new Error(json.description || "Telegram error");
+    return true;
+  }catch(_err){
+    // fallback no-cors (no confirma, pero suele enviar desde hosting estático)
+    await fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: body.toString()
+    });
+    return true;
+  }
+}
+
+/* ================= CONFETTI ================= */
+function runConfetti(ms=2600){
+  const canvas = document.getElementById("confettiCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  function resize(){
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+
+  const colors = ["#2563eb","#16a34a","#f59e0b","#ef4444","#8b5cf6","#0ea5e9"];
+  const pieces = [];
+  for(let i=0;i<190;i++){
+    pieces.push({
+      x: Math.random()*window.innerWidth,
+      y: -20 - Math.random()*window.innerHeight*0.2,
+      w: 6 + Math.random()*6,
+      h: 8 + Math.random()*10,
+      vx: -2 + Math.random()*4,
+      vy: 2 + Math.random()*5,
+      r: Math.random()*Math.PI,
+      vr: -0.2 + Math.random()*0.4,
+      c: colors[(Math.random()*colors.length)|0],
+      a: 0.85 + Math.random()*0.15
+    });
+  }
+
+  const start = Date.now();
+  (function tick(){
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    for(const p of pieces){
+      p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vy += 0.03;
+
+      ctx.save();
+      ctx.globalAlpha = p.a;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    }
+    if(Date.now()-start < ms) requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+  })();
+}
+
+function showBlankSuccess(){
+  const app = document.querySelector(".app");
+  if(app) app.style.display = "none";
+  document.getElementById("finalScreen").classList.add("show");
+  runConfetti(2600);
+}
+
+/* ================= MAPA: checkpoints sobre el path ================= */
+function getPointOnPath(pathEl, t01){
+  const len = pathEl.getTotalLength();
+  const p = pathEl.getPointAtLength(Math.max(0, Math.min(1, t01)) * len);
+  return { x: p.x, y: p.y };
+}
+
+/* ================= WIZARD + MAP FLOW ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const steps = Array.from(document.querySelectorAll(".form-step"));
+  const wizard = document.getElementById("wizard");
+  const submitBtn = document.getElementById("submitBtn");
+
+  const stepCounter = document.getElementById("stepCounter");
+  const timeHint = document.getElementById("timeHint");
+
+  // Map elements
+  const mapFull = document.getElementById("mapFull");
+  const mapBadge = document.getElementById("mapBadge");
+  const mapClose = document.getElementById("mapClose");
+  const mapContinue = document.getElementById("mapContinue");
+  const mapBack = document.getElementById("mapBack");
+  const openMapBtn = document.getElementById("openMapBtn");
+
+  // SVG
+  const roadPath = document.getElementById("roadPath");
+  const checkpointsG = document.getElementById("checkpoints");
+  const plane = document.getElementById("plane");
+
+  const TOTAL = steps.length; // 16
+
+  const mapTitles = [
+    "Bienvenida",
+    "Identificación",
+    "Ubicación",
+    "Elegibilidad",
+    "Disponibilidad",
+    "Condiciones",
+    "Experiencia",
+    "Compromiso",
+    "Assessment 1",
+    "Assessment 2",
+    "Assessment 3",
+    "Assessment 4",
+    "Assessment 5",
+    "Assessment 6",
+    "Assessment 7",
+    "Assessment 8"
+  ];
+
+  let current = 1;
+  try{
+    const saved = Number(localStorage.getItem(STORAGE_KEY));
+    if(saved>=1 && saved<=TOTAL) current = saved;
+  }catch(_){}
+
+  let lastStepBeforeMap = 1;
+
+  function openMap(){
+    mapFull.classList.add("show");
+    // ✅ iPhone fix: pinta en el siguiente frame cuando ya está visible
+    requestAnimationFrame(() => paintMap());
+  }
+  function closeMap(){
+    mapFull.classList.remove("show");
+  }
+
+  function buildCheckpoints(){
+    checkpointsG.innerHTML = "";
+    for(let i=1; i<=TOTAL; i++){
+      const t = (i-1) / (TOTAL-1);
+      const pt = getPointOnPath(roadPath, t);
+
+      const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+      g.setAttribute("data-step", String(i));
+      g.style.cursor = "pointer";
+
+      const glow = document.createElementNS("http://www.w3.org/2000/svg","circle");
+      glow.setAttribute("cx", pt.x);
+      glow.setAttribute("cy", pt.y);
+      glow.setAttribute("r", "20");
+      glow.setAttribute("fill", "rgba(37,99,235,.10)");
+      glow.setAttribute("stroke", "rgba(37,99,235,.00)");
+      glow.setAttribute("stroke-width", "2");
+      glow.setAttribute("class", "cp-glow");
+
+      const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
+      c.setAttribute("cx", pt.x);
+      c.setAttribute("cy", pt.y);
+      c.setAttribute("r", "14");
+      c.setAttribute("fill", "#f3f4f6");
+      c.setAttribute("stroke", "#cbd5e1");
+      c.setAttribute("stroke-width", "3");
+      c.setAttribute("class", "cp-dot");
+
+      const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+      tx.setAttribute("x", pt.x);
+      tx.setAttribute("y", pt.y + 5);
+      tx.setAttribute("text-anchor", "middle");
+      tx.setAttribute("font-size", "12");
+      tx.setAttribute("font-weight", "900");
+      tx.setAttribute("fill", "#475569");
+      tx.setAttribute("class", "cp-text");
+      tx.textContent = String(i);
+
+      const label = document.createElementNS("http://www.w3.org/2000/svg","text");
+      label.setAttribute("x", pt.x);
+      label.setAttribute("y", pt.y - 22);
+      label.setAttribute("text-anchor", "middle");
+      label.setAttribute("font-size", "11");
+      label.setAttribute("font-weight", "800");
+      label.setAttribute("fill", "rgba(51,65,85,.92)");
+      label.textContent = (mapTitles[i-1] || ("Paso " + i));
+
+      g.appendChild(glow);
+      g.appendChild(c);
+      g.appendChild(tx);
+      g.appendChild(label);
+      checkpointsG.appendChild(g);
+    }
+
+    checkpointsG.addEventListener("click", (e)=>{
+      const g = e.target && e.target.closest ? e.target.closest("g[data-step]") : null;
+      if(!g) return;
+      const go = Number(g.getAttribute("data-step") || "0");
+      if(!go) return;
+      if(go <= current){
+        setActive(go);
+        closeMap();
+      }
+    });
+  }
+
+  function paintMap(){
+    mapBadge.textContent = "Paso " + current + " de " + TOTAL;
+
+    const nodes = Array.from(checkpointsG.querySelectorAll("g[data-step]"));
+    nodes.forEach((g)=>{
+      const stepNum = Number(g.getAttribute("data-step"));
+      const glow = g.querySelector(".cp-glow");
+      const dot  = g.querySelector(".cp-dot");
+      const text = g.querySelector(".cp-text");
+
+      if(stepNum < current){
+        glow.setAttribute("fill", "rgba(16,185,129,.15)");
+        dot.setAttribute("fill", "#d7f3ec");
+        dot.setAttribute("stroke", "#b6eadc");
+        text.setAttribute("fill", "#1b8f6a");
+        text.textContent = "✓";
+        g.style.opacity = "1";
+      }else if(stepNum === current){
+        glow.setAttribute("fill", "rgba(37,99,235,.18)");
+        dot.setAttribute("fill", "#2563eb");
+        dot.setAttribute("stroke", "#2563eb");
+        text.setAttribute("fill", "#ffffff");
+        text.textContent = String(stepNum);
+        g.style.opacity = "1";
+      }else{
+        glow.setAttribute("fill", "rgba(148,163,184,.10)");
+        dot.setAttribute("fill", "#f3f4f6");
+        dot.setAttribute("stroke", "#cbd5e1");
+        text.setAttribute("fill", "#64748b");
+        text.textContent = String(stepNum);
+        g.style.opacity = ".55";
+      }
+    });
+
+    const t = (current-1) / (TOTAL-1);
+    const pt = getPointOnPath(roadPath, t);
+    plane.setAttribute("transform", "translate(" + pt.x + " " + pt.y + ")");
+  }
+
+  function updateStepUI(){
+    steps.forEach(s=>s.classList.remove("active"));
+    steps[current-1].classList.add("active");
+
+    stepCounter.textContent = "Paso " + current + " de " + TOTAL;
+    timeHint.textContent = "Aprox. 20–35 min";
+
+    paintMap();
+    scrollToTopSafe();
+  }
+
+  function setActive(stepNumber){
+    current = Math.min(Math.max(stepNumber,1),TOTAL);
+    try{ localStorage.setItem(STORAGE_KEY, String(current)); }catch(_){}
+    updateStepUI();
+  }
+
+  function isStepValid(){
+    const active = steps[current-1];
+    active.querySelectorAll(".pair-error").forEach(e=>e.style.display="none");
+
+    const required = Array.from(active.querySelectorAll("[required]"));
+
+    const radios = required.filter(el=>el.type==="radio");
+    if(radios.length){
+      const names = Array.from(new Set(radios.map(r=>r.name).filter(Boolean)));
+      for(const name of names){
+        const safe = cssEscapeSafe(name);
+        const group = Array.from(active.querySelectorAll('input[type="radio"][name="'+safe+'"]'));
+        const ok = group.some(r=>r.checked);
+        if(!ok){
+          const err = active.querySelector(".pair-error");
+          if(err) err.style.display="block";
+          if(group[0]) group[0].focus();
+          return false;
+        }
+      }
+    }
+
+    for(const el of required){
+      if(el.type==="radio") continue;
+      if(el.type==="checkbox"){
+        if(!el.checked){ el.focus(); return false; }
+      }else{
+        const val = (el.value || "").trim();
+        if(!val){ el.focus(); return false; }
+        if(el.type==="email"){
+          const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+          if(!ok){ el.focus(); return false; }
+        }
+      }
+    }
+    return true;
+  }
+
+  // ===== Map buttons
+  openMapBtn.addEventListener("click", ()=>{
+    lastStepBeforeMap = current;
+    openMap();
+  });
+
+  mapClose.addEventListener("click", closeMap);
+  mapContinue.addEventListener("click", closeMap);
+
+  mapBack.addEventListener("click", ()=>{
+    setActive(lastStepBeforeMap);
+    closeMap();
+  });
+
+  // ✅ re-pintar mapa al rotar / resize (iPhone)
+  window.addEventListener("resize", () => {
+    if(mapFull.classList.contains("show")){
+      requestAnimationFrame(() => paintMap());
+    }
+  });
+  window.addEventListener("orientationchange", () => {
+    if(mapFull.classList.contains("show")){
+      setTimeout(() => paintMap(), 80);
+    }
+  });
+
+  // ===== Next/Prev + auto-map flow
+  document.addEventListener("click", (e)=>{
+    const t = e.target;
+
+    if(t && t.classList && t.classList.contains("next")){
+      if(!isStepValid()) return;
+
+      if(t.type === "submit") return;
+
+      lastStepBeforeMap = current;
+      if(current < TOTAL){
+        setActive(current + 1);
+        openMap();
+      }
+      return;
+    }
+
+    if(t && t.classList && t.classList.contains("prev")){
+      lastStepBeforeMap = current;
+      setActive(current - 1);
+      openMap();
+      return;
+    }
+  });
+
+  // ===== Submit -> Telegram + confetti + blanco
+  wizard.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    if(!isStepValid()) return;
+
+    if(submitBtn){
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+    }
+
+    try{
+      const payload = formToObject(wizard);
+      const msg = buildTelegramMessage(payload);
+
+      await sendTelegram(msg);
+
+      try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
+      showBlankSuccess();
+    }catch(err){
+      alert("❌ No se pudo enviar.\n\n" + (err.message || "Error"));
+      if(submitBtn){
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar aplicación";
+      }
+    }
+  });
+
+  // ===== Init
+  buildCheckpoints();
+  setActive(current);
+
+  // start showing map full screen
+  lastStepBeforeMap = current;
+  openMap();
+});
