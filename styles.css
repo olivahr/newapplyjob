@@ -11,6 +11,12 @@
   --radius:18px;
 }
 
+/* ✅ Safari/iPhone: evita zoom raro y cambios de tamaño de texto */
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
 *{box-sizing:border-box;font-family:Inter,sans-serif}
 body{margin:0;background:var(--bg);color:var(--text)}
 a{color:var(--blue);text-decoration:none}
@@ -112,7 +118,6 @@ strong{font-weight:700}
   border-radius:12px;
   cursor:pointer;
   user-select:none;
-  -webkit-tap-highlight-color: transparent;
 }
 .mstep:hover{background:#f8fafc}
 .dot{
@@ -166,7 +171,7 @@ input,select,textarea{
   margin-top:6px;
   border:1px solid #d1d5db;
   border-radius:12px;
-  font-size:14px;
+  font-size:16px; /* ✅ iPhone: 16px evita zoom automático */
   outline:none;
   background:#fff;
 }
@@ -203,7 +208,6 @@ button{
   font-size:14px;
   font-weight:900;
   cursor:pointer;
-  -webkit-tap-highlight-color: transparent;
 }
 .prev{background:#e5e7eb;color:#111827}
 .next{background:var(--blue);color:#fff}
@@ -226,16 +230,12 @@ button:disabled{opacity:.45;pointer-events:none}
   display:flex;
   align-items:center;
   gap:10px;
-  padding:14px 12px;
+  padding:12px 12px;
   border:1px solid var(--line);
   border-radius:12px;
   background:#fff;
   cursor:pointer;
-  user-select:none;
-  transition:transform .08s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
-  -webkit-tap-highlight-color: transparent;
 }
-
 .form-step[data-step="9"] label:hover,
 .form-step[data-step="10"] label:hover,
 .form-step[data-step="11"] label:hover,
@@ -249,21 +249,6 @@ button:disabled{opacity:.45;pointer-events:none}
   border-color:rgba(37,99,235,.35);
   box-shadow:0 0 0 4px rgba(37,99,235,.08);
 }
-
-.form-step[data-step="9"] label:active,
-.form-step[data-step="10"] label:active,
-.form-step[data-step="11"] label:active,
-.form-step[data-step="12"] label:active,
-.form-step[data-step="13"] label:active,
-.form-step[data-step="14"] label:active,
-.form-step[data-step="15"] label:active,
-.form-step[data-step="16"] label:active,
-.form-step[data-step="17"] label:active,
-.form-step[data-step="18"] label:active{
-  transform:scale(.99);
-}
-
-/* radios size */
 .form-step[data-step="9"] label input,
 .form-step[data-step="10"] label input,
 .form-step[data-step="11"] label input,
@@ -278,32 +263,6 @@ button:disabled{opacity:.45;pointer-events:none}
   height:18px;
   margin:0;
 }
-
-/* Selected state (Chrome/Safari nuevo con :has) */
-@supports(selector(:has(*))){
-  .form-step[data-step="9"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="10"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="11"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="12"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="13"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="14"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="15"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="16"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="17"] label:has(input[type="radio"]:checked),
-  .form-step[data-step="18"] label:has(input[type="radio"]:checked){
-    border-color:rgba(37,99,235,.85);
-    background:#eff6ff;
-    box-shadow:0 0 0 4px rgba(37,99,235,.12);
-  }
-}
-
-/* Safari viejo (sin :has): lo pinta el JS poniendo .is-checked */
-.form-step .is-checked{
-  border-color:rgba(37,99,235,.85) !important;
-  background:#eff6ff !important;
-  box-shadow:0 0 0 4px rgba(37,99,235,.12) !important;
-}
-
 .pair-error{
   background:#fef2f2;
   border:1px solid #fecaca;
@@ -311,42 +270,34 @@ button:disabled{opacity:.45;pointer-events:none}
   border-radius:12px;
 }
 
-/* Mobile */
+/* ✅ MOBILE FIX (esto arregla el “Progreso” gigante arriba en iPhone) */
 @media (max-width: 920px){
   .app{
     grid-template-columns:1fr;
     margin:0;
     border-radius:0;
     padding:16px;
-  }
-  .map{position:relative;top:auto}
-
-  /* botones full width */
-  .buttons{
-    flex-direction:column;
-  }
-  .buttons button{
-    width:100%;
+    gap:14px;
   }
 
-  /* títulos y texto más compactos */
-  h2{font-size:20px}
-  p{font-size:14px}
-}
-
-@media (max-width: 420px){
-  .app{padding:14px}
-  .step-pill{font-size:12px}
-  .form-step[data-step="9"] label,
-  .form-step[data-step="10"] label,
-  .form-step[data-step="11"] label,
-  .form-step[data-step="12"] label,
-  .form-step[data-step="13"] label,
-  .form-step[data-step="14"] label,
-  .form-step[data-step="15"] label,
-  .form-step[data-step="16"] label,
-  .form-step[data-step="17"] label,
-  .form-step[data-step="18"] label{
-    padding:13px 10px;
+  /* El mapa se queda compacto y scrolleable */
+  .map{
+    position:relative;
+    top:auto;
+    padding:10px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:#fff;
+    max-height:180px;       /* ✅ clave */
+    overflow:auto;          /* ✅ clave */
+    -webkit-overflow-scrolling:touch;
   }
+
+  .timeline{ padding-left:0; }
+  .timeline::before{ display:none; }
+
+  .mstep{ padding:8px 8px; }
+  .dot{ width:26px;height:26px;border-radius:9px; }
+
+  .panel{ padding:0; }
 }
