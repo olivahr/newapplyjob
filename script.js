@@ -1,4 +1,3 @@
-alert("JS OK");
 (() => {
   "use strict";
 
