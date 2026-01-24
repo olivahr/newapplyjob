@@ -6,7 +6,284 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css?v=18">
+<style>
+:root{
+  --bg:#f3f4f6;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --line:#e5e7eb;
+  --blue:#2563eb;
+  --blue2:#1d4ed8;
+  --mint:#d7f3ec;
+  --mintB:#b6eadc;
+  --radius:18px;
+}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+*{box-sizing:border-box;font-family:Inter,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text)}
+a{color:var(--blue);text-decoration:none}
+strong{font-weight:700}
+
+/* Layout */
+.app{
+  max-width:1120px;
+  margin:26px auto;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 20px 60px rgba(0,0,0,.12);
+  padding:28px;
+  display:grid;
+  grid-template-columns: 280px 1fr;
+  gap:28px;
+}
+
+/* Header */
+.top{
+  grid-column: 1 / -1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:6px;
+}
+.brand{font-weight:800;letter-spacing:.2px}
+.step-pill{
+  font-size:13px;
+  color:var(--muted);
+  background:#f8fafc;
+  border:1px solid var(--line);
+  padding:8px 12px;
+  border-radius:999px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  white-space:nowrap;
+}
+
+/* Progress bar */
+.progress-wrap{
+  grid-column: 1 / -1;
+  margin-top:6px;
+  margin-bottom:6px;
+}
+.progress-bar{
+  height:10px;
+  background:#eef2ff;
+  border:1px solid var(--line);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, var(--blue), #4f46e5);
+  transition:width .25s ease;
+}
+
+/* Map */
+.map{
+  position:sticky;
+  top:18px;
+  align-self:start;
+  padding:8px 6px;
+}
+.map-title{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:700;
+  letter-spacing:.2px;
+  margin:0 0 10px;
+  text-transform:uppercase;
+}
+.timeline{
+  position:relative;
+  padding-left:18px;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:8px;
+  top:6px;
+  bottom:6px;
+  width:2px;
+  background:linear-gradient(180deg, #cbd5e1, #e2e8f0);
+  border-radius:999px;
+}
+.mstep{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 8px;
+  border-radius:12px;
+  cursor:pointer;
+  user-select:none;
+}
+.mstep:hover{background:#f8fafc}
+.dot{
+  width:28px;height:28px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;
+  border:1px solid #d1d5db;
+  background:#f3f4f6;
+  color:#64748b;
+  flex:0 0 auto;
+}
+.mtext{display:flex;flex-direction:column;gap:2px}
+.mtext .t1{font-weight:700;font-size:13px}
+.mtext .t2{font-size:12px;color:var(--muted)}
+.mstep.active{
+  background:#eef2ff;
+  outline:2px solid rgba(37,99,235,.18);
+}
+.mstep.active .dot{
+  background:var(--blue);
+  border-color:transparent;
+  color:#fff;
+}
+.mstep.done .dot{
+  background:var(--mint);
+  border:2px solid var(--mintB);
+  color:#1b8f6a;
+}
+.mstep.locked{opacity:.55;cursor:not-allowed}
+
+/* Form */
+.panel{padding:6px 6px 10px}
+h2{font-size:22px;margin:0 0 14px}
+p{font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px}
+.form-step{display:none}
+.form-step.active{display:block}
+
+/* Inputs */
+label{
+  display:block;
+  margin-top:18px;
+  font-size:14px;
+  font-weight:800;
+  color:#0f172a;
+}
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  margin-top:6px;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  font-size:16px; /* iPhone no zoom */
+  outline:none;
+  background:#fff;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#60a5fa;
+  box-shadow:0 0 0 4px rgba(59,130,246,.15);
+}
+textarea{min-height:110px;resize:vertical}
+
+/* Checkbox rows */
+.check{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+  font-size:14px;
+  color:#0f172a;
+  align-items:flex-start;
+}
+.check input{width:18px;height:18px;margin-top:2px}
+
+/* Buttons */
+.buttons{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:26px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+}
+button{
+  padding:14px 22px;
+  border:none;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+.prev{background:#e5e7eb;color:#111827}
+.next{background:var(--blue);color:#fff}
+.next:hover{background:var(--blue2)}
+button:disabled{opacity:.45;pointer-events:none}
+
+/* Assessment 9-18 */
+.form-step[data-step="9"] label,
+.form-step[data-step="10"] label,
+.form-step[data-step="11"] label,
+.form-step[data-step="12"] label,
+.form-step[data-step="13"] label,
+.form-step[data-step="14"] label,
+.form-step[data-step="15"] label,
+.form-step[data-step="16"] label,
+.form-step[data-step="17"] label,
+.form-step[data-step="18"] label{
+  margin-top:10px;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  cursor:pointer;
+}
+.form-step[data-step="9"] label input,
+.form-step[data-step="10"] label input,
+.form-step[data-step="11"] label input,
+.form-step[data-step="12"] label input,
+.form-step[data-step="13"] label input,
+.form-step[data-step="14"] label input,
+.form-step[data-step="15"] label input,
+.form-step[data-step="16"] label input,
+.form-step[data-step="17"] label input,
+.form-step[data-step="18"] label input{
+  width:18px;
+  height:18px;
+  margin:0;
+}
+.pair-error{
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  padding:10px 12px;
+  border-radius:12px;
+}
+
+/* Mobile fix */
+@media (max-width: 920px){
+  .app{
+    grid-template-columns:1fr;
+    margin:0;
+    border-radius:0;
+    padding:16px;
+    gap:14px;
+  }
+  .map{
+    position:relative;
+    top:auto;
+    padding:10px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:#fff;
+    max-height:180px;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .timeline{padding-left:0}
+  .timeline::before{display:none}
+  .panel{padding:0}
+}
+</style>
 </head>
 
 <body>
@@ -25,17 +302,15 @@
     <div class="progress-bar"><div class="progress" id="progress"></div></div>
   </div>
 
-  <!-- MAPA (PROPIO, NO COPIA) -->
   <aside class="map" aria-label="Mapa de progreso">
     <div class="map-title">Progreso</div>
     <div class="timeline" id="timeline"></div>
   </aside>
 
-  <!-- PANEL FORM -->
   <main class="panel">
     <form id="wizard" novalidate>
 
-      <!-- PASO 1 -->
+     <!-- PASO 1 -->
       <section class="form-step active" data-step="1">
         <h2>Paso 1 — Bienvenida a la aplicación</h2>
 
@@ -582,13 +857,175 @@
           <button type="button" class="prev">Anterior</button>
           <button type="submit" class="next">Enviar aplicación</button>
         </div>
-      </section>
+     
+      
+
 
     </form>
   </main>
+
 </div>
-  
-<script src="script.js"></script>
+
+<script>
+"use strict";
+
+/* ================= CONFIG ================= */
+const STORAGE_KEY = "jobapp_step_current_v1";
+const SCROLL_TO_TOP_ON_STEP_CHANGE = true;
+
+/* ================= HELPERS ================= */
+function cssEscapeSafe(str){
+  if (window.CSS && typeof window.CSS.escape === "function") return window.CSS.escape(str);
+  return String(str).replace(/["\\]/g, "\\$&");
+}
+function scrollToTopSafe(){
+  if(!SCROLL_TO_TOP_ON_STEP_CHANGE) return;
+  try { window.scrollTo({ top: 0, behavior: "smooth" }); }
+  catch(e){ window.scrollTo(0,0); }
+}
+
+/* ================= DOM READY ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const steps = Array.from(document.querySelectorAll(".form-step"));
+  const progress = document.getElementById("progress");
+  const stepCounter = document.getElementById("stepCounter");
+  const timeline = document.getElementById("timeline");
+  const wizard = document.getElementById("wizard");
+
+  const TOTAL = steps.length;
+
+  const mapTitles = [
+    "Bienvenida","Identificación","Ubicación","Elegibilidad","Disponibilidad",
+    "Condiciones","Experiencia","Compromiso",
+    "Assessment 1","Assessment 2","Assessment 3","Assessment 4","Assessment 5",
+    "Assessment 6","Assessment 7","Assessment 8","Assessment 9","Assessment 10"
+  ];
+
+  // Build timeline
+  timeline.innerHTML = "";
+  for(let i=1;i<=TOTAL;i++){
+    const item=document.createElement("div");
+    item.className="mstep locked";
+    item.dataset.go=String(i);
+
+    const dot=document.createElement("div");
+    dot.className="dot";
+    dot.textContent=String(i);
+
+    const text=document.createElement("div");
+    text.className="mtext";
+    text.innerHTML =
+      '<div class="t1">Paso '+i+'</div>'+
+      '<div class="t2">'+(mapTitles[i-1]||"")+'</div>';
+
+    item.appendChild(dot);
+    item.appendChild(text);
+    timeline.appendChild(item);
+  }
+
+  const mapItems = Array.from(document.querySelectorAll(".mstep"));
+
+  let current = 1;
+  try{
+    const saved = Number(localStorage.getItem(STORAGE_KEY));
+    if(saved>=1 && saved<=TOTAL) current=saved;
+  }catch(_){}
+
+  function setActive(stepNumber){
+    current = Math.min(Math.max(stepNumber,1),TOTAL);
+    try{ localStorage.setItem(STORAGE_KEY,String(current)); }catch(_){}
+    update();
+  }
+
+  function update(){
+    steps.forEach(s=>s.classList.remove("active"));
+    steps[current-1].classList.add("active");
+
+    const pct=((current-1)/(TOTAL-1))*100;
+    progress.style.width=pct+"%";
+    stepCounter.textContent="Paso "+current+" de "+TOTAL;
+
+    mapItems.forEach((item,idx)=>{
+      const stepNum=idx+1;
+      item.classList.remove("done","active","locked");
+
+      const dot=item.querySelector(".dot");
+      if(stepNum<current){ item.classList.add("done"); dot.textContent="✓"; }
+      else if(stepNum===current){ item.classList.add("active"); dot.textContent=String(stepNum); }
+      else { item.classList.add("locked"); dot.textContent=String(stepNum); }
+    });
+
+    document.querySelectorAll(".prev").forEach(b=> b.disabled=(current===1));
+    scrollToTopSafe();
+  }
+
+  function isStepValid(){
+    const active=steps[current-1];
+    active.querySelectorAll(".pair-error").forEach(e=>e.style.display="none");
+
+    const required=Array.from(active.querySelectorAll("[required]"));
+
+    const radios=required.filter(el=>el.type==="radio");
+    if(radios.length){
+      const names = Array.from(new Set(radios.map(r=>r.name).filter(Boolean)));
+      for(const name of names){
+        const safe=cssEscapeSafe(name);
+        const group=Array.from(active.querySelectorAll('input[type="radio"][name="'+safe+'"]'));
+        const ok=group.some(r=>r.checked);
+        if(!ok){
+          const err=active.querySelector(".pair-error");
+          if(err) err.style.display="block";
+          if(group[0]) group[0].focus();
+          return false;
+        }
+      }
+    }
+
+    for(const el of required){
+      if(el.type==="radio") continue;
+      if(el.type==="checkbox"){
+        if(!el.checked){ el.focus(); return false; }
+      }else{
+        const val=(el.value||"").trim();
+        if(!val){ el.focus(); return false; }
+        if(el.type==="email"){
+          const ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+          if(!ok){ el.focus(); return false; }
+        }
+      }
+    }
+    return true;
+  }
+
+  document.addEventListener("click",(e)=>{
+    const t=e.target;
+
+    if(t && t.classList && t.classList.contains("next")){
+      if(!isStepValid()) return;
+      setActive(current+1);
+      return;
+    }
+    if(t && t.classList && t.classList.contains("prev")){
+      setActive(current-1);
+      return;
+    }
+    const map=t && t.closest ? t.closest(".mstep") : null;
+    if(map){
+      const go=Number(map.dataset.go||"0");
+      if(go<=current) setActive(go);
+    }
+  });
+
+  wizard.addEventListener("submit",(e)=>{
+    if(!isStepValid()){ e.preventDefault(); return; }
+    alert("✅ Aplicación enviada (demo).");
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
+    e.preventDefault();
+  });
+
+  setActive(current);
+});
+</script>
+
 </body>
 </html>
-      
