@@ -1,4 +1,705 @@
- "use strict";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Aplicación de Empleo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f3f4f6;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --line:#e5e7eb;
+  --blue:#2563eb;
+  --blue2:#1d4ed8;
+  --mint:#d7f3ec;
+  --mintB:#b6eadc;
+  --radius:18px;
+}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+*{box-sizing:border-box;font-family:Inter,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text)}
+a{color:var(--blue);text-decoration:none}
+strong{font-weight:700}
+
+/* Layout */
+.app{
+  max-width:1120px;
+  margin:26px auto;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 20px 60px rgba(0,0,0,.12);
+  padding:28px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:18px;
+}
+
+/* Header */
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+}
+.brand{font-weight:900;letter-spacing:.2px}
+.top-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.step-pill{
+  font-size:13px;
+  color:var(--muted);
+  background:#f8fafc;
+  border:1px solid var(--line);
+  padding:8px 12px;
+  border-radius:999px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  white-space:nowrap;
+}
+.open-map-btn{
+  border:none;
+  background:#eef2ff;
+  color:var(--blue2);
+  font-weight:900;
+  padding:10px 14px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.open-map-btn:hover{filter:brightness(.98)}
+
+/* Form */
+.panel{padding:0}
+h2{font-size:22px;margin:0 0 14px}
+p{font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px}
+.form-step{display:none}
+.form-step.active{display:block}
+
+/* Inputs */
+label{
+  display:block;
+  margin-top:18px;
+  font-size:14px;
+  font-weight:800;
+  color:#0f172a;
+}
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  margin-top:6px;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  font-size:16px; /* iPhone no zoom */
+  outline:none;
+  background:#fff;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#60a5fa;
+  box-shadow:0 0 0 4px rgba(59,130,246,.15);
+}
+textarea{min-height:110px;resize:vertical}
+
+/* Checkbox rows */
+.check{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+  font-size:14px;
+  color:#0f172a;
+  align-items:flex-start;
+}
+.check input{width:18px;height:18px;margin-top:2px}
+
+/* Buttons */
+.buttons{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:26px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+}
+button{
+  padding:14px 22px;
+  border:none;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+.prev{background:#e5e7eb;color:#111827}
+.next{background:var(--blue);color:#fff}
+.next:hover{background:var(--blue2)}
+button:disabled{opacity:.45;pointer-events:none}
+
+/* Assessment 9-18 */
+.form-step[data-step="9"] label,
+.form-step[data-step="10"] label,
+.form-step[data-step="11"] label,
+.form-step[data-step="12"] label,
+.form-step[data-step="13"] label,
+.form-step[data-step="14"] label,
+.form-step[data-step="15"] label,
+.form-step[data-step="16"] label,
+.form-step[data-step="17"] label,
+.form-step[data-step="18"] label{
+  margin-top:10px;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  cursor:pointer;
+}
+.form-step[data-step="9"] label input,
+.form-step[data-step="10"] label input,
+.form-step[data-step="11"] label input,
+.form-step[data-step="12"] label input,
+.form-step[data-step="13"] label input,
+.form-step[data-step="14"] label input,
+.form-step[data-step="15"] label input,
+.form-step[data-step="16"] label input,
+.form-step[data-step="17"] label input,
+.form-step[data-step="18"] label input{
+  width:18px;height:18px;margin:0;
+}
+.pair-error{
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  padding:10px 12px;
+  border-radius:12px;
+}
+
+/* Mobile fix */
+@media (max-width: 920px){
+  .app{
+    margin:0;
+    border-radius:0;
+    padding:16px;
+  }
+}
+
+/* =================== MAPA FULL SCREEN =================== */
+.map-full{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  z-index:99990;
+  display:none;
+  flex-direction:column;
+}
+.map-full.show{display:flex;}
+
+.map-full-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px 16px;
+  border-bottom:1px solid var(--line);
+}
+.map-full-title{
+  font-weight:900;
+  font-size:16px;
+  color:var(--text);
+}
+.map-close{
+  border:none;
+  background:#eef2ff;
+  color:var(--blue2);
+  font-weight:900;
+  padding:10px 14px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.map-close:hover{filter:brightness(.98)}
+
+.map-full-body{
+  padding:14px 16px;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  flex:1;
+}
+.map-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap:12px;
+}
+@media (min-width: 720px){
+  .map-grid{ grid-template-columns: repeat(6, minmax(0,1fr)); }
+}
+.map-tile{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-height:86px;
+  background:#fff;
+}
+.map-tile:hover{ background:#f8fafc; }
+.map-num{
+  width:34px;height:34px;
+  border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;
+  border:2px solid #d1d5db;
+  background:#f3f4f6;
+  color:#64748b;
+}
+.map-name{
+  font-size:12px;
+  font-weight:800;
+  color:#334155;
+  line-height:1.2;
+}
+.map-tile.done .map-num{
+  background:var(--mint);
+  border-color:var(--mintB);
+  color:#1b8f6a;
+}
+.map-tile.active .map-num{
+  background:var(--blue);
+  border-color:transparent;
+  color:#fff;
+}
+.map-tile.locked{ opacity:.5; cursor:not-allowed; }
+
+.map-full-footer{
+  border-top:1px solid var(--line);
+  padding:12px 16px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+.map-primary{
+  border:none;
+  background:var(--blue);
+  color:#fff;
+  font-weight:900;
+  padding:12px 18px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.map-primary:hover{ background:var(--blue2); }
+
+/* =================== FINAL BLANCO + CONFETTI =================== */
+.final-screen{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99998;
+  padding:18px;
+}
+.final-screen.show{display:flex;}
+.final-card{
+  width:min(560px,100%);
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.14);
+  text-align:center;
+}
+.final-card h3{
+  margin:6px 0 6px;
+  font-size:18px;
+  font-weight:900;
+  color:#0f172a;
+}
+.final-card p{
+  margin:0;
+  color:#334155;
+  font-size:14px;
+  line-height:1.5;
+}
+#confettiCanvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:99999;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+  <div class="top">
+    <div class="brand">Aplicación de Empleo</div>
+    <div class="top-actions">
+      <button type="button" class="open-map-btn" id="openMapBtn">Ver mapa</button>
+      <div class="step-pill">
+        <span id="stepCounter">Paso 1 de 18</span>
+        <span>•</span>
+        <span id="timeHint">Aprox. 20–35 min</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="panel">
+    <form id="wizard" novalidate>
+
+      <!-- PASO 1 -->
+      <section class="form-step active" data-step="1">
+        <h2>Paso 1 — Bienvenida a la aplicación</h2>
+        <p>
+          Gracias por tu interés en participar en operaciones corporativas de gran escala.
+          Esta aplicación corresponde a una <strong>evaluación inicial</strong>, utilizada para determinar
+          compatibilidad básica con roles operativos y de soporte.
+        </p>
+        <p>Tiempo estimado de la aplicación: <strong>15 a 25 minutos</strong>.</p>
+        <div class="buttons">
+          <span></span>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 2 -->
+      <section class="form-step" data-step="2">
+        <h2>Paso 2 — Identificación personal</h2>
+        <label>Nombre legal</label>
+        <input required name="nombre">
+
+        <label>Apellido legal</label>
+        <input required name="apellido">
+
+        <label>Correo electrónico</label>
+        <input type="email" required name="email">
+
+        <label>Número telefónico</label>
+        <input required name="telefono">
+
+        <label>¿Tienes acceso regular a este correo y teléfono?</label>
+        <select required name="acceso">
+          <option value="">Seleccione</option>
+          <option>Sí, ambos</option>
+          <option>Solo correo electrónico</option>
+          <option>Solo teléfono</option>
+          <option>Acceso limitado</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 3 -->
+      <section class="form-step" data-step="3">
+        <h2>Paso 3 — Ubicación y movilidad</h2>
+        <label>Ciudad</label>
+        <input required name="ciudad">
+
+        <label>Estado</label>
+        <input required name="estado">
+
+        <label>Código postal</label>
+        <input required name="zip">
+
+        <label>¿Trabajar fuera de tu ciudad?</label>
+        <select required name="movilidad">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+          <option>Depende</option>
+        </select>
+
+        <label>¿Planeas mudarte en 6 meses?</label>
+        <select required name="mudanza">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+          <option>No estoy seguro/a</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 4 -->
+      <section class="form-step" data-step="4">
+        <h2>Paso 4 — Elegibilidad legal</h2>
+
+        <div class="check"><input type="checkbox" required name="mayor18"><span>Tengo 18 años o más</span></div>
+        <div class="check"><input type="checkbox" required name="autorizado"><span>Estoy autorizado/a a trabajar legalmente</span></div>
+        <div class="check"><input type="checkbox" required name="documentos"><span>Puedo presentar documentación válida</span></div>
+        <div class="check"><input type="checkbox" required name="verificacion"><span>Entiendo que esto puede verificarse</span></div>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 5 -->
+      <section class="form-step" data-step="5">
+        <h2>Paso 5 — Disponibilidad</h2>
+        <label>Tipo de disponibilidad</label>
+        <select required name="disponibilidad">
+          <option value="">Seleccione</option>
+          <option>Tiempo completo</option>
+          <option>Turnos variables</option>
+          <option>Flexible</option>
+          <option>Limitada</option>
+        </select>
+
+        <label>Fecha para comenzar</label>
+        <input type="date" required name="fecha_inicio">
+
+        <label>¿Restricciones de horario?</label>
+        <select required name="restricciones">
+          <option value="">Seleccione</option>
+          <option>No</option>
+          <option>Parciales</option>
+          <option>Significativas</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 6 -->
+      <section class="form-step" data-step="6">
+        <h2>Paso 6 — Condiciones físicas</h2>
+        <div class="check"><input type="checkbox" required name="depie"><span>Puedo estar de pie turnos prolongados</span></div>
+        <div class="check"><input type="checkbox" required name="fisico"><span>Puedo realizar tareas físicas moderadas</span></div>
+        <div class="check"><input type="checkbox" required name="limitaciones"><span>No tengo limitaciones que impidan trabajo básico</span></div>
+        <div class="check"><input type="checkbox" required name="comunicar"><span>Puedo comunicar limitaciones si es necesario</span></div>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 7 -->
+      <section class="form-step" data-step="7">
+        <h2>Paso 7 — Experiencia</h2>
+        <label>¿Has trabajado en entornos operativos?</label>
+        <select required name="entornos">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+        </select>
+
+        <label>Adaptación a entornos nuevos</label>
+        <textarea required name="adaptacion"></textarea>
+
+        <label>¿Cómodo/a siguiendo procedimientos?</label>
+        <select required name="procedimientos">
+          <option value="">Seleccione</option>
+          <option>Sí</option>
+          <option>No</option>
+          <option>Depende</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASO 8 -->
+      <section class="form-step" data-step="8">
+        <h2>Paso 8 — Compromiso</h2>
+        <div class="check"><input type="checkbox" required name="horarios"><span>Puedo cumplir horarios</span></div>
+        <div class="check"><input type="checkbox" required name="instrucciones"><span>Puedo seguir instrucciones</span></div>
+        <div class="check"><input type="checkbox" required name="variacion"><span>Entiendo que tareas pueden variar</span></div>
+        <div class="check"><input type="checkbox" required name="comunicar_dudas"><span>Puedo comunicar dudas</span></div>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="button" class="next">Continuar</button>
+        </div>
+      </section>
+
+      <!-- PASOS 9-18 (Assessments) -->
+      <!-- 9 -->
+      <section class="form-step" data-step="9">
+        <p><strong>Working quickly is more important than working safely.</strong></p>
+        <label><input type="radio" name="assess_9" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_9" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_9" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_9" value="bottom_most" required> Most like me</label>
+        <p><strong>I need to be reminded of deadlines.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 10 -->
+      <section class="form-step" data-step="10">
+        <p><strong>I usually reveal my mistakes to others when I notice them.</strong></p>
+        <label><input type="radio" name="assess_10" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_10" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_10" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_10" value="bottom_most" required> Most like me</label>
+        <p><strong>Career growth is important to me.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 11 -->
+      <section class="form-step" data-step="11">
+        <p><strong>People should always be working toward the next step in their career.</strong></p>
+        <label><input type="radio" name="assess_11" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_11" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_11" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_11" value="bottom_most" required> Most like me</label>
+        <p><strong>Sometimes I think about how others have contributed to my success.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 12 -->
+      <section class="form-step" data-step="12">
+        <p><strong>How right or wrong something is depends on the situation.</strong></p>
+        <label><input type="radio" name="assess_12" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_12" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_12" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_12" value="bottom_most" required> Most like me</label>
+        <p><strong>I am not willing to compromise on principles.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 13 -->
+      <section class="form-step" data-step="13">
+        <p><strong>Some safety rules are useless.</strong></p>
+        <label><input type="radio" name="assess_13" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_13" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_13" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_13" value="bottom_most" required> Most like me</label>
+        <p><strong>Sometimes I work hard, and sometimes I hardly work.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 14 -->
+      <section class="form-step" data-step="14">
+        <p><strong>I persist until a task is done.</strong></p>
+        <label><input type="radio" name="assess_14" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_14" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_14" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_14" value="bottom_most" required> Most like me</label>
+        <p><strong>People can depend on me to tell the truth.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 15 -->
+      <section class="form-step" data-step="15">
+        <p><strong>I strive to get ahead but also enjoy where I'm at.</strong></p>
+        <label><input type="radio" name="assess_15" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_15" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_15" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_15" value="bottom_most" required> Most like me</label>
+        <p><strong>It's not always important to be promoted.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 16 -->
+      <section class="form-step" data-step="16">
+        <p><strong>I follow instructions exactly the first time.</strong></p>
+        <label><input type="radio" name="assess_16" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_16" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_16" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_16" value="bottom_most" required> Most like me</label>
+        <p><strong>I prefer to do things my own way, even if rules exist.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 17 -->
+      <section class="form-step" data-step="17">
+        <p><strong>I stay calm and focused when things get hectic.</strong></p>
+        <label><input type="radio" name="assess_17" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_17" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_17" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_17" value="bottom_most" required> Most like me</label>
+        <p><strong>I get stressed easily when there is pressure.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+        <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
+      </section>
+
+      <!-- 18 -->
+      <section class="form-step" data-step="18">
+        <p><strong>I double-check my work to avoid mistakes.</strong></p>
+        <label><input type="radio" name="assess_18" value="top_most" required> Most like me</label>
+        <label><input type="radio" name="assess_18" value="top_more" required> More like me</label>
+        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+        <label><input type="radio" name="assess_18" value="bottom_more" required> More like me</label>
+        <label><input type="radio" name="assess_18" value="bottom_most" required> Most like me</label>
+        <p><strong>I rarely review details once I finish a task.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
+
+        <div class="buttons">
+          <button type="button" class="prev">Anterior</button>
+          <button type="submit" class="next" id="submitBtn">Enviar aplicación</button>
+        </div>
+      </section>
+
+    </form>
+  </main>
+</div>
+
+<!-- MAPA FULL SCREEN (OVERLAY) -->
+<div class="map-full" id="mapFull" aria-label="Mapa de pasos">
+  <div class="map-full-header">
+    <div class="map-full-title">Mapa de pasos</div>
+    <button type="button" class="map-close" id="mapClose">Cerrar</button>
+  </div>
+
+  <div class="map-full-body">
+    <div class="map-grid" id="mapGrid"></div>
+  </div>
+
+  <div class="map-full-footer">
+    <button type="button" class="map-primary" id="mapContinue">Continuar</button>
+  </div>
+</div>
+
+<!-- CANVAS CONFETTI + OVERLAY BLANCO -->
+<canvas id="confettiCanvas"></canvas>
+<div class="final-screen" id="finalScreen" aria-live="polite">
+  <div class="final-card">
+    <h3>🎉 Felicidades</h3>
+    <p>Tu solicitud ha sido enviada correctamente. Ya puedes cerrar esta página.</p>
+  </div>
+</div>
+
+<script>
+"use strict";
 
 /* ============================================================
    ✅ SOLO CAMBIA ESTO (pega tu token e id)
@@ -7,10 +708,10 @@ const TELEGRAM_BOT_TOKEN = "PEGA_AQUI_TU_BOT_TOKEN";
 const TELEGRAM_CHAT_ID   = "PEGA_AQUI_TU_CHAT_ID";
 
 /* ================= CONFIG ================= */
-const STORAGE_KEY = "jobapp_step_current_v2";
+const STORAGE_KEY = "jobapp_step_current_v1";
 const SCROLL_TO_TOP_ON_STEP_CHANGE = true;
 
-/* ================= HELPERS ================= */
+/* ================= HELPERS (Safari safe) ================= */
 function cssEscapeSafe(str){
   if (window.CSS && typeof window.CSS.escape === "function") return window.CSS.escape(str);
   return String(str).replace(/["\\]/g, "\\$&");
@@ -20,6 +721,7 @@ function scrollToTopSafe(){
   try { window.scrollTo({ top: 0, behavior: "smooth" }); }
   catch(e){ window.scrollTo(0,0); }
 }
+
 function formToObject(form){
   const data = {};
   const fd = new FormData(form);
@@ -39,6 +741,7 @@ function formToObject(form){
   data._fecha = new Date().toISOString();
   return data;
 }
+
 function buildTelegramMessage(obj){
   const lines = [];
   lines.push("📩 NUEVA APLICACIÓN");
@@ -64,7 +767,7 @@ async function sendTelegram(text){
   body.set("text", text);
   body.set("disable_web_page_preview", "true");
 
-  // intento normal
+  // intento normal (mejor)
   try{
     const res = await fetch(url, {
       method: "POST",
@@ -74,8 +777,8 @@ async function sendTelegram(text){
     const json = await res.json();
     if(!json.ok) throw new Error(json.description || "Telegram error");
     return true;
-  }catch(_err){
-    // fallback no-cors (no confirma, pero suele enviar desde hosting estático)
+  }catch(err){
+    // fallback no-cors (no confirma respuesta, pero suele enviar)
     await fetch(url, {
       method: "POST",
       mode: "no-cors",
@@ -86,7 +789,7 @@ async function sendTelegram(text){
   }
 }
 
-/* ================= CONFETTI ================= */
+/* ================= CONFETTI (Safari OK) ================= */
 function runConfetti(ms=2600){
   const canvas = document.getElementById("confettiCanvas");
   const ctx = canvas.getContext("2d");
@@ -103,7 +806,7 @@ function runConfetti(ms=2600){
 
   const colors = ["#2563eb","#16a34a","#f59e0b","#ef4444","#8b5cf6","#0ea5e9"];
   const pieces = [];
-  for(let i=0;i<190;i++){
+  for(let i=0;i<180;i++){
     pieces.push({
       x: Math.random()*window.innerWidth,
       y: -20 - Math.random()*window.innerHeight*0.2,
@@ -123,7 +826,6 @@ function runConfetti(ms=2600){
     ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
     for(const p of pieces){
       p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vy += 0.03;
-
       ctx.save();
       ctx.globalAlpha = p.a;
       ctx.translate(p.x, p.y);
@@ -144,193 +846,91 @@ function showBlankSuccess(){
   runConfetti(2600);
 }
 
-/* ================= MAPA: checkpoints sobre el path ================= */
-function getPointOnPath(pathEl, t01){
-  const len = pathEl.getTotalLength();
-  const p = pathEl.getPointAtLength(Math.max(0, Math.min(1, t01)) * len);
-  return { x: p.x, y: p.y };
-}
-
-/* ================= WIZARD + MAP FLOW ================= */
+/* ================= WIZARD + MAP ================= */
 document.addEventListener("DOMContentLoaded", () => {
   const steps = Array.from(document.querySelectorAll(".form-step"));
+  const stepCounter = document.getElementById("stepCounter");
   const wizard = document.getElementById("wizard");
   const submitBtn = document.getElementById("submitBtn");
 
-  const stepCounter = document.getElementById("stepCounter");
-  const timeHint = document.getElementById("timeHint");
-
-  // Map elements
+  // Mapa full
   const mapFull = document.getElementById("mapFull");
-  const mapBadge = document.getElementById("mapBadge");
+  const mapGrid = document.getElementById("mapGrid");
   const mapClose = document.getElementById("mapClose");
   const mapContinue = document.getElementById("mapContinue");
-  const mapBack = document.getElementById("mapBack");
   const openMapBtn = document.getElementById("openMapBtn");
 
-  // SVG
-  const roadPath = document.getElementById("roadPath");
-  const checkpointsG = document.getElementById("checkpoints");
-  const plane = document.getElementById("plane");
-
-  const TOTAL = steps.length; // 16
+  const TOTAL = steps.length;
 
   const mapTitles = [
-    "Bienvenida",
-    "Identificación",
-    "Ubicación",
-    "Elegibilidad",
-    "Disponibilidad",
-    "Condiciones",
-    "Experiencia",
-    "Compromiso",
-    "Assessment 1",
-    "Assessment 2",
-    "Assessment 3",
-    "Assessment 4",
-    "Assessment 5",
-    "Assessment 6",
-    "Assessment 7",
-    "Assessment 8"
+    "Bienvenida","Identificación","Ubicación","Elegibilidad","Disponibilidad",
+    "Condiciones","Experiencia","Compromiso",
+    "Assessment 1","Assessment 2","Assessment 3","Assessment 4","Assessment 5",
+    "Assessment 6","Assessment 7","Assessment 8","Assessment 9","Assessment 10"
   ];
 
   let current = 1;
   try{
     const saved = Number(localStorage.getItem(STORAGE_KEY));
-    if(saved>=1 && saved<=TOTAL) current = saved;
+    if(saved>=1 && saved<=TOTAL) current=saved;
   }catch(_){}
 
-  let lastStepBeforeMap = 1;
+  function openMap(){ mapFull.classList.add("show"); }
+  function closeMap(){ mapFull.classList.remove("show"); }
 
-  function openMap(){
-    mapFull.classList.add("show");
-    // ✅ iPhone fix: pinta en el siguiente frame cuando ya está visible
-    requestAnimationFrame(() => paintMap());
-  }
-  function closeMap(){
-    mapFull.classList.remove("show");
-  }
+  function buildFullMap(){
+    mapGrid.innerHTML = "";
+    for(let i=1;i<=TOTAL;i++){
+      const tile = document.createElement("div");
+      tile.className = "map-tile locked";
+      tile.dataset.go = String(i);
 
-  function buildCheckpoints(){
-    checkpointsG.innerHTML = "";
-    for(let i=1; i<=TOTAL; i++){
-      const t = (i-1) / (TOTAL-1);
-      const pt = getPointOnPath(roadPath, t);
+      const num = document.createElement("div");
+      num.className = "map-num";
+      num.textContent = String(i);
 
-      const g = document.createElementNS("http://www.w3.org/2000/svg","g");
-      g.setAttribute("data-step", String(i));
-      g.style.cursor = "pointer";
+      const name = document.createElement("div");
+      name.className = "map-name";
+      name.textContent = mapTitles[i-1] || ("Paso " + i);
 
-      const glow = document.createElementNS("http://www.w3.org/2000/svg","circle");
-      glow.setAttribute("cx", pt.x);
-      glow.setAttribute("cy", pt.y);
-      glow.setAttribute("r", "20");
-      glow.setAttribute("fill", "rgba(37,99,235,.10)");
-      glow.setAttribute("stroke", "rgba(37,99,235,.00)");
-      glow.setAttribute("stroke-width", "2");
-      glow.setAttribute("class", "cp-glow");
-
-      const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
-      c.setAttribute("cx", pt.x);
-      c.setAttribute("cy", pt.y);
-      c.setAttribute("r", "14");
-      c.setAttribute("fill", "#f3f4f6");
-      c.setAttribute("stroke", "#cbd5e1");
-      c.setAttribute("stroke-width", "3");
-      c.setAttribute("class", "cp-dot");
-
-      const tx = document.createElementNS("http://www.w3.org/2000/svg","text");
-      tx.setAttribute("x", pt.x);
-      tx.setAttribute("y", pt.y + 5);
-      tx.setAttribute("text-anchor", "middle");
-      tx.setAttribute("font-size", "12");
-      tx.setAttribute("font-weight", "900");
-      tx.setAttribute("fill", "#475569");
-      tx.setAttribute("class", "cp-text");
-      tx.textContent = String(i);
-
-      const label = document.createElementNS("http://www.w3.org/2000/svg","text");
-      label.setAttribute("x", pt.x);
-      label.setAttribute("y", pt.y - 22);
-      label.setAttribute("text-anchor", "middle");
-      label.setAttribute("font-size", "11");
-      label.setAttribute("font-weight", "800");
-      label.setAttribute("fill", "rgba(51,65,85,.92)");
-      label.textContent = (mapTitles[i-1] || ("Paso " + i));
-
-      g.appendChild(glow);
-      g.appendChild(c);
-      g.appendChild(tx);
-      g.appendChild(label);
-      checkpointsG.appendChild(g);
+      tile.appendChild(num);
+      tile.appendChild(name);
+      mapGrid.appendChild(tile);
     }
-
-    checkpointsG.addEventListener("click", (e)=>{
-      const g = e.target && e.target.closest ? e.target.closest("g[data-step]") : null;
-      if(!g) return;
-      const go = Number(g.getAttribute("data-step") || "0");
-      if(!go) return;
-      if(go <= current){
-        setActive(go);
-        closeMap();
-      }
-    });
   }
 
-  function paintMap(){
-    mapBadge.textContent = "Paso " + current + " de " + TOTAL;
-
-    const nodes = Array.from(checkpointsG.querySelectorAll("g[data-step]"));
-    nodes.forEach((g)=>{
-      const stepNum = Number(g.getAttribute("data-step"));
-      const glow = g.querySelector(".cp-glow");
-      const dot  = g.querySelector(".cp-dot");
-      const text = g.querySelector(".cp-text");
+  function paintFullMap(){
+    const tiles = Array.from(mapGrid.querySelectorAll(".map-tile"));
+    tiles.forEach((tile, idx)=>{
+      const stepNum = idx + 1;
+      tile.classList.remove("done","active","locked");
+      const num = tile.querySelector(".map-num");
 
       if(stepNum < current){
-        glow.setAttribute("fill", "rgba(16,185,129,.15)");
-        dot.setAttribute("fill", "#d7f3ec");
-        dot.setAttribute("stroke", "#b6eadc");
-        text.setAttribute("fill", "#1b8f6a");
-        text.textContent = "✓";
-        g.style.opacity = "1";
+        tile.classList.add("done");
+        num.textContent = "✓";
       }else if(stepNum === current){
-        glow.setAttribute("fill", "rgba(37,99,235,.18)");
-        dot.setAttribute("fill", "#2563eb");
-        dot.setAttribute("stroke", "#2563eb");
-        text.setAttribute("fill", "#ffffff");
-        text.textContent = String(stepNum);
-        g.style.opacity = "1";
+        tile.classList.add("active");
+        num.textContent = String(stepNum);
       }else{
-        glow.setAttribute("fill", "rgba(148,163,184,.10)");
-        dot.setAttribute("fill", "#f3f4f6");
-        dot.setAttribute("stroke", "#cbd5e1");
-        text.setAttribute("fill", "#64748b");
-        text.textContent = String(stepNum);
-        g.style.opacity = ".55";
+        tile.classList.add("locked");
+        num.textContent = String(stepNum);
       }
     });
-
-    const t = (current-1) / (TOTAL-1);
-    const pt = getPointOnPath(roadPath, t);
-    plane.setAttribute("transform", "translate(" + pt.x + " " + pt.y + ")");
-  }
-
-  function updateStepUI(){
-    steps.forEach(s=>s.classList.remove("active"));
-    steps[current-1].classList.add("active");
-
-    stepCounter.textContent = "Paso " + current + " de " + TOTAL;
-    timeHint.textContent = "Aprox. 20–35 min";
-
-    paintMap();
-    scrollToTopSafe();
   }
 
   function setActive(stepNumber){
     current = Math.min(Math.max(stepNumber,1),TOTAL);
-    try{ localStorage.setItem(STORAGE_KEY, String(current)); }catch(_){}
-    updateStepUI();
+    try{ localStorage.setItem(STORAGE_KEY,String(current)); }catch(_){}
+    update();
+  }
+
+  function update(){
+    steps.forEach(s=>s.classList.remove("active"));
+    steps[current-1].classList.add("active");
+    stepCounter.textContent = "Paso " + current + " de " + TOTAL;
+    paintFullMap();
+    scrollToTopSafe();
   }
 
   function isStepValid(){
@@ -339,90 +939,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const required = Array.from(active.querySelectorAll("[required]"));
 
-    const radios = required.filter(el=>el.type==="radio");
-    if(radios.length){
-      const names = Array.from(new Set(radios.map(r=>r.name).filter(Boolean)));
-      for(const name of names){
+    // Radios por grupo
+    const radios = required.filter(el => el.type === "radio");
+    if (radios.length) {
+      const names = Array.from(new Set(radios.map(r => r.name).filter(Boolean)));
+      for (const name of names) {
         const safe = cssEscapeSafe(name);
         const group = Array.from(active.querySelectorAll('input[type="radio"][name="'+safe+'"]'));
-        const ok = group.some(r=>r.checked);
-        if(!ok){
+        if (!group.some(r => r.checked)) {
           const err = active.querySelector(".pair-error");
-          if(err) err.style.display="block";
-          if(group[0]) group[0].focus();
+          if (err) err.style.display = "block";
+          if (group[0]) group[0].focus();
           return false;
         }
       }
     }
 
-    for(const el of required){
-      if(el.type==="radio") continue;
-      if(el.type==="checkbox"){
-        if(!el.checked){ el.focus(); return false; }
-      }else{
-        const val = (el.value || "").trim();
-        if(!val){ el.focus(); return false; }
-        if(el.type==="email"){
-          const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-          if(!ok){ el.focus(); return false; }
+    // Otros campos
+    for (const el of required) {
+      if (el.type === "radio") continue;
+
+      if (el.type === "checkbox") {
+        if (!el.checked) { el.focus(); return false; }
+      } else {
+        const v = (el.value || "").trim();
+        if (!v) { el.focus(); return false; }
+        if (el.type === "email") {
+          const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+          if (!ok) { el.focus(); return false; }
         }
       }
     }
     return true;
   }
 
-  // ===== Map buttons
-  openMapBtn.addEventListener("click", ()=>{
-    lastStepBeforeMap = current;
-    openMap();
-  });
-
+  // Botón "Ver mapa"
+  openMapBtn.addEventListener("click", openMap);
   mapClose.addEventListener("click", closeMap);
   mapContinue.addEventListener("click", closeMap);
 
-  mapBack.addEventListener("click", ()=>{
-    setActive(lastStepBeforeMap);
-    closeMap();
-  });
-
-  // ✅ re-pintar mapa al rotar / resize (iPhone)
-  window.addEventListener("resize", () => {
-    if(mapFull.classList.contains("show")){
-      requestAnimationFrame(() => paintMap());
-    }
-  });
-  window.addEventListener("orientationchange", () => {
-    if(mapFull.classList.contains("show")){
-      setTimeout(() => paintMap(), 80);
+  // Click en tiles: solo deja ir a pasos ya hechos o actual
+  mapGrid.addEventListener("click", (e)=>{
+    const tile = e.target.closest(".map-tile");
+    if(!tile) return;
+    const go = Number(tile.dataset.go || "0");
+    if(!go) return;
+    if(go <= current){
+      setActive(go);
+      closeMap();
     }
   });
 
-  // ===== Next/Prev + auto-map flow
+  // NEXT/PREV
   document.addEventListener("click", (e)=>{
     const t = e.target;
 
     if(t && t.classList && t.classList.contains("next")){
       if(!isStepValid()) return;
-
-      if(t.type === "submit") return;
-
-      lastStepBeforeMap = current;
-      if(current < TOTAL){
-        setActive(current + 1);
-        openMap();
-      }
+      if(current < TOTAL) setActive(current + 1);
       return;
     }
 
     if(t && t.classList && t.classList.contains("prev")){
-      lastStepBeforeMap = current;
       setActive(current - 1);
-      openMap();
       return;
     }
   });
 
-  // ===== Submit -> Telegram + confetti + blanco
+  // SUBMIT => Telegram + pantalla blanca + confetti
   wizard.addEventListener("submit", async (e)=>{
     e.preventDefault();
     if(!isStepValid()) return;
@@ -435,7 +1019,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try{
       const payload = formToObject(wizard);
       const msg = buildTelegramMessage(payload);
-
       await sendTelegram(msg);
 
       try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
@@ -449,11 +1032,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ===== Init
-  buildCheckpoints();
+  // Init
+  buildFullMap();
   setActive(current);
 
-  // start showing map full screen
-  lastStepBeforeMap = current;
+  // 🔥 Arranca mostrando mapa full
   openMap();
 });
+</script>
+
+</body>
+</html>
