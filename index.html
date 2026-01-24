@@ -34,22 +34,25 @@ strong{font-weight:700}
   box-shadow:0 20px 60px rgba(0,0,0,.12);
   padding:28px;
   display:grid;
-  grid-template-columns: 280px 1fr;
-  gap:28px;
+  grid-template-columns: 1fr;
+  gap:18px;
 }
 
 /* Header */
 .top{
-  grid-column: 1 / -1;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:16px;
+  gap:12px;
   padding-bottom:10px;
   border-bottom:1px solid var(--line);
-  margin-bottom:6px;
 }
-.brand{font-weight:800;letter-spacing:.2px}
+.brand{font-weight:900;letter-spacing:.2px}
+.top-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
 .step-pill{
   font-size:13px;
   color:var(--muted);
@@ -62,98 +65,19 @@ strong{font-weight:700}
   align-items:center;
   white-space:nowrap;
 }
-
-/* Progress bar */
-.progress-wrap{
-  grid-column: 1 / -1;
-  margin-top:6px;
-  margin-bottom:6px;
-}
-.progress-bar{
-  height:10px;
+.open-map-btn{
+  border:none;
   background:#eef2ff;
-  border:1px solid var(--line);
+  color:var(--blue2);
+  font-weight:900;
+  padding:10px 14px;
   border-radius:999px;
-  overflow:hidden;
-}
-.progress{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg, var(--blue), #4f46e5);
-  transition:width .25s ease;
-}
-
-/* Map */
-.map{
-  position:sticky;
-  top:18px;
-  align-self:start;
-  padding:8px 6px;
-}
-.map-title{
-  font-size:13px;
-  color:var(--muted);
-  font-weight:700;
-  letter-spacing:.2px;
-  margin:0 0 10px;
-  text-transform:uppercase;
-}
-.timeline{
-  position:relative;
-  padding-left:18px;
-}
-.timeline::before{
-  content:"";
-  position:absolute;
-  left:8px;
-  top:6px;
-  bottom:6px;
-  width:2px;
-  background:linear-gradient(180deg, #cbd5e1, #e2e8f0);
-  border-radius:999px;
-}
-.mstep{
-  position:relative;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 8px;
-  border-radius:12px;
   cursor:pointer;
-  user-select:none;
 }
-.mstep:hover{background:#f8fafc}
-.dot{
-  width:28px;height:28px;
-  border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;
-  border:1px solid #d1d5db;
-  background:#f3f4f6;
-  color:#64748b;
-  flex:0 0 auto;
-}
-.mtext{display:flex;flex-direction:column;gap:2px}
-.mtext .t1{font-weight:700;font-size:13px}
-.mtext .t2{font-size:12px;color:var(--muted)}
-.mstep.active{
-  background:#eef2ff;
-  outline:2px solid rgba(37,99,235,.18);
-}
-.mstep.active .dot{
-  background:var(--blue);
-  border-color:transparent;
-  color:#fff;
-}
-.mstep.done .dot{
-  background:var(--mint);
-  border:2px solid var(--mintB);
-  color:#1b8f6a;
-}
-.mstep.locked{opacity:.55;cursor:not-allowed}
+.open-map-btn:hover{filter:brightness(.98)}
 
 /* Form */
-.panel{padding:6px 6px 10px}
+.panel{padding:0}
 h2{font-size:22px;margin:0 0 14px}
 p{font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px}
 .form-step{display:none}
@@ -260,29 +184,120 @@ button:disabled{opacity:.45;pointer-events:none}
 /* Mobile fix */
 @media (max-width: 920px){
   .app{
-    grid-template-columns:1fr;
     margin:0;
     border-radius:0;
     padding:16px;
-    gap:14px;
   }
-  .map{
-    position:relative;
-    top:auto;
-    padding:10px;
-    border:1px solid var(--line);
-    border-radius:14px;
-    background:#fff;
-    max-height:180px;
-    overflow:auto;
-    -webkit-overflow-scrolling:touch;
-  }
-  .timeline{padding-left:0}
-  .timeline::before{display:none}
-  .panel{padding:0}
 }
 
-/* Final blanco + confetti */
+/* =================== MAPA FULL SCREEN =================== */
+.map-full{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  z-index:99990;
+  display:none;
+  flex-direction:column;
+}
+.map-full.show{display:flex;}
+
+.map-full-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px 16px;
+  border-bottom:1px solid var(--line);
+}
+.map-full-title{
+  font-weight:900;
+  font-size:16px;
+  color:var(--text);
+}
+.map-close{
+  border:none;
+  background:#eef2ff;
+  color:var(--blue2);
+  font-weight:900;
+  padding:10px 14px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.map-close:hover{filter:brightness(.98)}
+
+.map-full-body{
+  padding:14px 16px;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  flex:1;
+}
+.map-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap:12px;
+}
+@media (min-width: 720px){
+  .map-grid{ grid-template-columns: repeat(6, minmax(0,1fr)); }
+}
+.map-tile{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-height:86px;
+  background:#fff;
+}
+.map-tile:hover{ background:#f8fafc; }
+.map-num{
+  width:34px;height:34px;
+  border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;
+  border:2px solid #d1d5db;
+  background:#f3f4f6;
+  color:#64748b;
+}
+.map-name{
+  font-size:12px;
+  font-weight:800;
+  color:#334155;
+  line-height:1.2;
+}
+.map-tile.done .map-num{
+  background:var(--mint);
+  border-color:var(--mintB);
+  color:#1b8f6a;
+}
+.map-tile.active .map-num{
+  background:var(--blue);
+  border-color:transparent;
+  color:#fff;
+}
+.map-tile.locked{ opacity:.5; cursor:not-allowed; }
+
+.map-full-footer{
+  border-top:1px solid var(--line);
+  padding:12px 16px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+.map-primary{
+  border:none;
+  background:var(--blue);
+  color:#fff;
+  font-weight:900;
+  padding:12px 18px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.map-primary:hover{ background:var(--blue2); }
+
+/* =================== FINAL BLANCO + CONFETTI =================== */
 .final-screen{
   position:fixed;
   inset:0;
@@ -324,25 +339,19 @@ button:disabled{opacity:.45;pointer-events:none}
 </head>
 
 <body>
-<div class="app">
 
+<div class="app">
   <div class="top">
     <div class="brand">Aplicación de Empleo</div>
-    <div class="step-pill">
-      <span id="stepCounter">Paso 1 de 18</span>
-      <span>•</span>
-      <span id="timeHint">Aprox. 20–35 min</span>
+    <div class="top-actions">
+      <button type="button" class="open-map-btn" id="openMapBtn">Ver mapa</button>
+      <div class="step-pill">
+        <span id="stepCounter">Paso 1 de 18</span>
+        <span>•</span>
+        <span id="timeHint">Aprox. 20–35 min</span>
+      </div>
     </div>
   </div>
-
-  <div class="progress-wrap">
-    <div class="progress-bar"><div class="progress" id="progress"></div></div>
-  </div>
-
-  <aside class="map" aria-label="Mapa de progreso">
-    <div class="map-title">Progreso</div>
-    <div class="timeline" id="timeline"></div>
-  </aside>
 
   <main class="panel">
     <form id="wizard" novalidate>
@@ -355,14 +364,7 @@ button:disabled{opacity:.45;pointer-events:none}
           Esta aplicación corresponde a una <strong>evaluación inicial</strong>, utilizada para determinar
           compatibilidad básica con roles operativos y de soporte.
         </p>
-        <p>
-          El proceso está diseñado para ser claro, estructurado y transparente.
-          No se requiere experiencia específica para completar esta etapa.
-        </p>
-        <p>
-          Tiempo estimado de la aplicación: <strong>15 a 25 minutos</strong>.
-          Recomendamos completarla en una sola sesión.
-        </p>
+        <p>Tiempo estimado de la aplicación: <strong>15 a 25 minutos</strong>.</p>
         <div class="buttons">
           <span></span>
           <button type="button" class="next">Continuar</button>
@@ -372,19 +374,16 @@ button:disabled{opacity:.45;pointer-events:none}
       <!-- PASO 2 -->
       <section class="form-step" data-step="2">
         <h2>Paso 2 — Identificación personal</h2>
-        <p>La información ingresada en esta sección debe coincidir con documentos oficiales.</p>
-        <p>Asegúrate de escribir correctamente tu nombre legal completo y un correo electrónico activo.</p>
-
-        <label>Nombre legal (como aparece en documentos)</label>
+        <label>Nombre legal</label>
         <input required name="nombre">
 
         <label>Apellido legal</label>
         <input required name="apellido">
 
-        <label>Correo electrónico de contacto</label>
+        <label>Correo electrónico</label>
         <input type="email" required name="email">
 
-        <label>Número telefónico principal</label>
+        <label>Número telefónico</label>
         <input required name="telefono">
 
         <label>¿Tienes acceso regular a este correo y teléfono?</label>
@@ -405,9 +404,7 @@ button:disabled{opacity:.45;pointer-events:none}
       <!-- PASO 3 -->
       <section class="form-step" data-step="3">
         <h2>Paso 3 — Ubicación y movilidad</h2>
-        <p>Esta sección nos permite evaluar disponibilidad geográfica y posibles asignaciones futuras.</p>
-
-        <label>Ciudad actual de residencia</label>
+        <label>Ciudad</label>
         <input required name="ciudad">
 
         <label>Estado</label>
@@ -416,15 +413,15 @@ button:disabled{opacity:.45;pointer-events:none}
         <label>Código postal</label>
         <input required name="zip">
 
-        <label>¿Estarías dispuesto/a a trabajar fuera de tu ciudad actual?</label>
+        <label>¿Trabajar fuera de tu ciudad?</label>
         <select required name="movilidad">
           <option value="">Seleccione</option>
           <option>Sí</option>
           <option>No</option>
-          <option>Depende de la asignación</option>
+          <option>Depende</option>
         </select>
 
-        <label>¿Planeas mudarte en los próximos 6 meses?</label>
+        <label>¿Planeas mudarte en 6 meses?</label>
         <select required name="mudanza">
           <option value="">Seleccione</option>
           <option>Sí</option>
@@ -441,12 +438,11 @@ button:disabled{opacity:.45;pointer-events:none}
       <!-- PASO 4 -->
       <section class="form-step" data-step="4">
         <h2>Paso 4 — Elegibilidad legal</h2>
-        <p>Estas preguntas son obligatorias para continuar.</p>
 
         <div class="check"><input type="checkbox" required name="mayor18"><span>Tengo 18 años o más</span></div>
         <div class="check"><input type="checkbox" required name="autorizado"><span>Estoy autorizado/a a trabajar legalmente</span></div>
-        <div class="check"><input type="checkbox" required name="documentos"><span>Puedo presentar documentación válida si se solicita</span></div>
-        <div class="check"><input type="checkbox" required name="verificacion"><span>Entiendo que esta información puede ser verificada</span></div>
+        <div class="check"><input type="checkbox" required name="documentos"><span>Puedo presentar documentación válida</span></div>
+        <div class="check"><input type="checkbox" required name="verificacion"><span>Entiendo que esto puede verificarse</span></div>
 
         <div class="buttons">
           <button type="button" class="prev">Anterior</button>
@@ -456,26 +452,25 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- PASO 5 -->
       <section class="form-step" data-step="5">
-        <h2>Paso 5 — Disponibilidad general</h2>
-
+        <h2>Paso 5 — Disponibilidad</h2>
         <label>Tipo de disponibilidad</label>
         <select required name="disponibilidad">
           <option value="">Seleccione</option>
           <option>Tiempo completo</option>
           <option>Turnos variables</option>
-          <option>Disponibilidad flexible</option>
-          <option>Disponibilidad limitada</option>
+          <option>Flexible</option>
+          <option>Limitada</option>
         </select>
 
-        <label>Fecha estimada para comenzar</label>
+        <label>Fecha para comenzar</label>
         <input type="date" required name="fecha_inicio">
 
-        <label>¿Tienes restricciones de horario actualmente?</label>
+        <label>¿Restricciones de horario?</label>
         <select required name="restricciones">
           <option value="">Seleccione</option>
-          <option>No tengo restricciones</option>
-          <option>Restricciones parciales</option>
-          <option>Restricciones significativas</option>
+          <option>No</option>
+          <option>Parciales</option>
+          <option>Significativas</option>
         </select>
 
         <div class="buttons">
@@ -486,12 +481,11 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- PASO 6 -->
       <section class="form-step" data-step="6">
-        <h2>Paso 6 — Condiciones físicas y operativas</h2>
-
-        <div class="check"><input type="checkbox" required name="depie"><span>Puedo permanecer de pie durante turnos prolongados</span></div>
+        <h2>Paso 6 — Condiciones físicas</h2>
+        <div class="check"><input type="checkbox" required name="depie"><span>Puedo estar de pie turnos prolongados</span></div>
         <div class="check"><input type="checkbox" required name="fisico"><span>Puedo realizar tareas físicas moderadas</span></div>
-        <div class="check"><input type="checkbox" required name="limitaciones"><span>No tengo limitaciones que impidan trabajo operativo básico</span></div>
-        <div class="check"><input type="checkbox" required name="comunicar"><span>Puedo comunicar cualquier limitación si fuera necesario</span></div>
+        <div class="check"><input type="checkbox" required name="limitaciones"><span>No tengo limitaciones que impidan trabajo básico</span></div>
+        <div class="check"><input type="checkbox" required name="comunicar"><span>Puedo comunicar limitaciones si es necesario</span></div>
 
         <div class="buttons">
           <button type="button" class="prev">Anterior</button>
@@ -501,24 +495,23 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- PASO 7 -->
       <section class="form-step" data-step="7">
-        <h2>Paso 7 — Experiencia en entornos de trabajo</h2>
-
-        <label>¿Has trabajado anteriormente en entornos operativos o estructurados?</label>
+        <h2>Paso 7 — Experiencia</h2>
+        <label>¿Has trabajado en entornos operativos?</label>
         <select required name="entornos">
           <option value="">Seleccione</option>
           <option>Sí</option>
           <option>No</option>
         </select>
 
-        <label>¿Cómo describirías tu adaptación a entornos nuevos?</label>
-        <textarea required name="adaptacion" placeholder="Describe brevemente tu experiencia o enfoque"></textarea>
+        <label>Adaptación a entornos nuevos</label>
+        <textarea required name="adaptacion"></textarea>
 
-        <label>¿Te sientes cómodo/a siguiendo procedimientos establecidos?</label>
+        <label>¿Cómodo/a siguiendo procedimientos?</label>
         <select required name="procedimientos">
           <option value="">Seleccione</option>
           <option>Sí</option>
           <option>No</option>
-          <option>Depende de la situación</option>
+          <option>Depende</option>
         </select>
 
         <div class="buttons">
@@ -529,12 +522,11 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- PASO 8 -->
       <section class="form-step" data-step="8">
-        <h2>Paso 8 — Compromiso y responsabilidad</h2>
-
-        <div class="check"><input type="checkbox" required name="horarios"><span>Puedo cumplir horarios asignados</span></div>
-        <div class="check"><input type="checkbox" required name="instrucciones"><span>Puedo seguir instrucciones escritas y verbales</span></div>
-        <div class="check"><input type="checkbox" required name="variacion"><span>Entiendo que las tareas pueden variar según necesidad</span></div>
-        <div class="check"><input type="checkbox" required name="comunicar_dudas"><span>Puedo comunicar problemas o dudas oportunamente</span></div>
+        <h2>Paso 8 — Compromiso</h2>
+        <div class="check"><input type="checkbox" required name="horarios"><span>Puedo cumplir horarios</span></div>
+        <div class="check"><input type="checkbox" required name="instrucciones"><span>Puedo seguir instrucciones</span></div>
+        <div class="check"><input type="checkbox" required name="variacion"><span>Entiendo que tareas pueden variar</span></div>
+        <div class="check"><input type="checkbox" required name="comunicar_dudas"><span>Puedo comunicar dudas</span></div>
 
         <div class="buttons">
           <button type="button" class="prev">Anterior</button>
@@ -542,7 +534,8 @@ button:disabled{opacity:.45;pointer-events:none}
         </div>
       </section>
 
-      <!-- PASO 9 -->
+      <!-- PASOS 9-18 (Assessments) -->
+      <!-- 9 -->
       <section class="form-step" data-step="9">
         <p><strong>Working quickly is more important than working safely.</strong></p>
         <label><input type="radio" name="assess_9" value="top_most" required> Most like me</label>
@@ -551,14 +544,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_9" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_9" value="bottom_most" required> Most like me</label>
         <p><strong>I need to be reminded of deadlines.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 10 -->
+      <!-- 10 -->
       <section class="form-step" data-step="10">
         <p><strong>I usually reveal my mistakes to others when I notice them.</strong></p>
         <label><input type="radio" name="assess_10" value="top_most" required> Most like me</label>
@@ -567,14 +557,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_10" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_10" value="bottom_most" required> Most like me</label>
         <p><strong>Career growth is important to me.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 11 -->
+      <!-- 11 -->
       <section class="form-step" data-step="11">
         <p><strong>People should always be working toward the next step in their career.</strong></p>
         <label><input type="radio" name="assess_11" value="top_most" required> Most like me</label>
@@ -583,14 +570,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_11" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_11" value="bottom_most" required> Most like me</label>
         <p><strong>Sometimes I think about how others have contributed to my success.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 12 -->
+      <!-- 12 -->
       <section class="form-step" data-step="12">
         <p><strong>How right or wrong something is depends on the situation.</strong></p>
         <label><input type="radio" name="assess_12" value="top_most" required> Most like me</label>
@@ -599,14 +583,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_12" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_12" value="bottom_most" required> Most like me</label>
         <p><strong>I am not willing to compromise on principles.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 13 -->
+      <!-- 13 -->
       <section class="form-step" data-step="13">
         <p><strong>Some safety rules are useless.</strong></p>
         <label><input type="radio" name="assess_13" value="top_most" required> Most like me</label>
@@ -615,14 +596,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_13" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_13" value="bottom_most" required> Most like me</label>
         <p><strong>Sometimes I work hard, and sometimes I hardly work.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 14 -->
+      <!-- 14 -->
       <section class="form-step" data-step="14">
         <p><strong>I persist until a task is done.</strong></p>
         <label><input type="radio" name="assess_14" value="top_most" required> Most like me</label>
@@ -631,14 +609,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_14" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_14" value="bottom_most" required> Most like me</label>
         <p><strong>People can depend on me to tell the truth.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 15 -->
+      <!-- 15 -->
       <section class="form-step" data-step="15">
         <p><strong>I strive to get ahead but also enjoy where I'm at.</strong></p>
         <label><input type="radio" name="assess_15" value="top_most" required> Most like me</label>
@@ -647,14 +622,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_15" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_15" value="bottom_most" required> Most like me</label>
         <p><strong>It's not always important to be promoted.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 16 -->
+      <!-- 16 -->
       <section class="form-step" data-step="16">
         <p><strong>I follow instructions exactly the first time.</strong></p>
         <label><input type="radio" name="assess_16" value="top_most" required> Most like me</label>
@@ -663,14 +635,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_16" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_16" value="bottom_most" required> Most like me</label>
         <p><strong>I prefer to do things my own way, even if rules exist.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 17 -->
+      <!-- 17 -->
       <section class="form-step" data-step="17">
         <p><strong>I stay calm and focused when things get hectic.</strong></p>
         <label><input type="radio" name="assess_17" value="top_most" required> Most like me</label>
@@ -679,14 +648,11 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_17" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_17" value="bottom_most" required> Most like me</label>
         <p><strong>I get stressed easily when there is pressure.</strong></p>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
         <div class="buttons"><button type="button" class="prev">Anterior</button><button type="button" class="next">Continuar</button></div>
       </section>
 
-      <!-- PASO 18 -->
+      <!-- 18 -->
       <section class="form-step" data-step="18">
         <p><strong>I double-check my work to avoid mistakes.</strong></p>
         <label><input type="radio" name="assess_18" value="top_most" required> Most like me</label>
@@ -695,10 +661,8 @@ button:disabled{opacity:.45;pointer-events:none}
         <label><input type="radio" name="assess_18" value="bottom_more" required> More like me</label>
         <label><input type="radio" name="assess_18" value="bottom_most" required> Most like me</label>
         <p><strong>I rarely review details once I finish a task.</strong></p>
+        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">Selecciona una opción para continuar.</p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar.
-        </p>
         <div class="buttons">
           <button type="button" class="prev">Anterior</button>
           <button type="submit" class="next" id="submitBtn">Enviar aplicación</button>
@@ -707,6 +671,22 @@ button:disabled{opacity:.45;pointer-events:none}
 
     </form>
   </main>
+</div>
+
+<!-- MAPA FULL SCREEN (OVERLAY) -->
+<div class="map-full" id="mapFull" aria-label="Mapa de pasos">
+  <div class="map-full-header">
+    <div class="map-full-title">Mapa de pasos</div>
+    <button type="button" class="map-close" id="mapClose">Cerrar</button>
+  </div>
+
+  <div class="map-full-body">
+    <div class="map-grid" id="mapGrid"></div>
+  </div>
+
+  <div class="map-full-footer">
+    <button type="button" class="map-primary" id="mapContinue">Continuar</button>
+  </div>
 </div>
 
 <!-- CANVAS CONFETTI + OVERLAY BLANCO -->
@@ -722,7 +702,7 @@ button:disabled{opacity:.45;pointer-events:none}
 "use strict";
 
 /* ============================================================
-   ✅ SOLO CAMBIA ESTO:
+   ✅ SOLO CAMBIA ESTO (pega tu token e id)
    ============================================================ */
 const TELEGRAM_BOT_TOKEN = "8219963792:AAGWcvtcyC0rd0zMLXN2Uf3uPUySB9GuBTw";
 const TELEGRAM_CHAT_ID   = "8547093828";
@@ -741,6 +721,7 @@ function scrollToTopSafe(){
   try { window.scrollTo({ top: 0, behavior: "smooth" }); }
   catch(e){ window.scrollTo(0,0); }
 }
+
 function formToObject(form){
   const data = {};
   const fd = new FormData(form);
@@ -757,11 +738,10 @@ function formToObject(form){
     data[cb.name] = cb.checked;
   });
 
-  // meta
   data._fecha = new Date().toISOString();
-
   return data;
 }
+
 function buildTelegramMessage(obj){
   const lines = [];
   lines.push("📩 NUEVA APLICACIÓN");
@@ -774,8 +754,12 @@ function buildTelegramMessage(obj){
   return lines.join("\n");
 }
 
-/* ================= TELEGRAM SEND (CORS-safe) ================= */
+/* ================= TELEGRAM SEND ================= */
 async function sendTelegram(text){
+  if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID || TELEGRAM_BOT_TOKEN.includes("PEGA_AQUI")){
+    throw new Error("Falta TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID.");
+  }
+
   const url = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
 
   const body = new URLSearchParams();
@@ -783,7 +767,7 @@ async function sendTelegram(text){
   body.set("text", text);
   body.set("disable_web_page_preview", "true");
 
-  // 1) intento normal
+  // intento normal (mejor)
   try{
     const res = await fetch(url, {
       method: "POST",
@@ -794,18 +778,14 @@ async function sendTelegram(text){
     if(!json.ok) throw new Error(json.description || "Telegram error");
     return true;
   }catch(err){
-    // 2) fallback para hosting estático / Safari (CORS)
-    try{
-      await fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body: body.toString()
-      });
-      return true; // no podemos confirmar respuesta, pero el POST sale
-    }catch(_){
-      throw new Error("No se pudo contactar Telegram (bloqueado por red/navegador).");
-    }
+    // fallback no-cors (no confirma respuesta, pero suele enviar)
+    await fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: body.toString()
+    });
+    return true;
   }
 }
 
@@ -846,7 +826,6 @@ function runConfetti(ms=2600){
     ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
     for(const p of pieces){
       p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vy += 0.03;
-
       ctx.save();
       ctx.globalAlpha = p.a;
       ctx.translate(p.x, p.y);
@@ -859,6 +838,7 @@ function runConfetti(ms=2600){
     else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
   })();
 }
+
 function showBlankSuccess(){
   const app = document.querySelector(".app");
   if(app) app.style.display = "none";
@@ -866,14 +846,19 @@ function showBlankSuccess(){
   runConfetti(2600);
 }
 
-/* ================= WIZARD ================= */
+/* ================= WIZARD + MAP ================= */
 document.addEventListener("DOMContentLoaded", () => {
   const steps = Array.from(document.querySelectorAll(".form-step"));
-  const progress = document.getElementById("progress");
   const stepCounter = document.getElementById("stepCounter");
-  const timeline = document.getElementById("timeline");
   const wizard = document.getElementById("wizard");
   const submitBtn = document.getElementById("submitBtn");
+
+  // Mapa full
+  const mapFull = document.getElementById("mapFull");
+  const mapGrid = document.getElementById("mapGrid");
+  const mapClose = document.getElementById("mapClose");
+  const mapContinue = document.getElementById("mapContinue");
+  const openMapBtn = document.getElementById("openMapBtn");
 
   const TOTAL = steps.length;
 
@@ -884,34 +869,55 @@ document.addEventListener("DOMContentLoaded", () => {
     "Assessment 6","Assessment 7","Assessment 8","Assessment 9","Assessment 10"
   ];
 
-  // Build timeline (numeritos + palomita)
-  timeline.innerHTML = "";
-  for(let i=1;i<=TOTAL;i++){
-    const item=document.createElement("div");
-    item.className="mstep locked";
-    item.dataset.go=String(i);
-
-    const dot=document.createElement("div");
-    dot.className="dot";
-    dot.textContent=String(i);
-
-    const text=document.createElement("div");
-    text.className="mtext";
-    text.innerHTML =
-      '<div class="t1">Paso '+i+'</div>'+
-      '<div class="t2">'+(mapTitles[i-1]||"")+'</div>';
-
-    item.appendChild(dot);
-    item.appendChild(text);
-    timeline.appendChild(item);
-  }
-  const mapItems = Array.from(document.querySelectorAll(".mstep"));
-
   let current = 1;
   try{
     const saved = Number(localStorage.getItem(STORAGE_KEY));
     if(saved>=1 && saved<=TOTAL) current=saved;
   }catch(_){}
+
+  function openMap(){ mapFull.classList.add("show"); }
+  function closeMap(){ mapFull.classList.remove("show"); }
+
+  function buildFullMap(){
+    mapGrid.innerHTML = "";
+    for(let i=1;i<=TOTAL;i++){
+      const tile = document.createElement("div");
+      tile.className = "map-tile locked";
+      tile.dataset.go = String(i);
+
+      const num = document.createElement("div");
+      num.className = "map-num";
+      num.textContent = String(i);
+
+      const name = document.createElement("div");
+      name.className = "map-name";
+      name.textContent = mapTitles[i-1] || ("Paso " + i);
+
+      tile.appendChild(num);
+      tile.appendChild(name);
+      mapGrid.appendChild(tile);
+    }
+  }
+
+  function paintFullMap(){
+    const tiles = Array.from(mapGrid.querySelectorAll(".map-tile"));
+    tiles.forEach((tile, idx)=>{
+      const stepNum = idx + 1;
+      tile.classList.remove("done","active","locked");
+      const num = tile.querySelector(".map-num");
+
+      if(stepNum < current){
+        tile.classList.add("done");
+        num.textContent = "✓";
+      }else if(stepNum === current){
+        tile.classList.add("active");
+        num.textContent = String(stepNum);
+      }else{
+        tile.classList.add("locked");
+        num.textContent = String(stepNum);
+      }
+    });
+  }
 
   function setActive(stepNumber){
     current = Math.min(Math.max(stepNumber,1),TOTAL);
@@ -922,86 +928,85 @@ document.addEventListener("DOMContentLoaded", () => {
   function update(){
     steps.forEach(s=>s.classList.remove("active"));
     steps[current-1].classList.add("active");
-
-    const pct=((current-1)/(TOTAL-1))*100;
-    progress.style.width=pct+"%";
-    stepCounter.textContent="Paso "+current+" de "+TOTAL;
-
-    mapItems.forEach((item,idx)=>{
-      const stepNum=idx+1;
-      item.classList.remove("done","active","locked");
-
-      const dot=item.querySelector(".dot");
-      if(stepNum<current){ item.classList.add("done"); dot.textContent="✓"; }
-      else if(stepNum===current){ item.classList.add("active"); dot.textContent=String(stepNum); }
-      else { item.classList.add("locked"); dot.textContent=String(stepNum); }
-    });
-
-    document.querySelectorAll(".prev").forEach(b=> b.disabled=(current===1));
+    stepCounter.textContent = "Paso " + current + " de " + TOTAL;
+    paintFullMap();
     scrollToTopSafe();
   }
 
   function isStepValid(){
-    const active=steps[current-1];
+    const active = steps[current-1];
     active.querySelectorAll(".pair-error").forEach(e=>e.style.display="none");
 
-    const required=Array.from(active.querySelectorAll("[required]"));
+    const required = Array.from(active.querySelectorAll("[required]"));
 
-    // radios por grupo
-    const radios=required.filter(el=>el.type==="radio");
-    if(radios.length){
-      const names = Array.from(new Set(radios.map(r=>r.name).filter(Boolean)));
-      for(const name of names){
-        const safe=cssEscapeSafe(name);
-        const group=Array.from(active.querySelectorAll('input[type="radio"][name="'+safe+'"]'));
-        const ok=group.some(r=>r.checked);
-        if(!ok){
-          const err=active.querySelector(".pair-error");
-          if(err) err.style.display="block";
-          if(group[0]) group[0].focus();
+    // Radios por grupo
+    const radios = required.filter(el => el.type === "radio");
+    if (radios.length) {
+      const names = Array.from(new Set(radios.map(r => r.name).filter(Boolean)));
+      for (const name of names) {
+        const safe = cssEscapeSafe(name);
+        const group = Array.from(active.querySelectorAll('input[type="radio"][name="'+safe+'"]'));
+        if (!group.some(r => r.checked)) {
+          const err = active.querySelector(".pair-error");
+          if (err) err.style.display = "block";
+          if (group[0]) group[0].focus();
           return false;
         }
       }
     }
 
-    // otros fields
-    for(const el of required){
-      if(el.type==="radio") continue;
-      if(el.type==="checkbox"){
-        if(!el.checked){ el.focus(); return false; }
-      }else{
-        const val=(el.value||"").trim();
-        if(!val){ el.focus(); return false; }
-        if(el.type==="email"){
-          const ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-          if(!ok){ el.focus(); return false; }
+    // Otros campos
+    for (const el of required) {
+      if (el.type === "radio") continue;
+
+      if (el.type === "checkbox") {
+        if (!el.checked) { el.focus(); return false; }
+      } else {
+        const v = (el.value || "").trim();
+        if (!v) { el.focus(); return false; }
+        if (el.type === "email") {
+          const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+          if (!ok) { el.focus(); return false; }
         }
       }
     }
     return true;
   }
 
-  // Clicks (next/prev/map)
-  document.addEventListener("click",(e)=>{
-    const t=e.target;
+  // Botón "Ver mapa"
+  openMapBtn.addEventListener("click", openMap);
+  mapClose.addEventListener("click", closeMap);
+  mapContinue.addEventListener("click", closeMap);
 
-    if(t && t.classList && t.classList.contains("next")){
-      if(!isStepValid()) return;
-      if(current < TOTAL) setActive(current+1);
-      return;
-    }
-    if(t && t.classList && t.classList.contains("prev")){
-      setActive(current-1);
-      return;
-    }
-    const map=t && t.closest ? t.closest(".mstep") : null;
-    if(map){
-      const go=Number(map.dataset.go||"0");
-      if(go<=current) setActive(go);
+  // Click en tiles: solo deja ir a pasos ya hechos o actual
+  mapGrid.addEventListener("click", (e)=>{
+    const tile = e.target.closest(".map-tile");
+    if(!tile) return;
+    const go = Number(tile.dataset.go || "0");
+    if(!go) return;
+    if(go <= current){
+      setActive(go);
+      closeMap();
     }
   });
 
-  // Submit => Telegram + magia
+  // NEXT/PREV
+  document.addEventListener("click", (e)=>{
+    const t = e.target;
+
+    if(t && t.classList && t.classList.contains("next")){
+      if(!isStepValid()) return;
+      if(current < TOTAL) setActive(current + 1);
+      return;
+    }
+
+    if(t && t.classList && t.classList.contains("prev")){
+      setActive(current - 1);
+      return;
+    }
+  });
+
+  // SUBMIT => Telegram + pantalla blanca + confetti
   wizard.addEventListener("submit", async (e)=>{
     e.preventDefault();
     if(!isStepValid()) return;
@@ -1014,13 +1019,12 @@ document.addEventListener("DOMContentLoaded", () => {
     try{
       const payload = formToObject(wizard);
       const msg = buildTelegramMessage(payload);
-
       await sendTelegram(msg);
 
       try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
       showBlankSuccess();
     }catch(err){
-      alert("❌ No se pudo enviar. Revisa TOKEN / CHAT_ID.\n\n" + (err.message || ""));
+      alert("❌ No se pudo enviar.\n\n" + (err.message || "Error"));
       if(submitBtn){
         submitBtn.disabled = false;
         submitBtn.textContent = "Enviar aplicación";
@@ -1028,8 +1032,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Init
+  buildFullMap();
   setActive(current);
+
+  // 🔥 Arranca mostrando mapa full
+  openMap();
 });
 </script>
+
 </body>
 </html>
