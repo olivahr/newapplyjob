@@ -349,7 +349,7 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- STEP 1 -->
       <section class="form-step active" data-step="1">
-        <h2>Step 1 — Welcome to the application</h2>
+        <h2>Step 1 — WELCOME TO THE APPLICATION</h2>
         <p>
   <strong>Thank you for applying to SunPower.</strong><br>
   We sincerely appreciate your interest in becoming part of SunPower’s large-scale corporate
@@ -392,7 +392,7 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- STEP 2 -->
       <section class="form-step" data-step="2">
-        <h2>Step 2 — Personal identification</h2>
+        <h2>Step 2 — PERSONAL IDENTIFICATION</h2>
         <p>The information entered in this section must match official documents.</p>
         <p>Make sure to correctly enter your full legal name and an active email address.</p>
 
@@ -414,7 +414,6 @@ button:disabled{opacity:.45;pointer-events:none}
           <option>Yes, both</option>
           <option>Email only</option>
           <option>Phone only</option>
-          <option>Limited access</option>
         </select>
 
         <div class="buttons">
@@ -425,7 +424,7 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- STEP 3 -->
       <section class="form-step" data-step="3">
-        <h2>Step 3 — Location and mobility</h2>
+        <h2>Step 3 — LOCATION INFORMATION</h2>
         <p>This section allows us to assess geographic availability and potential future assignments.</p>
        
         <label>Address</label>
@@ -463,7 +462,7 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- STEP 4 -->
       <section class="form-step" data-step="4">
-        <h2>Step 4 — Legal eligibility</h2>
+        <h2>Step 4 — LEGAL ELIGIBILITY</h2>
         <p>These questions are mandatory to continue.</p>
 
         <div class="check"><input type="checkbox" required name="mayor18"><span>I am 18 years old or older</span></div>
@@ -479,15 +478,15 @@ button:disabled{opacity:.45;pointer-events:none}
 
       <!-- STEP 5 -->
       <section class="form-step" data-step="5">
-        <h2>Step 5 — General availability</h2>
+        <h2>Step 5 — GENERAL AVAILABILITY</h2>
 
         <label>Type of availability</label>
         <select required name="disponibilidad">
           <option value="">Select</option>
-          <option>Full time</option>
-          <option>Variable shifts</option>
-          <option>Flexible availability</option>
-          <option>Limited availability</option>
+          <option>Full-time (40+ hours/week)</option>
+          <option>Part-time (20–30 hours/week)</option>
+          <option>Seasonal / Temporary</option>
+          <option>Not sure yet</option>
         </select>
 
         <label>Estimated start date</label>
@@ -496,9 +495,12 @@ button:disabled{opacity:.45;pointer-events:none}
         <label>Do you currently have schedule restrictions?</label>
         <select required name="restricciones">
           <option value="">Select</option>
-          <option>I have no restrictions</option>
-          <option>Partial restrictions</option>
-          <option>Significant restrictions</option>
+          <option>No restrictions</option>
+          <option>Limited availability</option>
+          <option>Weekends unavailable</option>
+          <option>Evenings unavailable</option>
+          <option>Other</option>
+       
         </select>
 
         <div class="buttons">
@@ -508,72 +510,197 @@ button:disabled{opacity:.45;pointer-events:none}
       </section>
 
       <!-- STEP 6 -->
-      <section class="form-step" data-step="6">
-        <h2>Step 6 — Physical and operational conditions</h2>
+<section class="form-step" data-step="6">
+  <h2>Step 6 — ESSENTIAL JOB REQUIREMENTS</h2>
 
-        <div class="check"><input type="checkbox" required name="depie"><span>I can remain standing for extended shifts</span></div>
-        <div class="check"><input type="checkbox" required name="fisico"><span>I can perform moderate physical tasks</span></div>
-        <div class="check"><input type="checkbox" required name="limitaciones"><span>I have no limitations that prevent basic operational work</span></div>
-        <div class="check"><input type="checkbox" required name="comunicar"><span>I can communicate any limitations if necessary</span></div>
+  <p class="step-description">
+    This position includes physical and operational duties that are essential to job performance.
+  </p>
 
-        <div class="buttons">
-          <button type="button" class="prev">Previous</button>
-          <button type="button" class="next">Continue</button>
-        </div>
-      </section>
+  <div class="check">
+    <input type="checkbox" id="essential_functions" name="essential_functions" required>
+    <label for="essential_functions">
+      I am able to perform the essential functions of this position, with or without reasonable accommodation.
+    </label>
+  </div>
+
+  <div class="field">
+    <label for="accommodation_required">
+      Do you require reasonable accommodation to perform these essential functions?
+    </label>
+    <select id="accommodation_required" name="accommodation_required" required>
+      <option value="">Select</option>
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="accommodation_details">
+      If yes, please briefly describe any accommodation you may need (optional)
+    </label>
+    <textarea
+      id="accommodation_details"
+      name="accommodation_details"
+      rows="3"
+      placeholder="Optional"
+    ></textarea>
+  </div>
+
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
       <!-- STEP 7 -->
-      <section class="form-step" data-step="7">
-        <h2>Step 7 — Work environment experience</h2>
+<section class="form-step" data-step="7">
+  <h2>Step 7 — WORK ENVIRONMENT EXPERIENCES</h2>
 
-        <label>Have you previously worked in operational or structured environments?</label>
-        <select required name="entornos">
-          <option value="">Select</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
+  <label for="entornos">
+    Have you previously worked in a structured or operational work environment?
+  </label>
+  <select id="entornos" name="entornos" required>
+    <option value="">Select</option>
+    <option value="yes_extensive">Yes, extensive experience</option>
+    <option value="yes_some">Yes, some experience</option>
+    <option value="limited">Limited experience</option>
+    <option value="no">No</option>
+  </select>
 
-        <label>How would you describe your adaptation to new environments?</label>
-        <textarea required name="adaptacion" placeholder="Briefly describe your experience or approach"></textarea>
+  <label for="tipo_trabajo">
+    What type of work best describes your most recent experience?
+  </label>
+  <select id="tipo_trabajo" name="tipo_trabajo" required>
+    <option value="">Select</option>
+    <option value="warehouse">Warehouse / Logistics</option>
+    <option value="construction">Construction / Field work</option>
+    <option value="manufacturing">Manufacturing / Production</option>
+    <option value="customer_service">Customer Service / Retail</option>
+    <option value="driving">Driving / Delivery</option>
+    <option value="office">Office / Administrative</option>
+    <option value="no_experience">No formal work experience</option>
+    <option value="other">Other</option>
+  </select>
 
-        <label>Do you feel comfortable following established procedures?</label>
-        <select required name="procedimientos">
-          <option value="">Select</option>
-          <option>Yes</option>
-          <option>No</option>
-          <option>Depends on the situation</option>
-        </select>
+  <label for="experiencia_anios">
+    How many years of total work experience do you have?
+  </label>
+  <select id="experiencia_anios" name="experiencia_anios" required>
+    <option value="">Select</option>
+    <option value="0">0</option>
+    <option value="lt1">Less than 1 year</option>
+    <option value="1_2">1–2 years</option>
+    <option value="3_5">3–5 years</option>
+    <option value="6_10">6–10 years</option>
+    <option value="10plus">10+ years</option>
+  </select>
 
-        <div class="buttons">
-          <button type="button" class="prev">Previous</button>
-          <button type="button" class="next">Continue</button>
-        </div>
-      </section>
+  <label for="ritmo_trabajo">
+    Are you comfortable working in a fast-paced environment with performance expectations?
+  </label>
+  <select id="ritmo_trabajo" name="ritmo_trabajo" required>
+    <option value="">Select</option>
+    <option value="yes">Yes</option>
+    <option value="somewhat">Somewhat</option>
+    <option value="no">No</option>
+  </select>
 
-      <!-- STEP 8 -->
-      <section class="form-step" data-step="8">
-        <h2>Step 8 — Commitment and responsibility</h2>
+  <label for="procedimientos">
+    Are you comfortable following company rules, safety guidelines, and standard procedures?
+  </label>
+  <select id="procedimientos" name="procedimientos" required>
+    <option value="">Select</option>
+    <option value="yes">Yes</option>
+    <option value="mostly">Mostly</option>
+    <option value="depends">Depends on the situation</option>
+    <option value="no">No</option>
+  </select>
 
-        <div class="check"><input type="checkbox" required name="horarios"><span>I can comply with assigned schedules</span></div>
-        <div class="check"><input type="checkbox" required name="instrucciones"><span>I can follow written and verbal instructions</span></div>
-        <div class="check"><input type="checkbox" required name="variacion"><span>I understand that tasks may vary as needed</span></div>
-        <div class="check"><input type="checkbox" required name="comunicar_dudas"><span>I can communicate problems or questions in a timely manner</span></div>
+  <label for="equipo">
+    How comfortable are you working as part of a team?
+  </label>
+  <select id="equipo" name="equipo" required>
+    <option value="">Select</option>
+    <option value="very">Very comfortable</option>
+    <option value="comfortable">Comfortable</option>
+    <option value="neutral">Neutral</option>
+    <option value="prefer_solo">I prefer working independently</option>
+  </select>
 
-        <div class="buttons">
-          <button type="button" class="prev">Previous</button>
-          <button type="button" class="next">Continue</button>
-        </div>
-      </section>
+  <label for="adaptacion">
+    How do you usually adapt to new work environments, expectations, or routines?
+  </label>
+  <textarea
+    id="adaptacion"
+    name="adaptacion"
+    required
+    placeholder="Briefly explain how you learn new tasks, follow instructions, and adjust to new roles"
+  ></textarea>
+
+  <label for="transporte">
+    Do you have reliable transportation to commute to work?
+  </label>
+  <select id="transporte" name="transporte" required>
+    <option value="">Select</option>
+    <option value="yes">Yes</option>
+    <option value="sometimes">Sometimes / depends</option>
+    <option value="no">No</option>
+  </select>
+
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
+
+     <!-- STEP 8 -->
+<section class="form-step" data-step="8">
+  <h2>Step 8 — Commitment and responsibility</h2>
+
+  <div class="check">
+    <input type="checkbox" required name="horarios">
+    <span>
+      I can show up to work on time and follow the schedule assigned to me.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="instrucciones">
+    <span>
+      I can follow instructions as given and ask questions if something is not clear.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="variacion">
+    <span>
+      I understand that job tasks may change during the day based on work needs.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="comunicar_dudas">
+    <span>
+      If I have a problem, concern, or delay, I will communicate it as soon as possible.
+    </span>
+  </div>
+
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
       <!-- STEP 9 -->
 <section class="form-step" data-step="9">
-  <p><strong>Working quickly is more important than working safely.</strong></p>
+  <p><strong>Finishing fast matters more than doing the job safely.</strong></p>
   <label><input type="radio" name="assess_9" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_9" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_9" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_9" value="bottom_most" required> Most like me</label>
-  <p><strong>I need to be reminded of deadlines.</strong></p>
+  <p><strong>I manage my time and rarely need reminders to meet deadlines.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -586,13 +713,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 10 -->
 <section class="form-step" data-step="10">
-  <p><strong>I usually reveal my mistakes to others when I notice them.</strong></p>
+  <p><strong>If I make a mistake at work, I report it instead of hiding it.</strong></p>
   <label><input type="radio" name="assess_10" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_10" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_10" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_10" value="bottom_most" required> Most like me</label>
-  <p><strong>Career growth is important to me.</strong></p>
+  <p><strong>I want to improve my skills and take on more responsibility over time.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -605,13 +732,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 11 -->
 <section class="form-step" data-step="11">
-  <p><strong>People should always be working toward the next step in their career.</strong></p>
+  <p><strong>I look for ways to grow on the job by learning and improving performance.</strong></p>
   <label><input type="radio" name="assess_11" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_11" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_11" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_11" value="bottom_most" required> Most like me</label>
-  <p><strong>Sometimes I think about how others have contributed to my success.</strong></p>
+  <p><strong>I give credit to teammates and recognize when others help the job succeed.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -624,13 +751,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 12 -->
 <section class="form-step" data-step="12">
-  <p><strong>How right or wrong something is depends on the situation.</strong></p>
+  <p><strong>Rules can be ignored if the situation makes it easier.</strong></p>
   <label><input type="radio" name="assess_12" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_12" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_12" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_12" value="bottom_most" required> Most like me</label>
-  <p><strong>I am not willing to compromise on principles.</strong></p>
+  <p><strong>I stick to my values and do the right thing even when no one is watching.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -643,13 +770,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 13 -->
 <section class="form-step" data-step="13">
-  <p><strong>Some safety rules are useless.</strong></p>
+  <p><strong>Some safety rules are unnecessary and can be skipped.</strong></p>
   <label><input type="radio" name="assess_13" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_13" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_13" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_13" value="bottom_most" required> Most like me</label>
-  <p><strong>Sometimes I work hard, and sometimes I hardly work.</strong></p>
+  <p><strong>I stay consistent at work, even when tasks are repetitive or tiring.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -662,13 +789,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 14 -->
 <section class="form-step" data-step="14">
-  <p><strong>I persist until a task is done.</strong></p>
+  <p><strong>I keep working until the task is complete and done correctly.</strong></p>
   <label><input type="radio" name="assess_14" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_14" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_14" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_14" value="bottom_most" required> Most like me</label>
-  <p><strong>People can depend on me to tell the truth.</strong></p>
+  <p><strong>People can rely on me to be honest and accurate about my work.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -681,13 +808,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 15 -->
 <section class="form-step" data-step="15">
-  <p><strong>I strive to get ahead but also enjoy where I'm at.</strong></p>
+  <p><strong>I work hard to improve and move forward in my career.</strong></p>
   <label><input type="radio" name="assess_15" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_15" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_15" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_15" value="bottom_most" required> Most like me</label>
-  <p><strong>It's not always important to be promoted.</strong></p>
+  <p><strong>I can stay focused on doing great work even without a promotion.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -700,13 +827,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 16 -->
 <section class="form-step" data-step="16">
-  <p><strong>I follow instructions exactly the first time.</strong></p>
+  <p><strong>I follow instructions the first time to avoid rework and mistakes.</strong></p>
   <label><input type="radio" name="assess_16" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_16" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_16" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_16" value="bottom_most" required> Most like me</label>
-  <p><strong>I prefer to do things my own way, even if rules exist.</strong></p>
+  <p><strong>I prefer to do things my own way even when there are clear procedures.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -719,13 +846,13 @@ button:disabled{opacity:.45;pointer-events:none}
 
 <!-- STEP 17 -->
 <section class="form-step" data-step="17">
-  <p><strong>I stay calm and focused when things get hectic.</strong></p>
+  <p><strong>I stay calm and focused when the workday gets hectic.</strong></p>
   <label><input type="radio" name="assess_17" value="top_most" required> Most like me</label>
   <label><input type="radio" name="assess_17" value="top_more" required> More like me</label>
   <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
   <label><input type="radio" name="assess_17" value="bottom_more" required> More like me</label>
   <label><input type="radio" name="assess_17" value="bottom_most" required> Most like me</label>
-  <p><strong>I get stressed easily when there is pressure.</strong></p>
+  <p><strong>I get overwhelmed easily when there is pressure or urgency.</strong></p>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
     Select an option to continue.
@@ -735,7 +862,6 @@ button:disabled{opacity:.45;pointer-events:none}
     <button type="button" class="next">Continue</button>
   </div>
 </section>
-
 <!-- STEP 18 -->
 <section class="form-step" data-step="18">
 
