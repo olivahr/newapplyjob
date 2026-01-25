@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Aplicación de Empleo / Job Application</title>
+<title>Job Application</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -282,7 +282,7 @@ button:disabled{opacity:.45;pointer-events:none}
   .panel{padding:0}
 }
 
-/* Final blanco + confetti */
+/* Final white + confetti */
 .final-screen{
   position:fixed;
   inset:0;
@@ -327,11 +327,11 @@ button:disabled{opacity:.45;pointer-events:none}
 <div class="app">
 
   <div class="top">
-    <div class="brand">Aplicación de Empleo / Job Application</div>
+    <div class="brand">Job Application</div>
     <div class="step-pill">
-      <span id="stepCounter">Paso 1 de 18 / Step 1 of 18</span>
+      <span id="stepCounter">Step 1 of 18</span>
       <span>•</span>
-      <span id="timeHint">Aprox. 20–35 min / Approx. 20–35 min</span>
+      <span id="timeHint">Approx. 20–35 min</span>
     </div>
   </div>
 
@@ -339,410 +339,409 @@ button:disabled{opacity:.45;pointer-events:none}
     <div class="progress-bar"><div class="progress" id="progress"></div></div>
   </div>
 
-  <aside class="map" aria-label="Mapa de progreso / Progress map">
-    <div class="map-title">Progreso / Progress</div>
+  <aside class="map" aria-label="Progress map">
+    <div class="map-title">Progress</div>
     <div class="timeline" id="timeline"></div>
   </aside>
 
   <main class="panel">
     <form id="wizard" novalidate>
 
-      <!-- PASO 1 -->
+      <!-- STEP 1 -->
       <section class="form-step active" data-step="1">
-        <h2>Paso 1 — Bienvenida a la aplicación / Step 1 — Application welcome</h2>
+        <h2>Step 1 — Welcome to the application</h2>
         <p>
-          Gracias por tu interés en participar en operaciones corporativas de gran escala. <br>
-          This application is for large-scale corporate operations.
+          Thank you for your interest in participating in large-scale corporate operations.
+          This application corresponds to an <strong>initial assessment</strong>, used to determine
+          basic compatibility with operational and support roles.
         </p>
         <p>
-          Esta aplicación corresponde a una <strong>evaluación inicial</strong>, utilizada para determinar compatibilidad básica con roles operativos y de soporte. <br>
-          This is an <strong>initial evaluation</strong> used to determine basic fit for operational and support roles.
+          The process is designed to be clear, structured, and transparent.
+          No specific experience is required to complete this stage.
         </p>
         <p>
-          El proceso está diseñado para ser claro, estructurado y transparente. No se requiere experiencia específica para completar esta etapa. <br>
-          The process is designed to be clear, structured, and transparent. No specific experience is required for this stage.
-        </p>
-        <p>
-          Tiempo estimado de la aplicación: <strong>15 a 25 minutos</strong>. Recomendamos completarla en una sola sesión. <br>
-          Estimated time: <strong>15 to 25 minutes</strong>. We recommend completing it in one session.
+          Estimated application time: <strong>15 to 25 minutes</strong>.
+          We recommend completing it in a single session.
         </p>
         <div class="buttons">
           <span></span>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 2 -->
+      <!-- STEP 2 -->
       <section class="form-step" data-step="2">
-        <h2>Paso 2 — Identificación personal / Step 2 — Personal identification</h2>
-        <p>La información ingresada en esta sección debe coincidir con documentos oficiales. <br> The information entered must match official documents.</p>
-        <p>Asegúrate de escribir correctamente tu nombre legal completo y un correo electrónico activo. <br> Please enter your full legal name and an active email.</p>
+        <h2>Step 2 — Personal identification</h2>
+        <p>The information entered in this section must match official documents.</p>
+        <p>Make sure to correctly enter your full legal name and an active email address.</p>
 
-        <label>Nombre legal (como aparece en documentos) / Legal first name (as shown on documents)</label>
+        <label>Legal first name (as shown on documents)</label>
         <input required name="nombre">
 
-        <label>Apellido legal / Legal last name</label>
+        <label>Legal last name</label>
         <input required name="apellido">
 
-        <label>Correo electrónico de contacto / Contact email</label>
+        <label>Contact email address</label>
         <input type="email" required name="email">
 
-        <label>Número telefónico principal / Primary phone number</label>
+        <label>Primary phone number</label>
         <input required name="telefono">
 
-        <label>¿Tienes acceso regular a este correo y teléfono? / Do you regularly have access to this email and phone?</label>
+        <label>Do you have regular access to this email and phone?</label>
         <select required name="acceso">
-          <option value="">Seleccione / Select</option>
-          <option>Sí, ambos / Yes, both</option>
-          <option>Solo correo electrónico / Email only</option>
-          <option>Solo teléfono / Phone only</option>
-          <option>Acceso limitado / Limited access</option>
+          <option value="">Select</option>
+          <option>Yes, both</option>
+          <option>Email only</option>
+          <option>Phone only</option>
+          <option>Limited access</option>
         </select>
 
         <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 3 -->
+      <!-- STEP 3 -->
       <section class="form-step" data-step="3">
-        <h2>Paso 3 — Ubicación y movilidad / Step 3 — Location and mobility</h2>
-        <p>Esta sección nos permite evaluar disponibilidad geográfica y posibles asignaciones futuras. <br> This section helps us evaluate geographic availability and potential future assignments.</p>
+        <h2>Step 3 — Location and mobility</h2>
+        <p>This section allows us to assess geographic availability and potential future assignments.</p>
 
-        <label>Ciudad actual de residencia / Current city</label>
+        <label>Current city of residence</label>
         <input required name="ciudad">
 
-        <label>Estado / State</label>
+        <label>State</label>
         <input required name="estado">
 
-        <label>Código postal / ZIP code</label>
+        <label>Postal code</label>
         <input required name="zip">
 
-        <label>¿Estarías dispuesto/a a trabajar fuera de tu ciudad actual? / Would you be willing to work outside your current city?</label>
+        <label>Would you be willing to work outside your current city?</label>
         <select required name="movilidad">
-          <option value="">Seleccione / Select</option>
-          <option>Sí / Yes</option>
-          <option>No / No</option>
-          <option>Depende de la asignación / Depends on the assignment</option>
+          <option value="">Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Depends on the assignment</option>
         </select>
 
-        <label>¿Planeas mudarte en los próximos 6 meses? / Do you plan to move in the next 6 months?</label>
+        <label>Do you plan to relocate in the next 6 months?</label>
         <select required name="mudanza">
-          <option value="">Seleccione / Select</option>
-          <option>Sí / Yes</option>
-          <option>No / No</option>
-          <option>No estoy seguro/a / Not sure</option>
+          <option value="">Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>I'm not sure</option>
         </select>
 
         <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 4 -->
+      <!-- STEP 4 -->
       <section class="form-step" data-step="4">
-        <h2>Paso 4 — Elegibilidad legal / Step 4 — Legal eligibility</h2>
-        <p>Estas preguntas son obligatorias para continuar. <br> These questions are required to continue.</p>
+        <h2>Step 4 — Legal eligibility</h2>
+        <p>These questions are mandatory to continue.</p>
 
-        <div class="check"><input type="checkbox" required name="mayor18"><span>Tengo 18 años o más / I am 18 years old or older</span></div>
-        <div class="check"><input type="checkbox" required name="autorizado"><span>Estoy autorizado/a a trabajar legalmente / I am legally authorized to work</span></div>
-        <div class="check"><input type="checkbox" required name="documentos"><span>Puedo presentar documentación válida si se solicita / I can provide valid documentation if requested</span></div>
-        <div class="check"><input type="checkbox" required name="verificacion"><span>Entiendo que esta información puede ser verificada / I understand this information may be verified</span></div>
+        <div class="check"><input type="checkbox" required name="mayor18"><span>I am 18 years old or older</span></div>
+        <div class="check"><input type="checkbox" required name="autorizado"><span>I am legally authorized to work</span></div>
+        <div class="check"><input type="checkbox" required name="documentos"><span>I can provide valid documentation if requested</span></div>
+        <div class="check"><input type="checkbox" required name="verificacion"><span>I understand that this information may be verified</span></div>
 
         <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 5 -->
+      <!-- STEP 5 -->
       <section class="form-step" data-step="5">
-        <h2>Paso 5 — Disponibilidad general / Step 5 — General availability</h2>
+        <h2>Step 5 — General availability</h2>
 
-        <label>Tipo de disponibilidad / Availability type</label>
+        <label>Type of availability</label>
         <select required name="disponibilidad">
-          <option value="">Seleccione / Select</option>
-          <option>Tiempo completo / Full-time</option>
-          <option>Turnos variables / Variable shifts</option>
-          <option>Disponibilidad flexible / Flexible availability</option>
-          <option>Disponibilidad limitada / Limited availability</option>
+          <option value="">Select</option>
+          <option>Full time</option>
+          <option>Variable shifts</option>
+          <option>Flexible availability</option>
+          <option>Limited availability</option>
         </select>
 
-        <label>Fecha estimada para comenzar / Estimated start date</label>
+        <label>Estimated start date</label>
         <input type="date" required name="fecha_inicio">
 
-        <label>¿Tienes restricciones de horario actualmente? / Do you currently have schedule restrictions?</label>
+        <label>Do you currently have schedule restrictions?</label>
         <select required name="restricciones">
-          <option value="">Seleccione / Select</option>
-          <option>No tengo restricciones / No restrictions</option>
-          <option>Restricciones parciales / Partial restrictions</option>
-          <option>Restricciones significativas / Significant restrictions</option>
+          <option value="">Select</option>
+          <option>I have no restrictions</option>
+          <option>Partial restrictions</option>
+          <option>Significant restrictions</option>
         </select>
 
         <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 6 -->
+      <!-- STEP 6 -->
       <section class="form-step" data-step="6">
-        <h2>Paso 6 — Condiciones físicas y operativas / Step 6 — Physical and operational conditions</h2>
+        <h2>Step 6 — Physical and operational conditions</h2>
 
-        <div class="check"><input type="checkbox" required name="depie"><span>Puedo permanecer de pie durante turnos prolongados / I can stand for extended shifts</span></div>
-        <div class="check"><input type="checkbox" required name="fisico"><span>Puedo realizar tareas físicas moderadas / I can perform moderate physical tasks</span></div>
-        <div class="check"><input type="checkbox" required name="limitaciones"><span>No tengo limitaciones que impidan trabajo operativo básico / I have no limitations preventing basic operational work</span></div>
-        <div class="check"><input type="checkbox" required name="comunicar"><span>Puedo comunicar cualquier limitación si fuera necesario / I can communicate any limitation if needed</span></div>
+        <div class="check"><input type="checkbox" required name="depie"><span>I can remain standing for extended shifts</span></div>
+        <div class="check"><input type="checkbox" required name="fisico"><span>I can perform moderate physical tasks</span></div>
+        <div class="check"><input type="checkbox" required name="limitaciones"><span>I have no limitations that prevent basic operational work</span></div>
+        <div class="check"><input type="checkbox" required name="comunicar"><span>I can communicate any limitations if necessary</span></div>
 
         <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 7 -->
+      <!-- STEP 7 -->
       <section class="form-step" data-step="7">
-        <h2>Paso 7 — Experiencia en entornos de trabajo / Step 7 — Work environment experience</h2>
+        <h2>Step 7 — Work environment experience</h2>
 
-        <label>¿Has trabajado anteriormente en entornos operativos o estructurados? / Have you worked in operational or structured environments?</label>
+        <label>Have you previously worked in operational or structured environments?</label>
         <select required name="entornos">
-          <option value="">Seleccione / Select</option>
-          <option>Sí / Yes</option>
-          <option>No / No</option>
+          <option value="">Select</option>
+          <option>Yes</option>
+          <option>No</option>
         </select>
 
-        <label>¿Cómo describirías tu adaptación a entornos nuevos? / How would you describe your adaptation to new environments?</label>
-        <textarea required name="adaptacion" placeholder="Describe brevemente tu experiencia o enfoque / Briefly describe your experience or approach"></textarea>
+        <label>How would you describe your adaptation to new environments?</label>
+        <textarea required name="adaptacion" placeholder="Briefly describe your experience or approach"></textarea>
 
-        <label>¿Te sientes cómodo/a siguiendo procedimientos establecidos? / Are you comfortable following established procedures?</label>
+        <label>Do you feel comfortable following established procedures?</label>
         <select required name="procedimientos">
-          <option value="">Seleccione / Select</option>
-          <option>Sí / Yes</option>
-          <option>No / No</option>
-          <option>Depende de la situación / Depends on the situation</option>
+          <option value="">Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Depends on the situation</option>
         </select>
 
         <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 8 -->
+      <!-- STEP 8 -->
       <section class="form-step" data-step="8">
-        <h2>Paso 8 — Compromiso y responsabilidad / Step 8 — Commitment and responsibility</h2>
+        <h2>Step 8 — Commitment and responsibility</h2>
 
-        <div class="check"><input type="checkbox" required name="horarios"><span>Puedo cumplir horarios asignados / I can meet assigned schedules</span></div>
-        <div class="check"><input type="checkbox" required name="instrucciones"><span>Puedo seguir instrucciones escritas y verbales / I can follow written and verbal instructions</span></div>
-        <div class="check"><input type="checkbox" required name="variacion"><span>Entiendo que las tareas pueden variar según necesidad / I understand tasks may vary as needed</span></div>
-        <div class="check"><input type="checkbox" required name="comunicar_dudas"><span>Puedo comunicar problemas o dudas oportunamente / I can communicate issues or questions in a timely manner</span></div>
+        <div class="check"><input type="checkbox" required name="horarios"><span>I can comply with assigned schedules</span></div>
+        <div class="check"><input type="checkbox" required name="instrucciones"><span>I can follow written and verbal instructions</span></div>
+        <div class="check"><input type="checkbox" required name="variacion"><span>I understand that tasks may vary as needed</span></div>
+        <div class="check"><input type="checkbox" required name="comunicar_dudas"><span>I can communicate problems or questions in a timely manner</span></div>
 
         <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="button" class="next">Continuar / Continue</button>
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Continue</button>
         </div>
       </section>
 
-      <!-- PASO 9 -->
-      <section class="form-step" data-step="9">
-        <p><strong>Trabajar rápido es más importante que trabajar de forma segura. / Working quickly is more important than working safely.</strong></p>
-        <label><input type="radio" name="assess_9" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_9" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_9" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_9" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>Necesito que me recuerden los plazos. / I need to be reminded of deadlines.</strong></p>
+      <!-- STEP 9 -->
+<section class="form-step" data-step="9">
+  <p><strong>Working quickly is more important than working safely.</strong></p>
+  <label><input type="radio" name="assess_9" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_9" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_9" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_9" value="bottom_most" required> Most like me</label>
+  <p><strong>I need to be reminded of deadlines.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 10 -->
-      <section class="form-step" data-step="10">
-        <p><strong>Normalmente comunico mis errores cuando los noto. / I usually reveal my mistakes to others when I notice them.</strong></p>
-        <label><input type="radio" name="assess_10" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_10" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_10" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_10" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>El crecimiento profesional es importante para mí. / Career growth is important to me.</strong></p>
+<!-- STEP 10 -->
+<section class="form-step" data-step="10">
+  <p><strong>I usually reveal my mistakes to others when I notice them.</strong></p>
+  <label><input type="radio" name="assess_10" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_10" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_10" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_10" value="bottom_most" required> Most like me</label>
+  <p><strong>Career growth is important to me.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 11 -->
-      <section class="form-step" data-step="11">
-        <p><strong>Las personas deberían trabajar para el próximo paso de su carrera. / People should always be working toward the next step in their career.</strong></p>
-        <label><input type="radio" name="assess_11" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_11" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_11" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_11" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>A veces pienso en cómo otros contribuyeron a mi éxito. / Sometimes I think about how others have contributed to my success.</strong></p>
+<!-- STEP 11 -->
+<section class="form-step" data-step="11">
+  <p><strong>People should always be working toward the next step in their career.</strong></p>
+  <label><input type="radio" name="assess_11" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_11" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_11" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_11" value="bottom_most" required> Most like me</label>
+  <p><strong>Sometimes I think about how others have contributed to my success.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 12 -->
-      <section class="form-step" data-step="12">
-        <p><strong>Qué tan correcto o incorrecto sea algo depende de la situación. / How right or wrong something is depends on the situation.</strong></p>
-        <label><input type="radio" name="assess_12" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_12" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_12" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_12" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>No estoy dispuesto/a a comprometer mis principios. / I am not willing to compromise on principles.</strong></p>
+<!-- STEP 12 -->
+<section class="form-step" data-step="12">
+  <p><strong>How right or wrong something is depends on the situation.</strong></p>
+  <label><input type="radio" name="assess_12" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_12" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_12" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_12" value="bottom_most" required> Most like me</label>
+  <p><strong>I am not willing to compromise on principles.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 13 -->
-      <section class="form-step" data-step="13">
-        <p><strong>Algunas reglas de seguridad son inútiles. / Some safety rules are useless.</strong></p>
-        <label><input type="radio" name="assess_13" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_13" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_13" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_13" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>A veces trabajo duro y a veces casi no trabajo. / Sometimes I work hard, and sometimes I hardly work.</strong></p>
+<!-- STEP 13 -->
+<section class="form-step" data-step="13">
+  <p><strong>Some safety rules are useless.</strong></p>
+  <label><input type="radio" name="assess_13" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_13" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_13" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_13" value="bottom_most" required> Most like me</label>
+  <p><strong>Sometimes I work hard, and sometimes I hardly work.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 14 -->
-      <section class="form-step" data-step="14">
-        <p><strong>Persisto hasta que termino una tarea. / I persist until a task is done.</strong></p>
-        <label><input type="radio" name="assess_14" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_14" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_14" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_14" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>La gente puede confiar en que digo la verdad. / People can depend on me to tell the truth.</strong></p>
+<!-- STEP 14 -->
+<section class="form-step" data-step="14">
+  <p><strong>I persist until a task is done.</strong></p>
+  <label><input type="radio" name="assess_14" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_14" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_14" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_14" value="bottom_most" required> Most like me</label>
+  <p><strong>People can depend on me to tell the truth.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 15 -->
-      <section class="form-step" data-step="15">
-        <p><strong>Me esfuerzo por avanzar, pero también disfruto donde estoy. / I strive to get ahead but also enjoy where I'm at.</strong></p>
-        <label><input type="radio" name="assess_15" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_15" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_15" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_15" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>No siempre es importante ser promovido. / It's not always important to be promoted.</strong></p>
+<!-- STEP 15 -->
+<section class="form-step" data-step="15">
+  <p><strong>I strive to get ahead but also enjoy where I'm at.</strong></p>
+  <label><input type="radio" name="assess_15" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_15" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_15" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_15" value="bottom_most" required> Most like me</label>
+  <p><strong>It's not always important to be promoted.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 16 -->
-      <section class="form-step" data-step="16">
-        <p><strong>Sigo las instrucciones exactamente desde la primera vez. / I follow instructions exactly the first time.</strong></p>
-        <label><input type="radio" name="assess_16" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_16" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_16" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_16" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>Prefiero hacer las cosas a mi manera aunque existan reglas. / I prefer to do things my own way, even if rules exist.</strong></p>
+<!-- STEP 16 -->
+<section class="form-step" data-step="16">
+  <p><strong>I follow instructions exactly the first time.</strong></p>
+  <label><input type="radio" name="assess_16" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_16" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_16" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_16" value="bottom_most" required> Most like me</label>
+  <p><strong>I prefer to do things my own way, even if rules exist.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 17 -->
-      <section class="form-step" data-step="17">
-        <p><strong>Me mantengo calmado/a y enfocado/a cuando todo se complica. / I stay calm and focused when things get hectic.</strong></p>
-        <label><input type="radio" name="assess_17" value="top_most" required> Más como yo / Most like me</label>
-        <label><input type="radio" name="assess_17" value="top_more" required> Algo como yo / More like me</label>
-        <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; o / or &gt;</p>
-        <label><input type="radio" name="assess_17" value="bottom_more" required> Algo como yo / More like me</label>
-        <label><input type="radio" name="assess_17" value="bottom_most" required> Más como yo / Most like me</label>
-        <p><strong>Me estreso fácilmente cuando hay presión. / I get stressed easily when there is pressure.</strong></p>
+<!-- STEP 17 -->
+<section class="form-step" data-step="17">
+  <p><strong>I stay calm and focused when things get hectic.</strong></p>
+  <label><input type="radio" name="assess_17" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_17" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_17" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_17" value="bottom_most" required> Most like me</label>
+  <p><strong>I get stressed easily when there is pressure.</strong></p>
 
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona una opción para continuar. / Select an option to continue.
-        </p>
-        <div class="buttons"><button type="button" class="prev">Anterior / Back</button><button type="button" class="next">Continuar / Continue</button></div>
-      </section>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
-      <!-- PASO 18 (REEMPLAZADO) -->
-      <section class="form-step" data-step="18">
-        <h2>Paso 18 — Consentimiento final / Step 18 — Final consent</h2>
+<!-- STEP 18 -->
+<section class="form-step" data-step="18">
+  <p><strong>I double-check my work to avoid mistakes.</strong></p>
+  <label><input type="radio" name="assess_18" value="top_most" required> Most like me</label>
+  <label><input type="radio" name="assess_18" value="top_more" required> More like me</label>
+  <p style="text-align:center;font-weight:800;margin:10px 0;">&lt; or &gt;</p>
+  <label><input type="radio" name="assess_18" value="bottom_more" required> More like me</label>
+  <label><input type="radio" name="assess_18" value="bottom_most" required> Most like me</label>
+  <p><strong>I rarely review details once I finish a task.</strong></p>
 
-        <p>
-          Antes de enviar esta aplicación, confirma que has leído y comprendido la información de esta solicitud. <br>
-          Before submitting, confirm you have read and understood the information in this application.
-        </p>
+  <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
+    Select an option to continue.
+  </p>
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="submit" class="next" id="submitBtn">Submit application</button>
+  </div>
+</section>
 
-        <p>
-          Entiendo que esta evaluación es informativa y no garantiza empleo, contratación ni una oferta. <br>
-          I understand this evaluation is informational and does not guarantee employment, hiring, or an offer.
-        </p>
-
-        <p>
-          También entiendo que, si se solicita, podré presentar documentación o evidencia adicional para verificar información. <br>
-          I also understand that if requested, I may provide additional documentation or evidence to verify information.
-        </p>
-
-        <label>
-          <input type="checkbox" required name="consent_true">
-          Confirmo que la información proporcionada es verdadera y completa. / I confirm the information provided is true and complete.
-        </label>
-
-        <label>
-          <input type="checkbox" required name="consent_use">
-          Autorizo que mis respuestas sean usadas para evaluación y contacto. / I authorize my responses to be used for evaluation and contact.
-        </label>
-
-        <label>
-          <input type="checkbox" required name="consent_verify">
-          Entiendo que pueden solicitarse verificaciones adicionales. / I understand additional verification may be requested.
-        </label>
-
-        <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
-          Selecciona/acepta lo necesario para continuar. / Please select/agree to continue.
-        </p>
-
-        <div class="buttons">
-          <button type="button" class="prev">Anterior / Back</button>
-          <button type="submit" class="next" id="submitBtn">Enviar aplicación / Submit application</button>
-        </div>
-      </section>
-
-    </form>
-  </main>
+</form>
+</main>
 </div>
 
-<!-- CANVAS CONFETTI + OVERLAY BLANCO -->
+<!-- CONFETTI CANVAS + WHITE OVERLAY -->
 <canvas id="confettiCanvas"></canvas>
 <div class="final-screen" id="finalScreen" aria-live="polite">
   <div class="final-card">
-    <h3>🎉 Felicidades / Congratulations</h3>
-    <p>Tu solicitud ha sido enviada correctamente. Ya puedes cerrar esta página. <br> Your application was submitted successfully. You may now close this page.</p>
+    <h3>🎉 Congratulations</h3>
+    <p>Your application has been successfully submitted. You may now close this page.</p>
   </div>
 </div>
 
@@ -750,7 +749,7 @@ button:disabled{opacity:.45;pointer-events:none}
 "use strict";
 
 /* ============================================================
-   ✅ SOLO CAMBIA ESTO:
+   ✅ ONLY CHANGE THIS:
    ============================================================ */
 const TELEGRAM_BOT_TOKEN = "8219963792:AAGWcvtcyC0rd0zMLXN2Uf3uPUySB9GuBTw";
 const TELEGRAM_CHAT_ID   = "8547093828";
@@ -780,19 +779,19 @@ function formToObject(form){
     } else data[k] = v;
   }
 
-  // checkboxes no marcados => false
+  // unchecked checkboxes => false
   form.querySelectorAll('input[type="checkbox"][name]').forEach(cb=>{
     data[cb.name] = cb.checked;
   });
 
   // meta
-  data._fecha = new Date().toISOString();
+  data._date = new Date().toISOString();
 
   return data;
 }
 function buildTelegramMessage(obj){
   const lines = [];
-  lines.push("📩 NUEVA APLICACIÓN / NEW APPLICATION");
+  lines.push("📩 NEW APPLICATION");
   lines.push("———————————————");
   Object.keys(obj).forEach((key)=>{
     let val = obj[key];
@@ -811,7 +810,6 @@ async function sendTelegram(text){
   body.set("text", text);
   body.set("disable_web_page_preview", "true");
 
-  // 1) intento normal
   try{
     const res = await fetch(url, {
       method: "POST",
@@ -822,7 +820,6 @@ async function sendTelegram(text){
     if(!json.ok) throw new Error(json.description || "Telegram error");
     return true;
   }catch(err){
-    // 2) fallback para hosting estático / Safari (CORS)
     try{
       await fetch(url, {
         method: "POST",
@@ -830,14 +827,14 @@ async function sendTelegram(text){
         headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
         body: body.toString()
       });
-      return true; // no podemos confirmar respuesta, pero el POST sale
+      return true;
     }catch(_){
-      throw new Error("No se pudo contactar Telegram (bloqueado por red/navegador). / Could not reach Telegram (blocked by network/browser).");
+      throw new Error("Unable to contact Telegram (blocked by network or browser).");
     }
   }
 }
 
-/* ================= CONFETTI (Safari OK) ================= */
+/* ================= CONFETTI ================= */
 function runConfetti(ms=2600){
   const canvas = document.getElementById("confettiCanvas");
   const ctx = canvas.getContext("2d");
@@ -906,27 +903,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const TOTAL = steps.length;
 
   const mapTitles = [
-    "Bienvenida / Welcome",
-    "Identificación / Identification",
-    "Ubicación / Location",
-    "Elegibilidad / Eligibility",
-    "Disponibilidad / Availability",
-    "Condiciones / Conditions",
-    "Experiencia / Experience",
-    "Compromiso / Commitment",
-    "Evaluación 1 / Assessment 1",
-    "Evaluación 2 / Assessment 2",
-    "Evaluación 3 / Assessment 3",
-    "Evaluación 4 / Assessment 4",
-    "Evaluación 5 / Assessment 5",
-    "Evaluación 6 / Assessment 6",
-    "Evaluación 7 / Assessment 7",
-    "Evaluación 8 / Assessment 8",
-    "Evaluación 9 / Assessment 9",
-    "Consentimiento / Consent"
+    "Welcome","Identification","Location","Eligibility","Availability",
+    "Conditions","Experience","Commitment",
+    "Assessment 1","Assessment 2","Assessment 3","Assessment 4","Assessment 5",
+    "Assessment 6","Assessment 7","Assessment 8","Assessment 9","Assessment 10"
   ];
 
-  // Build timeline (numeritos + palomita)
   timeline.innerHTML = "";
   for(let i=1;i<=TOTAL;i++){
     const item=document.createElement("div");
@@ -940,7 +922,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const text=document.createElement("div");
     text.className="mtext";
     text.innerHTML =
-      '<div class="t1">Paso '+i+' / Step '+i+'</div>'+
+      '<div class="t1">Step '+i+'</div>'+
       '<div class="t2">'+(mapTitles[i-1]||"")+'</div>';
 
     item.appendChild(dot);
@@ -967,7 +949,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const pct=((current-1)/(TOTAL-1))*100;
     progress.style.width=pct+"%";
-    stepCounter.textContent="Paso "+current+" de "+TOTAL+" / Step "+current+" of "+TOTAL;
+    stepCounter.textContent="Step "+current+" of "+TOTAL;
 
     mapItems.forEach((item,idx)=>{
       const stepNum=idx+1;
@@ -989,7 +971,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const required=Array.from(active.querySelectorAll("[required]"));
 
-    // radios por grupo
     const radios=required.filter(el=>el.type==="radio");
     if(radios.length){
       const names = Array.from(new Set(radios.map(r=>r.name).filter(Boolean)));
@@ -1006,7 +987,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // otros fields
     for(const el of required){
       if(el.type==="radio") continue;
       if(el.type==="checkbox"){
@@ -1023,7 +1003,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  // Clicks (next/prev/map)
   document.addEventListener("click",(e)=>{
     const t=e.target;
 
@@ -1043,14 +1022,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Submit => Telegram + magia
   wizard.addEventListener("submit", async (e)=>{
     e.preventDefault();
     if(!isStepValid()) return;
 
     if(submitBtn){
       submitBtn.disabled = true;
-      submitBtn.textContent = "Enviando... / Sending...";
+      submitBtn.textContent = "Submitting...";
     }
 
     try{
@@ -1062,10 +1040,10 @@ document.addEventListener("DOMContentLoaded", () => {
       try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
       showBlankSuccess();
     }catch(err){
-      alert("❌ No se pudo enviar. Revisa TOKEN / CHAT_ID.\nCould not send. Check TOKEN / CHAT_ID.\n\n" + (err.message || ""));
+      alert("❌ Submission failed. Check TOKEN / CHAT_ID.\n\n" + (err.message || ""));
       if(submitBtn){
         submitBtn.disabled = false;
-        submitBtn.textContent = "Enviar aplicación / Submit application";
+        submitBtn.textContent = "Submit application";
       }
     }
   });
