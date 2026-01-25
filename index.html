@@ -347,138 +347,175 @@ button:disabled{opacity:.45;pointer-events:none}
   <main class="panel">
     <form id="wizard" novalidate>
 
-      <!-- STEP 1 -->
-      <section class="form-step active" data-step="1">
-        <h2>Step 1 — WELCOME TO THE APPLICATION</h2>
-        <p>
-  <strong>Thank you for applying to SunPower.</strong><br>
-  We sincerely appreciate your interest in becoming part of SunPower’s large-scale corporate
-  operations. Your application marks an important first step in our structured hiring and
-  onboarding process.
-</p>
+     <!-- STEP 1 -->
+<section class="form-step active" data-step="1">
+  <h2>Step 1 — Welcome to the Application</h2>
 
-<p>
-  This application serves as an <strong>initial assessment</strong> and functions as the first
-  <strong>warehouse-level evaluation module</strong> within our operational framework. Its purpose
-  is to assess fundamental compatibility with warehouse, operational, and support roles across
-  our facilities, ensuring alignment with SunPower’s operational standards and safety-driven
-  environment.
-</p>
+  <p>
+    <strong>Thank you for applying to SunPower.</strong><br>
+    We appreciate your interest in joining SunPower’s warehouse and operational teams. This
+    application is the first step in our structured hiring process for warehouse, logistics, and
+    operational support roles.
+  </p>
 
-<p>
-  The assessment process has been carefully designed to be clear, structured, and transparent.
-  At this stage, no prior warehouse, logistics, or operational experience is required. We are
-  primarily focused on evaluating foundational skills, reliability, and readiness to perform
-  within a fast-paced, team-oriented operational setting.
-</p>
+  <p>
+    This application serves as an <strong>initial warehouse-level assessment</strong> designed to
+    evaluate readiness for work in a professional, safety-focused, and performance-driven
+    operational environment. It helps us identify candidates who are aligned with the expectations
+    of large-scale warehouse operations.
+  </p>
 
-<p>
-  The estimated time to complete this application is <strong>20 to 35 minutes</strong>.
-  To ensure accuracy and continuity, we strongly recommend completing the assessment in a single,
-  uninterrupted session. Please make sure you are in a quiet environment and able to review each
-  section carefully before submitting your responses.
-</p>
+  <p>
+    At this stage, <strong>prior warehouse or logistics experience is not required</strong>.
+    We are primarily evaluating reliability, attention to safety, ability to follow procedures,
+    teamwork, and readiness to perform in a fast-paced warehouse setting.
+  </p>
 
-<p>
-  Completion of this initial warehouse module allows our operations and recruiting teams to
-  determine next steps in the selection process. Qualified candidates may be invited to continue
-  to subsequent evaluations or onboarding stages based on operational needs and role availability.
-</p>
-        <div class="buttons">
-          <span></span>
-          <button type="button" class="next">Continue</button>
-        </div>
-      </section>
+  <p>
+    The estimated time to complete this application is <strong>20 to 35 minutes</strong>.
+    For best results, please complete the assessment in one uninterrupted session. We recommend
+    reviewing each section carefully and answering honestly based on how you would perform in a
+    real work environment.
+  </p>
+
+  <p>
+    Completion of this assessment allows our warehouse operations and recruiting teams to determine
+    next steps. Qualified candidates may be contacted for additional evaluations, interviews, or
+    onboarding steps based on role availability and operational needs.
+  </p>
+
+  <div class="buttons">
+    <span></span>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
       <!-- STEP 2 -->
-      <section class="form-step" data-step="2">
-        <h2>Step 2 — PERSONAL IDENTIFICATION</h2>
-        <p>The information entered in this section must match official documents.</p>
-        <p>Make sure to correctly enter your full legal name and an active email address.</p>
+<section class="form-step" data-step="2">
+  <h2>Step 2 — Personal Identification</h2>
 
-        <label>Legal first name (as shown on documents)</label>
-        <input required name="nombre">
+  <p>
+    The information provided in this section must match your official identification documents.
+    This information will be used for communication and, if selected, for employment verification.
+  </p>
 
-        <label>Legal last name</label>
-        <input required name="apellido">
+  <p>
+    Please enter your full legal name and reliable contact information. Make sure all details are
+    accurate and up to date.
+  </p>
 
-        <label>Contact email address</label>
-        <input type="email" required name="email">
+  <label>Legal first name (as shown on official documents)</label>
+  <input required name="nombre">
 
-        <label>Primary phone number</label>
-        <input required name="telefono">
+  <label>Legal last name (as shown on official documents)</label>
+  <input required name="apellido">
 
-        <label>Do you have regular access to this email and phone?</label>
-        <select required name="acceso">
-          <option value="">Select</option>
-          <option>Yes, both</option>
-          <option>Email only</option>
-          <option>Phone only</option>
-        </select>
+  <label>Primary contact email address</label>
+  <input type="email" required name="email">
 
-        <div class="buttons">
-          <button type="button" class="prev">Previous</button>
-          <button type="button" class="next">Continue</button>
-        </div>
-      </section>
+  <label>Primary phone number</label>
+  <input required name="telefono">
+
+  <label>
+    Do you have regular and reliable access to this email address and phone number?
+  </label>
+  <select required name="acceso">
+    <option value="">Select</option>
+    <option>Yes, both email and phone</option>
+    <option>Email only</option>
+    <option>Phone only</option>
+  </select>
+
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
       <!-- STEP 3 -->
-      <section class="form-step" data-step="3">
-        <h2>Step 3 — LOCATION INFORMATION</h2>
-        <p>This section allows us to assess geographic availability and potential future assignments.</p>
-       
-        <label>Address</label>
-        <input required name="ciudad">
+<section class="form-step" data-step="3">
+  <h2>Step 3 — Location and Commute Information</h2>
 
-        <label>Current city of residence</label>
-        <input required name="ciudad">
+  <p>
+    This section helps us understand your location, commuting reliability, and availability for
+    warehouse assignments. Accurate location information is important for shift scheduling and
+    facility placement.
+  </p>
 
-        <label>State</label>
-        <input required name="estado">
+  <label>Street address (current residence)</label>
+  <input required name="ciudad">
 
-        <label>Postal code</label>
-        <input required name="zip">
+  <label>Current city of residence</label>
+  <input required name="ciudad">
 
-        <label>Is this the address of your ID?</label>
-        <select required name="movilidad">
-          <option value="">Select</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
+  <label>State</label>
+  <input required name="estado">
 
-        <label>How long have you been living at this address?</label>
-        <select required name="mudanza">
-          <option value="">Select</option>
-          <option>1-3 years</option>
-          <option>3-6 years</option>
-          <option>10+ years</option>
-        </select>
+  <label>Postal / ZIP code</label>
+  <input required name="zip">
 
-        <div class="buttons">
-          <button type="button" class="prev">Previous</button>
-          <button type="button" class="next">Continue</button>
-        </div>
-      </section>
+  <label>
+    Does this address match the address listed on your official identification?
+  </label>
+  <select required name="movilidad">
+    <option value="">Select</option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+
+  <label>
+    How long have you lived at your current address?
+  </label>
+  <select required name="mudanza">
+    <option value="">Select</option>
+    <option>1–3 years</option>
+    <option>3–6 years</option>
+    <option>10+ years</option>
+  </select>
+
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
 
       <!-- STEP 4 -->
-      <section class="form-step" data-step="4">
-        <h2>Step 4 — LEGAL ELIGIBILITY</h2>
-        <p>These questions are mandatory to continue.</p>
+<section class="form-step" data-step="4">
+  <h2>Step 4 — Legal Work Eligibility</h2>
 
-        <div class="check"><input type="checkbox" required name="mayor18"><span>I am 18 years old or older</span></div>
-        <div class="check"><input type="checkbox" required name="autorizado"><span>I am legally authorized to work</span></div>
-        <div class="check"><input type="checkbox" required name="documentos"><span>I can provide valid documentation if requested</span></div>
-        <div class="check"><input type="checkbox" required name="verificacion"><span>I understand that this information may be verified</span></div>
+  <p>
+    The following confirmations are required to continue with the warehouse hiring process.
+    Please review each statement carefully.
+  </p>
 
-        <div class="buttons">
-          <button type="button" class="prev">Previous</button>
-          <button type="button" class="next">Continue</button>
-        </div>
-      </section>
+  <div class="check">
+    <input type="checkbox" required name="mayor18">
+    <span>I am at least 18 years of age.</span>
+  </div>
 
+  <div class="check">
+    <input type="checkbox" required name="autorizado">
+    <span>I am legally authorized to work in the United States.</span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="documentos">
+    <span>I am able to provide valid employment eligibility documents if requested.</span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="verificacion">
+    <span>I understand that this information may be verified as part of the hiring process.</span>
+  </div>
+
+  <div class="buttons">
+    <button type="button" class="prev">Previous</button>
+    <button type="button" class="next">Continue</button>
+  </div>
+</section>
       <!-- STEP 5 -->
       <section class="form-step" data-step="5">
-        <h2>Step 5 — GENERAL AVAILABILITY</h2>
+        <h2>Step 5 — General Availability</h2>
 
         <label>Type of availability</label>
         <select required name="disponibilidad">
@@ -509,24 +546,25 @@ button:disabled{opacity:.45;pointer-events:none}
         </div>
       </section>
 
-      <!-- STEP 6 -->
+     <!-- STEP 6 -->
 <section class="form-step" data-step="6">
-  <h2>Step 6 — ESSENTIAL JOB REQUIREMENTS</h2>
+  <h2>Step 6 — Essential Job Requirements</h2>
 
   <p class="step-description">
-    This position includes physical and operational duties that are essential to job performance.
+    Warehouse and operational roles include physical tasks and job duties that are essential to
+    daily operations and safety performance.
   </p>
 
   <div class="check">
     <input type="checkbox" id="essential_functions" name="essential_functions" required>
     <label for="essential_functions">
-      I am able to perform the essential functions of this position, with or without reasonable accommodation.
+      I am able to perform the essential job duties of this position, with or without reasonable accommodation.
     </label>
   </div>
 
   <div class="field">
     <label for="accommodation_required">
-      Do you require reasonable accommodation to perform these essential functions?
+      Do you require reasonable accommodation to safely and effectively perform these job duties?
     </label>
     <select id="accommodation_required" name="accommodation_required" required>
       <option value="">Select</option>
@@ -552,13 +590,12 @@ button:disabled{opacity:.45;pointer-events:none}
     <button type="button" class="next">Continue</button>
   </div>
 </section>
-
-      <!-- STEP 7 -->
+    <!-- STEP 7 -->
 <section class="form-step" data-step="7">
-  <h2>Step 7 — WORK ENVIRONMENT EXPERIENCES</h2>
+  <h2>Step 7 — Work Environment Experience</h2>
 
   <label for="entornos">
-    Have you previously worked in a structured or operational work environment?
+    Have you previously worked in a warehouse, operational, or highly structured work environment?
   </label>
   <select id="entornos" name="entornos" required>
     <option value="">Select</option>
@@ -569,12 +606,12 @@ button:disabled{opacity:.45;pointer-events:none}
   </select>
 
   <label for="tipo_trabajo">
-    What type of work best describes your most recent experience?
+    Which type of work best represents your most recent job experience?
   </label>
   <select id="tipo_trabajo" name="tipo_trabajo" required>
     <option value="">Select</option>
     <option value="warehouse">Warehouse / Logistics</option>
-    <option value="construction">Construction / Field work</option>
+    <option value="construction">Construction / Field operations</option>
     <option value="manufacturing">Manufacturing / Production</option>
     <option value="customer_service">Customer Service / Retail</option>
     <option value="driving">Driving / Delivery</option>
@@ -584,7 +621,7 @@ button:disabled{opacity:.45;pointer-events:none}
   </select>
 
   <label for="experiencia_anios">
-    How many years of total work experience do you have?
+    How many total years of work experience do you have?
   </label>
   <select id="experiencia_anios" name="experiencia_anios" required>
     <option value="">Select</option>
@@ -597,7 +634,7 @@ button:disabled{opacity:.45;pointer-events:none}
   </select>
 
   <label for="ritmo_trabajo">
-    Are you comfortable working in a fast-paced environment with performance expectations?
+    Are you comfortable working in a fast-paced warehouse environment with productivity expectations?
   </label>
   <select id="ritmo_trabajo" name="ritmo_trabajo" required>
     <option value="">Select</option>
@@ -607,7 +644,7 @@ button:disabled{opacity:.45;pointer-events:none}
   </select>
 
   <label for="procedimientos">
-    Are you comfortable following company rules, safety guidelines, and standard procedures?
+    Are you willing and able to follow safety rules, company policies, and standard operating procedures?
   </label>
   <select id="procedimientos" name="procedimientos" required>
     <option value="">Select</option>
@@ -618,7 +655,7 @@ button:disabled{opacity:.45;pointer-events:none}
   </select>
 
   <label for="equipo">
-    How comfortable are you working as part of a team?
+    How comfortable are you working as part of a team to meet daily operational goals?
   </label>
   <select id="equipo" name="equipo" required>
     <option value="">Select</option>
@@ -629,17 +666,17 @@ button:disabled{opacity:.45;pointer-events:none}
   </select>
 
   <label for="adaptacion">
-    How do you usually adapt to new work environments, expectations, or routines?
+    How do you typically learn new tasks and adjust to new procedures or work routines?
   </label>
   <textarea
     id="adaptacion"
     name="adaptacion"
     required
-    placeholder="Briefly explain how you learn new tasks, follow instructions, and adjust to new roles"
+    placeholder="Briefly explain how you learn tasks, follow instructions, and adapt on the job"
   ></textarea>
 
   <label for="transporte">
-    Do you have reliable transportation to commute to work?
+    Do you have reliable transportation to consistently commute to the warehouse or job site?
   </label>
   <select id="transporte" name="transporte" required>
     <option value="">Select</option>
@@ -653,36 +690,84 @@ button:disabled{opacity:.45;pointer-events:none}
     <button type="button" class="next">Continue</button>
   </div>
 </section>
-
-     <!-- STEP 8 -->
+   <!-- STEP 8 -->
 <section class="form-step" data-step="8">
   <h2>Step 8 — Commitment and responsibility</h2>
 
   <div class="check">
     <input type="checkbox" required name="horarios">
     <span>
-      I can show up to work on time and follow the schedule assigned to me.
+      I can consistently arrive on time and comply with assigned work schedules.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="asistencia">
+    <span>
+      I understand that regular attendance is required and excessive absences may affect employment.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="turnos_completos">
+    <span>
+      I am able to work full assigned shifts and understand that leaving early without approval is not acceptable.
     </span>
   </div>
 
   <div class="check">
     <input type="checkbox" required name="instrucciones">
     <span>
-      I can follow instructions as given and ask questions if something is not clear.
+      I can follow instructions as provided and ask questions when clarification is needed.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="procedimientos">
+    <span>
+      I understand the importance of following standard operating procedures and safety rules at all times.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="ritmo_trabajo">
+    <span>
+      I am able to maintain a consistent work pace while meeting quality and productivity expectations.
     </span>
   </div>
 
   <div class="check">
     <input type="checkbox" required name="variacion">
     <span>
-      I understand that job tasks may change during the day based on work needs.
+      I understand that job tasks may change during the day based on workload or operational needs.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="equipo">
+    <span>
+      I am able to work as part of a team and contribute to meeting daily operational goals.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="calidad">
+    <span>
+      I understand that completing tasks correctly is just as important as completing them on time.
     </span>
   </div>
 
   <div class="check">
     <input type="checkbox" required name="comunicar_dudas">
     <span>
-      If I have a problem, concern, or delay, I will communicate it as soon as possible.
+      I will promptly communicate any issues, delays, or concerns that may affect my work or safety.
+    </span>
+  </div>
+
+  <div class="check">
+    <input type="checkbox" required name="actitud">
+    <span>
+      I am willing to maintain a professional attitude and follow supervisor direction while on the job.
     </span>
   </div>
 
@@ -691,7 +776,6 @@ button:disabled{opacity:.45;pointer-events:none}
     <button type="button" class="next">Continue</button>
   </div>
 </section>
-
       <!-- STEP 9 -->
 <section class="form-step" data-step="9">
   <p><strong>Finishing fast matters more than doing the job safely.</strong></p>
@@ -865,74 +949,99 @@ button:disabled{opacity:.45;pointer-events:none}
 <!-- STEP 18 -->
 <section class="form-step" data-step="18">
 
-  <p><strong>Warehouse Roles & Scheduling Overview – Solar Panel Assembly Operations</strong></p>
+  <p><strong>Warehouse Roles & Scheduling — Solar Panel Assembly</strong></p>
 
   <p>
-    The information below outlines the primary roles within our solar panel assembly
-    warehouse environment, along with general scheduling expectations. This step is
-    intended to provide transparency regarding operational roles and work conditions
-    prior to final application submission.
+    Before you submit, read this carefully. These are real warehouse roles. The work is hands-on,
+    fast-paced, and safety-driven. We want you to understand what the job looks like day to day
+    and how scheduling works.
+  </p>
+
+  <p>
+    Most warehouse roles require: standing for long periods, repetitive motions, lifting and moving
+    materials (within safety guidelines), using scanners/barcodes, working around pallets and carts,
+    and wearing required PPE (for example: safety shoes, gloves, eye protection) when needed.
   </p>
 
   <!-- ROLE 1 -->
   <p><strong>Role 1: Solar Panel Assembler</strong></p>
   <p>
-    This position focuses on the hands-on assembly of solar panels and related components
-    in a production-based warehouse environment. Responsibilities include assembling panel
-    frames, installing electrical connectors, performing basic wiring tasks, operating
-    approved hand tools, and ensuring products meet established quality, safety, and
-    production standards.
+    You will assemble solar panel components on a production line or work station. Tasks may include
+    fitting frames, installing connectors, basic wiring tasks as assigned, using approved hand tools,
+    following build instructions, and keeping steady output while meeting quality and safety standards.
+    You must be able to stay focused, work with consistency, and report defects or issues right away.
   </p>
   <p><strong>Hourly Pay Range:</strong> $18–$23 per hour</p>
 
   <!-- ROLE 2 -->
   <p><strong>Role 2: Material Handler / Warehouse Associate</strong></p>
   <p>
-    This role supports daily warehouse operations by receiving, staging, moving, and
-    organizing materials and finished products. Responsibilities include inventory
-    handling, labeling and scanning items, supplying production lines, assisting with
-    loading and unloading shipments, and maintaining clean, organized, and safe work
-    areas in coordination with warehouse leadership.
+    You will support warehouse flow by receiving, staging, and moving material to keep production running.
+    Tasks may include scanning and labeling inventory, picking/put-away, supplying work areas, moving pallets
+    with approved equipment (as assigned), helping load/unload shipments, and keeping aisles and work zones clean
+    and safe. Accuracy matters (wrong item = delays).
   </p>
   <p><strong>Hourly Pay Range:</strong> $18–$22 per hour</p>
 
   <!-- ROLE 3 -->
   <p><strong>Role 3: Quality Control / Inspection Associate</strong></p>
   <p>
-    This position is responsible for inspecting assembled solar panels to ensure compliance
-    with quality, safety, and performance standards. Responsibilities may include visual
-    inspections, basic measurements or testing as required, documentation of findings, and
-    coordination with production teams to support continuous quality improvement.
+    You will inspect finished or in-process panels to confirm they meet quality and safety requirements.
+    Tasks may include visual inspections, basic measurements or checks as required, documenting results,
+    flagging defects, and communicating with production to correct issues. This role requires attention to
+    detail and consistent documentation.
   </p>
   <p><strong>Hourly Pay Range:</strong> $19–$23 per hour</p>
 
-  <!-- SCHEDULE -->
+  <!-- SCHEDULE OVERVIEW -->
   <p><strong>Work Schedules & Shift Structure</strong></p>
   <p>
-    Warehouse positions may operate on structured schedules consisting of
-    <strong>8-hour or 10-hour shifts</strong>, depending on operational requirements.
-    Available shifts may include daytime or evening hours, and additional hours may be
-    scheduled during periods of increased production demand.
+    Warehouse operations run on fixed shifts to support production. You may be assigned to one of three shifts.
+    Shifts may be scheduled as <strong>8-hour or 10-hour workdays</strong> depending on business needs.
+    Start times and days worked depend on the role and department.
+  </p>
+
+  <!-- SHIFT 1 -->
+  <p><strong>First Shift (Day Shift)</strong></p>
+  <p>
+    Day Shift supports daytime production and warehouse operations. This shift typically starts in the morning.
+    Schedules may be 8 or 10 hours depending on the department.
+  </p>
+
+  <!-- SHIFT 2 -->
+  <p><strong>Second Shift (Evening Shift)</strong></p>
+  <p>
+    Evening Shift supports afternoon/evening production and helps keep operations moving into the night.
+    Start times are later than Day Shift. Schedules may be 8 or 10 hours depending on needs.
+  </p>
+
+  <!-- SHIFT 3 -->
+  <p><strong>Third Shift (Overnight Shift)</strong></p>
+  <p>
+    Overnight Shift supports continuous production through the night. This shift runs late evening into early morning.
+    Schedules may be 8 or 10 hours depending on production requirements.
+  </p>
+
+  <p>
+    Overtime and weekend scheduling may be required during peak production periods. All scheduling is based on operational demand.
   </p>
 
   <!-- NOTE -->
   <p style="font-size:0.95em;">
     <strong>*Important Scheduling Notice:</strong>
-    Shift selection is completed <strong>after the application and hiring process has been fully approved</strong>.
-    Once approved, employees will be granted access to the <strong>employee portal</strong>, where
-    available shifts may be reviewed and selected based on current operational needs,
-    role placement, and shift availability at the time of onboarding.
+    Shift selection happens <strong>after you are approved through the hiring process</strong>. If approved, you will receive
+    access to the <strong>employee portal</strong> where available shifts can be reviewed. Shift availability depends on
+    business needs and what is open at the time of onboarding.
   </p>
 
   <!-- ACKNOWLEDGMENT -->
   <p>
-    By selecting an option below, you confirm that you have reviewed and understand the
-    warehouse roles, work environment, and scheduling process described above.
+    By selecting an option below, you confirm you understand the roles and the scheduling expectations described above.
   </p>
 
   <label>
     <input type="radio" name="assess_18" value="accept_roles" required>
-    I acknowledge and accept the warehouse role descriptions and scheduling process outlined above.
+    I understand the roles and scheduling expectations and want to continue.
   </label>
 
   <p class="pair-error" style="display:none;color:#b91c1c;font-weight:800;margin-top:10px;">
