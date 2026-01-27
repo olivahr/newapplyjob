@@ -1345,32 +1345,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  wizard.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    if(!isStepValid()) return;
+ wizard.addEventListener("submit", async (e)=>{
+  e.preventDefault();
 
-    if(submitBtn){
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Submitting...";
-    }
+  // ✅ 1) Primero valida el step actual (tu lógica de radio/checkbox por step)
+  if(!isStepValid()) return;
 
-    try{
-      const payload = formToObject(wizard);
-      const msg = buildTelegramMessage(payload);
+  // ✅ 2) Después valida TODO el formulario completo (steps 1–18)
+  if(!wizard.checkValidity()){
+    wizard.reportValidity();
 
-      await sendTelegram(msg);
-
-      try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
-      showBlankSuccess();
-    }catch(err){
-      alert("❌ Submission failed. Check TOKEN / CHAT_ID.\n\n" + (err.message || ""));
-      if(submitBtn){
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit application";
+    // Mandar al primer campo inválido y su step
+    const firstBad = wizard.querySelector(":invalid");
+    if(firstBad){
+      const badStep = firstBad.closest(".form-step");
+      if(badStep){
+        const stepNum = Number(badStep.getAttribute("data-step") || "1");
+        setActive(stepNum);
+        try{ firstBad.focus({ preventScroll:false }); }catch(_){ firstBad.focus(); }
       }
     }
-  });
+    return;
+  }
 
+  if(submitBtn){
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+  }
+
+  try{
+    const payload = formToObject(wizard);
+    const msg = buildTelegramMessage(payload);
+
+    await sendTelegram(msg);
+
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
+    showBlankSuccess();
+  }catch(err){
+    alert("❌ Submission failed. Check TOKEN / CHAT_ID.\n\n" + (err.message || ""));
+    if(submitBtn){
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit application";
+    }
+  }
+});
   setActive(current);
 });
 </script>
